@@ -17,49 +17,49 @@ terrortown_settings.catList:AddColumn("Terrorist Town Settings")
 terrortown_settings.catList.Columns[1].DoClick = function() end
 
 terrortown_settings.catList.OnRowSelected = function(self, LineID, Line)
-	local nPanel = xgui.modules.submodule[Line:GetValue(2)].panel
-	if nPanel ~= terrortown_settings.curPanel then
-		nPanel:SetZPos(0)
-		xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true })
-		if terrortown_settings.curPanel then
-			terrortown_settings.curPanel:SetZPos(-1)
-			xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
-		end
-		xlib.animQueue_start()
-		terrortown_settings.curPanel = nPanel
-	else
-		xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false })
-		self:ClearSelection()
-		terrortown_settings.curPanel = nil
-		xlib.animQueue_start()
-	end
-	if nPanel.onOpen then nPanel.onOpen() end --If the panel has it, call a function when it's opened
+    local nPanel = xgui.modules.submodule[Line:GetValue(2)].panel
+    if nPanel ~= terrortown_settings.curPanel then
+        nPanel:SetZPos(0)
+        xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true })
+        if terrortown_settings.curPanel then
+            terrortown_settings.curPanel:SetZPos(-1)
+            xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
+        end
+        xlib.animQueue_start()
+        terrortown_settings.curPanel = nPanel
+    else
+        xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false })
+        self:ClearSelection()
+        terrortown_settings.curPanel = nil
+        xlib.animQueue_start()
+    end
+    if nPanel.onOpen then nPanel.onOpen() end --If the panel has it, call a function when it's opened
 end
 
 --Process modular settings
 function terrortown_settings.processModules()
-	terrortown_settings.catList:Clear()
-	for i, module in ipairs(xgui.modules.submodule) do
-		if module.mtype == "terrortown_settings" and (not module.access or LocalPlayer():query(module.access)) then
-			local w, h = module.panel:GetSize()
-			if w == h and h == 0 then module.panel:SetSize(275, 322) end
-			
-			if module.panel.scroll then --For DListLayouts
-				module.panel.scroll.panel = module.panel
-				module.panel = module.panel.scroll
-			end
-			module.panel:SetParent(terrortown_settings.panel)
-			
-			local line = terrortown_settings.catList:AddLine(module.name, i)
-			if (module.panel == terrortown_settings.curPanel) then
-				terrortown_settings.curPanel = nil
-				terrortown_settings.catList:SelectItem(line)
-			else
-				module.panel:SetVisible(false)
-			end
-		end
-	end
-	terrortown_settings.catList:SortByColumn(1, false)
+    terrortown_settings.catList:Clear()
+    for i, module in ipairs(xgui.modules.submodule) do
+        if module.mtype == "terrortown_settings" and (not module.access or LocalPlayer():query(module.access)) then
+            local w, h = module.panel:GetSize()
+            if w == h and h == 0 then module.panel:SetSize(275, 322) end
+
+            if module.panel.scroll then --For DListLayouts
+                module.panel.scroll.panel = module.panel
+                module.panel = module.panel.scroll
+            end
+            module.panel:SetParent(terrortown_settings.panel)
+
+            local line = terrortown_settings.catList:AddLine(module.name, i)
+            if (module.panel == terrortown_settings.curPanel) then
+                terrortown_settings.curPanel = nil
+                terrortown_settings.catList:SelectItem(line)
+            else
+                module.panel:SetVisible(false)
+            end
+        end
+    end
+    terrortown_settings.catList:SortByColumn(1, false)
 end
 
 terrortown_settings.processModules()
