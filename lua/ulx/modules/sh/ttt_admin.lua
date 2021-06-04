@@ -87,40 +87,42 @@ function SendMessages(v, message)
     end
 end
 
+--[[CorpseRemove][Gets the player owner of th corpse given.]
+@param  {[Ragdoll]} corpse [The corpse whose owner is being found.]
+--]]
+function GetPlayerFromCorpse(corpse)
+    return player.GetBySteamID64(corpse.sid64) or player.GetBySteamID(corpse.sid)
+end
+
 --[[CorpseFind][Finds the corpse of a given player.]
 @param  {[PlayerObject]} v       [The player that to find the corpse for.]
 --]]
 function CorpseFind(v)
     for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do
-        if ent.sid64 == v:SteamID64() and IsValid(ent) then
+        if (ent.sid64 == v:SteamID64() or ent.sid == v:SteamID()) and IsValid(ent) then
             return ent or false
         end
     end
 end
 
---[[CorpseRemove][removes the corpse given.]
+--[[CorpseRemove][Removes the corpse given.]
 @param  {[Ragdoll]} corpse [The corpse to be removed.]
 --]]
 function CorpseRemove(corpse)
     CORPSE.SetFound(corpse, false)
-    if string.find(corpse:GetModel(), "zm_", 6, true) then
-        player.GetBySteamID64(corpse.sid64):SetNWBool("body_found", false)
-        corpse:Remove()
-        SendFullStateUpdate()
-    elseif corpse.player_ragdoll then
-        player.GetBySteamID64(corpse.sid64):SetNWBool("body_found", false)
+    if string.find(corpse:GetModel(), "zm_", 6, true) or corpse.player_ragdoll then
+        GetPlayerFromCorpse(corpse):SetNWBool("body_found", false)
         corpse:Remove()
         SendFullStateUpdate()
     end
 end
 
---[[corpse_identify][identifies the given corpse.]
+--[[corpse_identify][Identifies the given corpse.]
 @param  {[Ragdoll]} corpse [The corpse to be identified.]
 --]]
 function CorpseIdentify(corpse)
     if corpse then
-        local ply = player.GetBySteamID64(corpse.sid64)
-        ply:SetNWBool("body_found", true)
+        GetPlayerFromCorpse(corpse):SetNWBool("body_found", true)
         CORPSE.SetFound(corpse, true)
     end
 end
