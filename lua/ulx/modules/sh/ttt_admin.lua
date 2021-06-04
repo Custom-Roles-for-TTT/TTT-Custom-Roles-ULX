@@ -755,22 +755,22 @@ local PlysMarkedForImpersonator = {}
 local PlysMarkedForBeggar = {}
 local PlysMarkedForOldMan = {}
 
-local function MarkedElsewhere(ID)
-    if (PlysMarkedForTraitor[ID] == true or
-            PlysMarkedForDetective[ID] == true or
-            PlysMarkedForInnocent[ID] == true or
-            PlysMarkedForJester[ID] == true or
-            PlysMarkedForSwapper[ID] == true or
-            PlysMarkedForGlitch[ID] == true or
-            PlysMarkedForPhantom[ID] == true or
-            PlysMarkedForHypnotist[ID] == true or
-            PlysMarkedForRevenger[ID] == true or
-            PlysMarkedForDrunk[ID] == true or
-            PlysMarkedForClown[ID] == true or
-            PlysMarkedForDeputy[ID] == true or
-            PlysMarkedForImpersonator[ID] == true or
-            PlysMarkedForBeggar[ID] == true or
-            PlysMarkedForOldMan[ID] == true) then
+local function MarkedElsewhere(id)
+    if (PlysMarkedForTraitor[id] == true or
+            PlysMarkedForDetective[id] == true or
+            PlysMarkedForInnocent[id] == true or
+            PlysMarkedForJester[id] == true or
+            PlysMarkedForSwapper[id] == true or
+            PlysMarkedForGlitch[id] == true or
+            PlysMarkedForPhantom[id] == true or
+            PlysMarkedForHypnotist[id] == true or
+            PlysMarkedForRevenger[id] == true or
+            PlysMarkedForDrunk[id] == true or
+            PlysMarkedForClown[id] == true or
+            PlysMarkedForDeputy[id] == true or
+            PlysMarkedForImpersonator[id] == true or
+            PlysMarkedForBeggar[id] == true or
+            PlysMarkedForOldMan[id] == true) then
         return true
     else
         return false
@@ -782,172 +782,172 @@ function ulx.nextround(calling_ply, target_plys, next_round)
         local affected_plys = {}
         for i = 1, #target_plys do
             local v = target_plys[i]
-            local ID = v:UniqueID()
+            local id = v:SteamID64()
 
             if next_round == "innocent" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForInnocent[ID] = true
+                    PlysMarkedForInnocent[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "traitor" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round", true)
                 else
-                    PlysMarkedForTraitor[ID] = true
+                    PlysMarkedForTraitor[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "detective" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForDetective[ID] = true
+                    PlysMarkedForDetective[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "jester" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForJester[ID] = true
+                    PlysMarkedForJester[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "swapper" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForSwapper[ID] = true
+                    PlysMarkedForSwapper[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "glitch" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForGlitch[ID] = true
+                    PlysMarkedForGlitch[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "phantom" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForPhantom[ID] = true
+                    PlysMarkedForPhantom[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "hypnotist" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForHypnotist[ID] = true
+                    PlysMarkedForHypnotist[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "revenger" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForRevenger[ID] = true
+                    PlysMarkedForRevenger[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "drunk" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForDrunk[ID] = true
+                    PlysMarkedForDrunk[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "clown" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForClown[ID] = true
+                    PlysMarkedForClown[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "deputy" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForDeputy[ID] = true
+                    PlysMarkedForDeputy[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "impersonator" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForImpersonator[ID] = true
+                    PlysMarkedForImpersonator[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "beggar" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForBeggar[ID] = true
+                    PlysMarkedForBeggar[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "old man" then
-                if MarkedElsewhere(ID) then
+                if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
-                    PlysMarkedForOldMan[ID] = true
+                    PlysMarkedForOldMan[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "unmark" then
-                if PlysMarkedForInnocent[ID] == true then
-                    PlysMarkedForInnocent[ID] = false
+                if PlysMarkedForInnocent[id] == true then
+                    PlysMarkedForInnocent[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForTraitor[ID] == true then
-                    PlysMarkedForTraitor[ID] = false
+                if PlysMarkedForTraitor[id] == true then
+                    PlysMarkedForTraitor[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForDetective[ID] == true then
-                    PlysMarkedForDetective[ID] = false
+                if PlysMarkedForDetective[id] == true then
+                    PlysMarkedForDetective[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForJester[ID] == true then
-                    PlysMarkedForJester[ID] = false
+                if PlysMarkedForJester[id] == true then
+                    PlysMarkedForJester[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForSwapper[ID] == true then
-                    PlysMarkedForSwapper[ID] = false
+                if PlysMarkedForSwapper[id] == true then
+                    PlysMarkedForSwapper[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForGlitch[ID] == true then
-                    PlysMarkedForGlitch[ID] = false
+                if PlysMarkedForGlitch[id] == true then
+                    PlysMarkedForGlitch[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForPhantom[ID] == true then
-                    PlysMarkedForPhantom[ID] = false
+                if PlysMarkedForPhantom[id] == true then
+                    PlysMarkedForPhantom[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForHypnotist[ID] == true then
-                    PlysMarkedForHypnotist[ID] = false
+                if PlysMarkedForHypnotist[id] == true then
+                    PlysMarkedForHypnotist[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForRevenger[ID] == true then
-                    PlysMarkedForRevenger[ID] = false
+                if PlysMarkedForRevenger[id] == true then
+                    PlysMarkedForRevenger[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForDrunk[ID] == true then
-                    PlysMarkedForDrunk[ID] = false
+                if PlysMarkedForDrunk[id] == true then
+                    PlysMarkedForDrunk[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForClown[ID] == true then
-                    PlysMarkedForClown[ID] = false
+                if PlysMarkedForClown[id] == true then
+                    PlysMarkedForClown[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForDeputy[ID] == true then
-                    PlysMarkedForDeputy[ID] = false
+                if PlysMarkedForDeputy[id] == true then
+                    PlysMarkedForDeputy[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForImpersonator[ID] == true then
-                    PlysMarkedForImpersonator[ID] = false
+                if PlysMarkedForImpersonator[id] == true then
+                    PlysMarkedForImpersonator[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForBeggar[ID] == true then
-                    PlysMarkedForBeggar[ID] = false
+                if PlysMarkedForBeggar[id] == true then
+                    PlysMarkedForBeggar[id] = false
                     table.insert(affected_plys, v)
                 end
-                if PlysMarkedForOldMan[ID] == true then
-                    PlysMarkedForOldMan[ID] = false
+                if PlysMarkedForOldMan[id] == true then
+                    PlysMarkedForOldMan[id] = false
                     table.insert(affected_plys, v)
                 end
             end
@@ -970,7 +970,7 @@ nxtr:help("Forces the target to be a role in the following round.")
 local function InnocentMarkedPlayers()
     for k, v in pairs(PlysMarkedForInnocent) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_INNOCENT)
             PlysMarkedForInnocent[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -986,7 +986,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Innocent", InnocentMarkedPlayers)
 local function TraitorMarkedPlayers()
     for k, v in pairs(PlysMarkedForTraitor) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_TRAITOR)
             ply:SetCredits(GetConVarNumber("ttt_credits_starting"))
             PlysMarkedForTraitor[k] = false
@@ -1003,7 +1003,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Traitor", TraitorMarkedPlayers)
 local function DetectiveMarkedPlayers()
     for k, v in pairs(PlysMarkedForDetective) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DETECTIVE)
             ply:SetCredits(GetConVarNumber("ttt_det_credits_starting"))
             PlysMarkedForDetective[k] = false
@@ -1021,7 +1021,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Detective", DetectiveMarkedPlayers)
 local function JesterMarkedPlayers()
     for k, v in pairs(PlysMarkedForJester) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_JESTER)
             PlysMarkedForJester[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1037,7 +1037,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Jester", JesterMarkedPlayers)
 local function SwapperMarkedPlayers()
     for k, v in pairs(PlysMarkedForSwapper) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_SWAPPER)
             PlysMarkedForSwapper[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1053,7 +1053,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Swapper", SwapperMarkedPlayers)
 local function GlitchMarkedPlayers()
     for k, v in pairs(PlysMarkedForGlitch) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_GLITCH)
             PlysMarkedForGlitch[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1069,7 +1069,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Glitch", GlitchMarkedPlayers)
 local function PhantomMarkedPlayers()
     for k, v in pairs(PlysMarkedForPhantom) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_PHANTOM)
             PlysMarkedForPhantom[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1085,7 +1085,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Phantom", PhantomMarkedPlayers)
 local function HypnotistMarkedPlayers()
     for k, v in pairs(PlysMarkedForHypnotist) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_HYPNOTIST)
             ply:SetCredits(GetConVarNumber("ttt_hyp_credits_starting"))
             PlysMarkedForHypnotist[k] = false
@@ -1103,7 +1103,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Hypnotist", HypnotistMarkedPlayers)
 local function RevengerMarkedPlayers()
     for k, v in pairs(PlysMarkedForRevenger) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_REVENGER)
             PlysMarkedForRevenger[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1119,7 +1119,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Revenger", RevengerMarkedPlayers)
 local function DrunkMarkedPlayers()
     for k, v in pairs(PlysMarkedForDrunk) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DRUNK)
             PlysMarkedForDrunk[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1135,7 +1135,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Drunk", DrunkMarkedPlayers)
 local function ClownMarkedPlayers()
     for k, v in pairs(PlysMarkedForClown) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_CLOWN)
             PlysMarkedForClown[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1151,7 +1151,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Clown", ClownMarkedPlayers)
 local function DeputyMarkedPlayers()
     for k, v in pairs(PlysMarkedForDeputy) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DEPUTY)
             PlysMarkedForDeputy[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1167,7 +1167,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Deputy", DeputyMarkedPlayers)
 local function ImpersonatorMarkedPlayers()
     for k, v in pairs(PlysMarkedForImpersonator) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_IMPERSONATOR)
             PlysMarkedForImpersonator[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1183,7 +1183,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Impersonator", ImpersonatorMarkedPlayers
 local function BeggarMarkedPlayers()
     for k, v in pairs(PlysMarkedForBeggar) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_BEGGAR)
             PlysMarkedForBeggar[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
@@ -1199,7 +1199,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Beggar", BeggarMarkedPlayers)
 local function OldManMarkedPlayers()
     for k, v in pairs(PlysMarkedForOldMan) do
         if v then
-            local ply = player.GetByUniqueID(k)
+            local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_OLDMAN)
             PlysMarkedForOldMan[k] = false
             if ply:HasWeapon("weapon_ttt_brainwash") then
