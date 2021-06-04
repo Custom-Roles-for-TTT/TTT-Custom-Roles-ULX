@@ -295,14 +295,17 @@ end
 
 local function AddCustomRoleSettings(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 300)
+    crpropclp:SetSize(390, 325)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Custom Role Settings")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 300)
+    crproplst:SetSize(390, 325)
     crproplst:SetSpacing(5)
+
+    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = crproplst }
+    crproplst:AddItem(detsch)
 
     local dethealth = xlib.makeslider { label = "ttt_detective_starting_health (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_detective_starting_health", parent = crproplst }
     crproplst:AddItem(dethealth)
@@ -342,6 +345,51 @@ local function AddCustomRoleSettings(gppnl)
 
     local indtester = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = crproplst }
     crproplst:AddItem(indtester)
+end
+
+local function AddRoleShop(gppnl)
+    local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
+    rspnl:SetSize(390, 250)
+    rspnl:SetExpanded(0)
+    rspnl:SetLabel("Role Shop")
+
+    local rslst = vgui.Create("DPanelList", rspnl)
+    rslst:SetPos(5, 25)
+    rslst:SetSize(390, 250)
+    rslst:SetSpacing(5)
+
+    local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
+    rslst:AddItem(rsp)
+
+    local rsptra = xlib.makeslider { label = "ttt_shop_random_tra_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_tra_percent", parent = rslst }
+    rslst:AddItem(rsptra)
+
+    local rsetra = xlib.makecheckbox { label = "ttt_shop_random_tra_enabled (def. 0)", repconvar = "rep_ttt_shop_random_tra_enabled", parent = rslst }
+    rslst:AddItem(rsetra)
+
+    local rspdet = xlib.makeslider { label = "ttt_shop_random_det_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_det_percent", parent = rslst }
+    rslst:AddItem(rspdet)
+
+    local rsedet = xlib.makecheckbox { label = "ttt_shop_random_det_enabled (def. 0)", repconvar = "rep_ttt_shop_random_det_enabled", parent = rslst }
+    rslst:AddItem(rsedet)
+
+    local rsphyp = xlib.makeslider { label = "ttt_shop_random_hyp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_hyp_percent", parent = rslst }
+    rslst:AddItem(rsphyp)
+
+    local rsehyp = xlib.makecheckbox { label = "ttt_shop_random_hyp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_hyp_enabled", parent = rslst }
+    rslst:AddItem(rsehyp)
+
+    local rspdep = xlib.makeslider { label = "ttt_shop_random_dep_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_dep_percent", parent = rslst }
+    rslst:AddItem(rspdep)
+
+    local rsedep = xlib.makecheckbox { label = "ttt_shop_random_dep_enabled (def. 0)", repconvar = "rep_ttt_shop_random_dep_enabled", parent = rslst }
+    rslst:AddItem(rsedep)
+
+    local rspimp = xlib.makeslider { label = "ttt_shop_random_imp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_imp_percent", parent = rslst }
+    rslst:AddItem(rspimp)
+
+    local rseimp = xlib.makecheckbox { label = "ttt_shop_random_imp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_imp_enabled", parent = rslst }
+    rslst:AddItem(rseimp)
 end
 
 local function AddDna(gppnl)
@@ -434,6 +482,7 @@ local function AddGameplayModule()
     AddSpecialistInnocentSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
     AddCustomRoleSettings(gppnl)
+    AddRoleShop(gppnl)
     AddDna(gppnl)
     AddVoiceChat(gppnl)
     AddOtherGameplay(gppnl)
@@ -517,10 +566,23 @@ local function AddKarmaModule()
 end
 
 local function AddMapModule()
-    -------------------- Map-related Module--------------------
     local mprpnl = xlib.makepanel { w = 415, h = 318, parent = xgui.null }
 
-    xlib.makecheckbox { x = 5, y = 5, label = "ttt_use_weapon_spawn_scripts (def. 1)", repconvar = "rep_ttt_use_weapon_spawn_scripts", parent = mprpnl }
+    local mprpp = vgui.Create("DCollapsibleCategory", mprpnl)
+    mprpp:SetSize(390, 50)
+    mprpp:SetExpanded(1)
+    mprpp:SetLabel("Map-related")
+
+    local mprlst = vgui.Create("DPanelList", mprpp)
+    mprlst:SetPos(5, 25)
+    mprlst:SetSize(390, 50)
+    mprlst:SetSpacing(5)
+
+    local mprwss = xlib.makecheckbox { label = "ttt_use_weapon_spawn_scripts (def. 1)", repconvar = "rep_ttt_use_weapon_spawn_scripts", parent = mprlst }
+    mprlst:AddItem(mprwss)
+
+    local mpwsc = xlib.makecheckbox { label = "ttt_weapon_spawn_count (def. 0)", repconvar = "rep_ttt_weapon_spawn_count", parent = mprlst }
+    mprlst:AddItem(mpwsc)
 
     xgui.hookEvent("onProcessModules", nil, mprpnl.processModules)
     xgui.addSubModule("Map-related", mprpnl, nil, "terrortown_settings")
@@ -531,13 +593,13 @@ local function AddEquipmentCreditsModule()
 
     --Traitor Credits
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 150)
+    ectcclp:SetSize(390, 170)
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 150)
+    ectclst:SetSize(390, 170)
     ectclst:SetSpacing(5)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
@@ -545,6 +607,9 @@ local function AddEquipmentCreditsModule()
 
     local ecthcs = xlib.makeslider { label = "ttt_hyp_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_hyp_credits_starting", parent = ectclst }
     ectclst:AddItem(ecthcs)
+
+    local ectcab = xlib.makecheckbox { label = "ttt_credits_alonebonus (def. 1)", repconvar = "rep_ttt_credits_alonebonus", parent = ectclst }
+    ectclst:AddItem(ectcab)
 
     local ectcap = xlib.makeslider { label = "ttt_credits_award_pct (def. 0.35)", min = 0.01, max = 0.9, decimal = 2, repconvar = "rep_ttt_credits_award_pct", parent = ectclst }
     ectclst:AddItem(ectcap)
@@ -577,10 +642,12 @@ local function AddEquipmentCreditsModule()
 
     local ecdctd = xlib.makeslider { label = "ttt_det_credits_traitordead (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitordead", parent = ecdclst }
     ecdclst:AddItem(ecdctd)
+
+    xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
+    xgui.addSubModule("Equipment Credits", ecpnl, nil, "terrortown_settings")
 end
 
 local function AddPlayerMovementModule()
-    -------------------- Player Movement Module--------------------
     local pmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     local pmspp = vgui.Create("DCollapsibleCategory", pmpnl)
@@ -610,7 +677,6 @@ local function AddPlayerMovementModule()
 end
 
 local function AddPropPossessionModule()
-    -------------------- Prop possession Module--------------------
     local pppnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     local ppclp = vgui.Create("DCollapsibleCategory", pppnl)
@@ -642,7 +708,7 @@ local function AddPropPossessionModule()
     pplst:AddItem(ppprt)
 
     xgui.hookEvent("onProcessModules", nil, pppnl.processModules)
-    xgui.addSubModule("Prop possession", pppnl, nil, "terrortown_settings")
+    xgui.addSubModule("Prop Possession", pppnl, nil, "terrortown_settings")
 end
 
 local function AddAdminModule()
