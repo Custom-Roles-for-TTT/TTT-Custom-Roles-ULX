@@ -123,6 +123,7 @@ local function init()
 
         --traitor credits
         ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVarNumber("ttt_credits_starting"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_hyp_credits_starting", "rep_ttt_hyp_credits_starting", GetConVarNumber("ttt_hyp_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVarNumber("ttt_credits_award_pct"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVarNumber("ttt_credits_award_size"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_award_repeat", "rep_ttt_credits_award_repeat", GetConVarNumber("ttt_credits_award_repeat"), false, false, "xgui_gmsettings")
@@ -133,8 +134,17 @@ local function init()
         ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVarNumber("ttt_det_credits_traitorkill"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVarNumber("ttt_det_credits_traitordead"), false, false, "xgui_gmsettings")
 
-        --other credits
-        ULib.replicatedWritableCvar("ttt_hyp_credits_starting", "rep_ttt_hyp_credits_starting", GetConVarNumber("ttt_hyp_credits_starting"), false, false, "xgui_gmsettings")
+        --sprint
+        ULib.replicatedWritableCvar("ttt_sprint_bonus_rel", "rep_ttt_sprint_bonus_rel", GetConVarNumber("ttt_sprint_bonus_rel"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_sprint_regenerate_innocent", "rep_ttt_sprint_regenerate_innocent", GetConVarNumber("ttt_sprint_regenerate_innocent"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_sprint_regenerate_traitor", "rep_ttt_sprint_regenerate_traitor", GetConVarNumber("ttt_sprint_regenerate_traitor"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_sprint_consume", "rep_ttt_sprint_consume", GetConVarNumber("ttt_sprint_consume"), false, false, "xgui_gmsettings")
+
+        --bem
+        ULib.replicatedWritableCvar("ttt_bem_allow_change", "rep_ttt_bem_allow_change", GetConVarNumber("ttt_bem_allow_change"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bem_sv_cols", "rep_ttt_bem_sv_cols", GetConVarNumber("ttt_bem_sv_cols"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bem_sv_rows", "rep_ttt_bem_sv_rows", GetConVarNumber("ttt_bem_sv_rows"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bem_sv_size", "rep_ttt_bem_sv_size", GetConVarNumber("ttt_bem_sv_size"), false, false, "xgui_gmsettings")
 
         --prop possession
         ULib.replicatedWritableCvar("ttt_spec_prop_control", "rep_ttt_spec_prop_control", GetConVarNumber("ttt_spec_prop_control"), false, false, "xgui_gmsettings")
@@ -158,6 +168,8 @@ local function init()
         ULib.replicatedWritableCvar("ttt_locational_voice", "rep_ttt_locational_voice", GetConVarNumber("ttt_locational_voice"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_allow_discomb_jump", "rep_ttt_allow_discomb_jump", GetConVarNumber("ttt_allow_discomb_jump"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVarNumber("ttt_spawn_wave_interval"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_crowbar_unlocks", "rep_ttt_crowbar_unlocks", GetConVarNumber("ttt_crowbar_unlocks"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_crowbar_pushforce", "rep_ttt_crowbar_pushforce", GetConVarNumber("ttt_crowbar_pushforce"), false, false, "xgui_gmsettings")
     end
 end
 
