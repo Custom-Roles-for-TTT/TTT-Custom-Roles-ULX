@@ -293,15 +293,63 @@ local function AddIndependentRoleSettings(gppnl)
     indlst:AddItem(weightold)
 end
 
-local function AddCustomRoleSettings(gppnl)
+local function AddPhantomProperties(gppnl)
+    local phpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    phpropclp:SetSize(390, 275)
+    phpropclp:SetExpanded(1)
+    phpropclp:SetLabel("Phantom Properties")
+
+    local phproplst = vgui.Create("DPanelList", phpropclp)
+    phproplst:SetPos(5, 25)
+    phproplst:SetSize(390, 275)
+    phproplst:SetSpacing(5)
+
+    local phrh = xlib.makeslider { label = "ttt_phantom_respawn_health (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_respawn_health", parent = phproplst }
+    phproplst:AddItem(phrh)
+
+    local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = phproplst }
+    phproplst:AddItem(phwer)
+
+    local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 1)", repconvar = "rep_ttt_phantom_killer_smoke", parent = phproplst }
+    phproplst:AddItem(phks)
+
+    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 10)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = phproplst }
+    phproplst:AddItem(phkft)
+
+    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 1)", repconvar = "rep_ttt_phantom_announce_death", parent = phproplst }
+    phproplst:AddItem(phad)
+
+    local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = phproplst }
+    phproplst:AddItem(phkh)
+
+    local phkhpm = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_max (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_phantom_killer_haunt_power_max", parent = phproplst }
+    phproplst:AddItem(phkhpm)
+
+    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 5)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = phproplst }
+    phproplst:AddItem(phkhpr)
+
+    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = phproplst }
+    phproplst:AddItem(phkhmc)
+
+    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = phproplst }
+    phproplst:AddItem(phkhac)
+
+    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 30)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = phproplst }
+    phproplst:AddItem(phkhjc)
+
+    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 45)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = phproplst }
+    phproplst:AddItem(phkhdc)
+end
+
+local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 325)
+    crpropclp:SetSize(390, 300)
     crpropclp:SetExpanded(1)
-    crpropclp:SetLabel("Custom Role Settings")
+    crpropclp:SetLabel("Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 325)
+    crproplst:SetSize(390, 300)
     crproplst:SetSpacing(5)
 
     local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = crproplst }
@@ -312,9 +360,6 @@ local function AddCustomRoleSettings(gppnl)
 
     local swahealth = xlib.makeslider { label = "ttt_swapper_killer_health (def. 100)", min = 0, max = 100, repconvar = "rep_ttt_swapper_killer_health", parent = crproplst }
     crproplst:AddItem(swahealth)
-
-    local phahealth = xlib.makeslider { label = "ttt_phantom_respawn_health (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_respawn_health", parent = crproplst }
-    crproplst:AddItem(phahealth)
 
     local drutimer = xlib.makeslider { label = "ttt_drunk_sober_time (def. 180)", min = 0, max = 300, repconvar = "rep_ttt_drunk_sober_time", parent = crproplst }
     crproplst:AddItem(drutimer)
@@ -481,7 +526,8 @@ local function AddGameplayModule()
     AddSpecialistTraitorSettings(gppnl)
     AddSpecialistInnocentSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
-    AddCustomRoleSettings(gppnl)
+    AddPhantomProperties(gppnl)
+    AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
     AddVoiceChat(gppnl)
