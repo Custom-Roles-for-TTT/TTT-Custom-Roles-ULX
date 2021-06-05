@@ -34,21 +34,6 @@ UpdateRoles()
 
 --[Global Helper Functions][Used by more than one command.]------------------------------------
 
---[[SetRole][Changes the role of the given player to the specified role]
-@param  {[PlayerObject]} ply     [The player to change role.]
-@param  {[Integer]}      role    [The player role to set.]
---]]
-function SetRole(ply, role)
-    ply:SetRole(role)
-
-    if SERVER then
-        net.Start("TTT_RoleChanged")
-        net.WriteString(ply:SteamID64())
-        net.WriteUInt(role, 8)
-        net.Broadcast()
-    end
-end
-
 --[[GetRoleStartingCredits][Gets the starting credits for the given role]
 @param  {[Integer]} role       [The player role to get starting credits for.]
 --]]
@@ -344,7 +329,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 RemoveLoadoutWeapons(v)
                 RemoveBoughtWeapons(v)
 
-                SetRole(v, role)
+                v:SetRole(role)
                 v:SetCredits(role_credits)
                 SendFullStateUpdate()
 
