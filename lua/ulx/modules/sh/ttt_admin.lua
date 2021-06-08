@@ -25,6 +25,7 @@ function UpdateRoles()
     table.insert(ulx.target_role, "impersonator") -- Add "impersonator" to the table.
     table.insert(ulx.target_role, "beggar") -- Add "beggar" to the table.
     table.insert(ulx.target_role, "old man") -- Add "old man" to the table.
+    table.insert(ulx.target_role, "unmark") -- Add "unmark" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
