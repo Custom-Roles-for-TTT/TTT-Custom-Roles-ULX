@@ -313,10 +313,10 @@ local function AddPhantomProperties(gppnl)
     local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 1)", repconvar = "rep_ttt_phantom_killer_smoke", parent = phproplst }
     phproplst:AddItem(phks)
 
-    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 10)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = phproplst }
+    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = phproplst }
     phproplst:AddItem(phkft)
 
-    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 1)", repconvar = "rep_ttt_phantom_announce_death", parent = phproplst }
+    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = phproplst }
     phproplst:AddItem(phad)
 
     local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = phproplst }
@@ -325,27 +325,27 @@ local function AddPhantomProperties(gppnl)
     local phkhpm = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_max (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_phantom_killer_haunt_power_max", parent = phproplst }
     phproplst:AddItem(phkhpm)
 
-    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 5)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = phproplst }
+    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 10)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = phproplst }
     phproplst:AddItem(phkhpr)
 
-    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = phproplst }
+    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 25)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = phproplst }
     phproplst:AddItem(phkhmc)
 
-    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = phproplst }
-    phproplst:AddItem(phkhac)
-
-    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 30)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = phproplst }
+    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = phproplst }
     phproplst:AddItem(phkhjc)
 
-    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 45)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = phproplst }
+    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = phproplst }
     phproplst:AddItem(phkhdc)
+
+    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = phproplst }
+    phproplst:AddItem(phkhac)
 end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     crpropclp:SetSize(390, 300)
     crpropclp:SetExpanded(1)
-    crpropclp:SetLabel("Custom Role Properties")
+    crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
@@ -791,7 +791,7 @@ local function AddMiscModule()
     local bempnl = vgui.Create("DCollapsibleCategory", miscpnl)
     bempnl:SetSize(390, 100)
     bempnl:SetExpanded(1)
-    bempnl:SetLabel("Sprint")
+    bempnl:SetLabel("Better Equipment Menu")
 
     local bemlst = vgui.Create("DPanelList", bempnl)
     bemlst:SetPos(5, 25)
