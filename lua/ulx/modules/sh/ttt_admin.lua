@@ -736,6 +736,7 @@ local function updateNextround()
     table.insert(ulx.next_round, "impersonator") -- Add "impersonator" to the table.
     table.insert(ulx.next_round, "beggar") -- Add "beggar" to the table.
     table.insert(ulx.next_round, "old man") -- Add "old man" to the table.
+    table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
