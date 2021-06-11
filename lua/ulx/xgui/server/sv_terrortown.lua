@@ -133,6 +133,8 @@ local function init()
         ULib.replicatedWritableCvar("ttt_shop_random_imp_enabled", "rep_ttt_shop_random_imp_enabled", GetConVarNumber("ttt_shop_random_imp_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_jes_enabled", "rep_ttt_shop_random_jes_enabled", GetConVarNumber("ttt_shop_random_jes_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_swa_enabled", "rep_ttt_shop_random_swa_enabled", GetConVarNumber("ttt_shop_random_swa_enabled"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_shop_hyp_sync", "rep_ttt_shop_hyp_sync", GetConVarNumber("ttt_shop_hyp_sync"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_shop_imp_sync", "rep_ttt_shop_imp_sync", GetConVarNumber("ttt_shop_imp_sync"), false, false, "xgui_gmsettings")
 
         --dna
         ULib.replicatedWritableCvar("ttt_killer_dna_range", "rep_ttt_killer_dna_range", GetConVarNumber("ttt_killer_dna_range"), false, false, "xgui_gmsettings")

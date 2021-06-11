@@ -494,13 +494,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 340)
+    rspnl:SetSize(390, 375)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 340)
+    rslst:SetSize(390, 375)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -547,6 +547,12 @@ local function AddRoleShop(gppnl)
 
     local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
     rslst:AddItem(rseswa)
+
+    local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
+    rslst:AddItem(rshsync)
+
+    local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
+    rslst:AddItem(rsisync)
 end
 
 local function AddDna(gppnl)
