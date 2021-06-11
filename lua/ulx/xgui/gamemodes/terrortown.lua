@@ -6,13 +6,13 @@ local terrortown_settings = xlib.makepanel { parent = xgui.null }
 xlib.makelabel { x = 5, y = 5, w = 600, wordwrap = true, label = "Trouble in Terrorist Town ULX Commands XGUI module Created by: Bender180", parent = terrortown_settings }
 xlib.makelabel { x = 2, y = 345, w = 600, wordwrap = true, label = "The settings above DO NOT SAVE when the server changes maps, is restarted or crashes. They are for easy access only", parent = terrortown_settings }
 
-xlib.makelabel { x = 5, y = 190, w = 160, wordwrap = true, label = "Note to sever owners: to restrict this panel allow or deny permission to xgui_gmsettings.", parent = terrortown_settings }
-xlib.makelabel { x = 5, y = 250, w = 160, wordwrap = true, label = "All settings listed are explained here: http://ttt.badking.net/config- and-commands/convars", parent = terrortown_settings }
-xlib.makelabel { x = 5, y = 325, w = 160, wordwrap = true, label = "Not all settings echo to chat.", parent = terrortown_settings }
+xlib.makelabel { x = 5, y = 230, w = 160, wordwrap = true, label = "Note to sever owners: to restrict this panel allow or deny permission to xgui_gmsettings.", parent = terrortown_settings }
+xlib.makelabel { x = 5, y = 275, w = 160, wordwrap = true, label = "All settings listed are explained here: http://ttt.badking.net/config- and-commands/convars", parent = terrortown_settings }
+xlib.makelabel { x = 5, y = 330, w = 160, wordwrap = true, label = "Not all settings echo to chat.", parent = terrortown_settings }
 
 
 terrortown_settings.panel = xlib.makepanel { x = 160, y = 25, w = 420, h = 318, parent = terrortown_settings }
-terrortown_settings.catList = xlib.makelistview { x = 5, y = 25, w = 150, h = 157, parent = terrortown_settings }
+terrortown_settings.catList = xlib.makelistview { x = 5, y = 25, w = 150, h = 200, parent = terrortown_settings }
 terrortown_settings.catList:AddColumn("Terrorist Town Settings")
 terrortown_settings.catList.Columns[1].DoClick = function() end
 
@@ -268,12 +268,6 @@ local function AddIndependentRoleSettings(gppnl)
     local weightswa = xlib.makeslider { label = "ttt_swapper_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_swapper_spawn_weight", parent = indlst }
     indlst:AddItem(weightswa)
 
-    local hasdru = xlib.makecheckbox { label = "ttt_drunk_enabled (def. 0)", repconvar = "rep_ttt_drunk_enabled", parent = indlst }
-    indlst:AddItem(hasdru)
-
-    local weightdru = xlib.makeslider { label = "ttt_drunk_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_drunk_spawn_weight", parent = indlst }
-    indlst:AddItem(weightdru)
-
     local hasclo = xlib.makecheckbox { label = "ttt_clown_enabled (def. 0)", repconvar = "rep_ttt_clown_enabled", parent = indlst }
     indlst:AddItem(hasclo)
 
@@ -286,6 +280,12 @@ local function AddIndependentRoleSettings(gppnl)
     local weightbeg = xlib.makeslider { label = "ttt_beggar_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_beggar_spawn_weight", parent = indlst }
     indlst:AddItem(weightbeg)
 
+    local hasdru = xlib.makecheckbox { label = "ttt_drunk_enabled (def. 0)", repconvar = "rep_ttt_drunk_enabled", parent = indlst }
+    indlst:AddItem(hasdru)
+
+    local weightdru = xlib.makeslider { label = "ttt_drunk_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_drunk_spawn_weight", parent = indlst }
+    indlst:AddItem(weightdru)
+
     local hasold = xlib.makecheckbox { label = "ttt_old_man_enabled (def. 0)", repconvar = "rep_ttt_old_man_enabled", parent = indlst }
     indlst:AddItem(hasold)
 
@@ -293,103 +293,180 @@ local function AddIndependentRoleSettings(gppnl)
     indlst:AddItem(weightold)
 end
 
-local function AddPhantomProperties(gppnl)
-    local phpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    phpropclp:SetSize(390, 275)
-    phpropclp:SetExpanded(1)
-    phpropclp:SetLabel("Phantom Properties")
+local function AddTraitorProperties(gppnl)
+    local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    trapropclp:SetSize(390, 65)
+    trapropclp:SetExpanded(1)
+    trapropclp:SetLabel("Traitor Properties")
 
-    local phproplst = vgui.Create("DPanelList", phpropclp)
-    phproplst:SetPos(5, 25)
-    phproplst:SetSize(390, 275)
-    phproplst:SetSpacing(5)
+    local traproplst = vgui.Create("DPanelList", trapropclp)
+    traproplst:SetPos(5, 25)
+    traproplst:SetSize(390, 65)
+    traproplst:SetSpacing(5)
 
-    local phrh = xlib.makeslider { label = "ttt_phantom_respawn_health (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_respawn_health", parent = phproplst }
-    phproplst:AddItem(phrh)
+    local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
+    traproplst:AddItem(travis)
 
-    local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = phproplst }
-    phproplst:AddItem(phwer)
+    local implbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Impersonator settings:", parent = traproplst }
+    traproplst:AddItem(implbl)
 
-    local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 1)", repconvar = "rep_ttt_phantom_killer_smoke", parent = phproplst }
-    phproplst:AddItem(phks)
+    local imppen = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 100)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = traproplst }
+    traproplst:AddItem(imppen)
 
-    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = phproplst }
-    phproplst:AddItem(phkft)
+end
 
-    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = phproplst }
-    phproplst:AddItem(phad)
+local function AddInnocentProperties(gppnl)
+    local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    innpropclp:SetSize(390, 475)
+    innpropclp:SetExpanded(1)
+    innpropclp:SetLabel("Innocent Properties")
 
-    local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = phproplst }
-    phproplst:AddItem(phkh)
+    local innproplst = vgui.Create("DPanelList", innpropclp)
+    innproplst:SetPos(5, 25)
+    innproplst:SetSize(390, 475)
+    innproplst:SetSpacing(5)
 
-    local phkhpm = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_max (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_phantom_killer_haunt_power_max", parent = phproplst }
-    phproplst:AddItem(phkhpm)
+    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
+    innproplst:AddItem(detlbl)
 
-    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 10)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = phproplst }
-    phproplst:AddItem(phkhpr)
+    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = innproplst }
+    innproplst:AddItem(detsch)
 
-    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 25)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = phproplst }
-    phproplst:AddItem(phkhmc)
+    local deth = xlib.makeslider { label = "ttt_detective_starting_health (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_detective_starting_health", parent = innproplst }
+    innproplst:AddItem(deth)
 
-    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = phproplst }
-    phproplst:AddItem(phkhjc)
+    local phalbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Phantom settings:", parent = innproplst }
+    innproplst:AddItem(phalbl)
 
-    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = phproplst }
-    phproplst:AddItem(phkhdc)
+    local phrh = xlib.makeslider { label = "ttt_phantom_respawn_health (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_respawn_health", parent = innproplst }
+    innproplst:AddItem(phrh)
 
-    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = phproplst }
-    phproplst:AddItem(phkhac)
+    local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = innproplst }
+    innproplst:AddItem(phwer)
+
+    local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 1)", repconvar = "rep_ttt_phantom_killer_smoke", parent = innproplst }
+    innproplst:AddItem(phks)
+
+    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
+    innproplst:AddItem(phad)
+
+    local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = innproplst }
+    innproplst:AddItem(phkh)
+
+    local phkhpm = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_max (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_phantom_killer_haunt_power_max", parent = innproplst }
+    innproplst:AddItem(phkhpm)
+
+    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 10)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = innproplst }
+    innproplst:AddItem(phkhpr)
+
+    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 25)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = innproplst }
+    innproplst:AddItem(phkhmc)
+
+    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = innproplst }
+    innproplst:AddItem(phkhjc)
+
+    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = innproplst }
+    innproplst:AddItem(phkhdc)
+
+    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = innproplst }
+    innproplst:AddItem(phkhac)
+
+    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
+    innproplst:AddItem(phkft)
+
+    local revlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Revenger settings:", parent = innproplst }
+    innproplst:AddItem(revlbl)
+
+    local revrad = xlib.makeslider { label = "ttt_revenger_radar_timer (def. 15)", min = 1, max = 60, repconvar = "rep_ttt_revenger_radar_timer", parent = innproplst }
+    innproplst:AddItem(revrad)
+
+    local revbon = xlib.makeslider { label = "ttt_revenger_damage_bonus (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_revenger_damage_bonus", parent = innproplst }
+    innproplst:AddItem(revbon)
+
+    local deplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Deputy settings:", parent = innproplst }
+    innproplst:AddItem(deplbl)
+
+    local deppen = xlib.makeslider { label = "ttt_deputy_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_deputy_damage_penalty", parent = innproplst }
+    innproplst:AddItem(deppen)
+end
+
+local function AddJesterRoleProperties(gppnl)
+    local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    jespropclp:SetSize(390, 150)
+    jespropclp:SetExpanded(1)
+    jespropclp:SetLabel("Jester Properties")
+
+    local jesproplst = vgui.Create("DPanelList", jespropclp)
+    jesproplst:SetPos(5, 25)
+    jesproplst:SetSize(390, 150)
+    jesproplst:SetSpacing(5)
+
+    local jestes = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
+    jesproplst:AddItem(jestes)
+
+    local swalbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Swapper settings:", parent = jesproplst }
+    jesproplst:AddItem(swalbl)
+
+    local swah = xlib.makeslider { label = "ttt_swapper_killer_health (def. 100)", min = 0, max = 100, repconvar = "rep_ttt_swapper_killer_health", parent = jesproplst }
+    jesproplst:AddItem(swah)
+
+    local clolbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Clown settings:", parent = jesproplst }
+    jesproplst:AddItem(clolbl)
+
+    local clobon = xlib.makeslider { label = "ttt_clown_damage_bonus (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_clown_damage_bonus", parent = jesproplst }
+    jesproplst:AddItem(clobon)
+
+    local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
+    jesproplst:AddItem(beglbl)
+
+    local begrev = xlib.makecheckbox { label = "ttt_reveal_beggar_change (def. 1)", repconvar = "rep_ttt_reveal_beggar_change", parent = jesproplst }
+    jesproplst:AddItem(begrev)
+end
+
+local function AddIndependentRoleProperties(gppnl)
+    local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    indpropclp:SetSize(390, 150)
+    indpropclp:SetExpanded(1)
+    indpropclp:SetLabel("Jester Properties")
+
+    local indproplst = vgui.Create("DPanelList", indpropclp)
+    indproplst:SetPos(5, 25)
+    indproplst:SetSize(390, 150)
+    indproplst:SetSpacing(5)
+
+    local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
+    indproplst:AddItem(indtes)
+
+    local drulbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Drunk settings:", parent = indproplst }
+    indproplst:AddItem(drulbl)
+
+    local drutim = xlib.makeslider { label = "ttt_drunk_sober_time (def. 180)", min = 0, max = 300, repconvar = "rep_ttt_drunk_sober_time", parent = indproplst }
+    indproplst:AddItem(drutim)
+
+    local druchn = xlib.makeslider { label = "ttt_drunk_innocent_chance (def. 0.7)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_drunk_innocent_chance", parent = indproplst }
+    indproplst:AddItem(druchn)
+
+    local oldlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Old man settings:", parent = indproplst }
+    indproplst:AddItem(oldlbl)
+
+    local oldh = xlib.makeslider { label = "ttt_old_man_starting_health (def. 1)", min = 0, max = 100, repconvar = "rep_ttt_old_man_starting_health", parent = indproplst }
+    indproplst:AddItem(oldh)
+
 end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 300)
+    crpropclp:SetSize(390, 25)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 300)
+    crproplst:SetSize(390, 25)
     crproplst:SetSpacing(5)
-
-    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = crproplst }
-    crproplst:AddItem(detsch)
-
-    local dethealth = xlib.makeslider { label = "ttt_detective_starting_health (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_detective_starting_health", parent = crproplst }
-    crproplst:AddItem(dethealth)
-
-    local swahealth = xlib.makeslider { label = "ttt_swapper_killer_health (def. 100)", min = 0, max = 100, repconvar = "rep_ttt_swapper_killer_health", parent = crproplst }
-    crproplst:AddItem(swahealth)
-
-    local drutimer = xlib.makeslider { label = "ttt_drunk_sober_time (def. 180)", min = 0, max = 300, repconvar = "rep_ttt_drunk_sober_time", parent = crproplst }
-    crproplst:AddItem(drutimer)
-
-    local druchance = xlib.makeslider { label = "ttt_drunk_innocent_chance (def. 0.7)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_drunk_innocent_chance", parent = crproplst }
-    crproplst:AddItem(druchance)
-
-    local clobonus = xlib.makeslider { label = "ttt_clown_damage_bonus (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_clown_damage_bonus", parent = crproplst }
-    crproplst:AddItem(clobonus)
-
-    local deppenalty = xlib.makeslider { label = "ttt_deputy_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_deputy_damage_penalty", parent = crproplst }
-    crproplst:AddItem(deppenalty)
-
-    local imppenalty = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 100)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = crproplst }
-    crproplst:AddItem(imppenalty)
-
-    local revealbeg = xlib.makecheckbox { label = "ttt_reveal_beggar_change (def. 1)", repconvar = "rep_ttt_reveal_beggar_change", parent = crproplst }
-    crproplst:AddItem(revealbeg)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
-
-    local oldhealth = xlib.makeslider { label = "ttt_old_man_starting_health (def. 1)", min = 0, max = 100, repconvar = "rep_ttt_old_man_starting_health", parent = crproplst }
-    crproplst:AddItem(oldhealth)
-
-    local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = crproplst }
-    crproplst:AddItem(jestester)
-
-    local indtester = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = crproplst }
-    crproplst:AddItem(indtester)
 end
 
 local function AddRoleShop(gppnl)
@@ -526,7 +603,10 @@ local function AddGameplayModule()
     AddSpecialistTraitorSettings(gppnl)
     AddSpecialistInnocentSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
-    AddPhantomProperties(gppnl)
+    AddTraitorProperties(gppnl)
+    AddInnocentProperties(gppnl)
+    AddJesterRoleProperties(gppnl)
+    AddIndependentRoleProperties(gppnl)
     AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
