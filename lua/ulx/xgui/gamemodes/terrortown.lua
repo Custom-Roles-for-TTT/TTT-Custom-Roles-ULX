@@ -172,13 +172,13 @@ end
 
 local function AddSpecialistTraitorSettings(gppnl)
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
-    sptraclp:SetSize(390, 140)
+    sptraclp:SetSize(390, 190)
     sptraclp:SetExpanded(1)
     sptraclp:SetLabel("Specialist Traitor Settings")
 
     local sptralst = vgui.Create("DPanelList", sptraclp)
     sptralst:SetPos(5, 25)
-    sptralst:SetSize(390, 140)
+    sptralst:SetSize(390, 190)
     sptralst:SetSpacing(5)
 
     local stpercet = xlib.makeslider { label = "ttt_special_traitor_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_pct", parent = sptralst }
@@ -193,22 +193,28 @@ local function AddSpecialistTraitorSettings(gppnl)
     local weighthyp = xlib.makeslider { label = "ttt_hypnotist_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_hypnotist_spawn_weight", parent = sptralst }
     sptralst:AddItem(weighthyp)
 
+    local minhyp = xlib.makeslider { label = "ttt_hypnotist_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_hypnotist_min_players", parent = sptralst }
+    sptralst:AddItem(minhyp)
+
     local hasimp = xlib.makecheckbox { label = "ttt_impersonator_enabled (def. 0)", repconvar = "rep_ttt_impersonator_enabled", parent = sptralst }
     sptralst:AddItem(hasimp)
 
     local weightimp = xlib.makeslider { label = "ttt_impersonator_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_impersonator_spawn_weight", parent = sptralst }
     sptralst:AddItem(weightimp)
+
+    local minimp = xlib.makeslider { label = "ttt_impersonator_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_min_players", parent = sptralst }
+    sptralst:AddItem(minimp)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 230)
+    spinnclp:SetSize(390, 400)
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 230)
+    spinnlst:SetSize(390, 400)
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -223,11 +229,17 @@ local function AddSpecialistInnocentSettings(gppnl)
     local weightgli = xlib.makeslider { label = "ttt_glitch_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_glitch_spawn_weight", parent = spinnlst }
     spinnlst:AddItem(weightgli)
 
+    local mingli = xlib.makeslider { label = "ttt_glitch_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_glitch_min_players", parent = spinnlst }
+    spinnlst:AddItem(mingli)
+
     local haspha = xlib.makecheckbox { label = "ttt_phantom_enabled (def. 0)", repconvar = "rep_ttt_phantom_enabled", parent = spinnlst }
     spinnlst:AddItem(haspha)
 
     local weightpha = xlib.makeslider { label = "ttt_phantom_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_phantom_spawn_weight", parent = spinnlst }
     spinnlst:AddItem(weightpha)
+
+    local minpha = xlib.makeslider { label = "ttt_phantom_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_phantom_min_players", parent = spinnlst }
+    spinnlst:AddItem(minpha)
 
     local hasrev = xlib.makecheckbox { label = "ttt_revenger_enabled (def. 0)", repconvar = "rep_ttt_revenger_enabled", parent = spinnlst }
     spinnlst:AddItem(hasrev)
@@ -235,22 +247,37 @@ local function AddSpecialistInnocentSettings(gppnl)
     local weightrev = xlib.makeslider { label = "ttt_revenger_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_revenger_spawn_weight", parent = spinnlst }
     spinnlst:AddItem(weightrev)
 
+    local minrev = xlib.makeslider { label = "ttt_revenger_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_revenger_min_players", parent = spinnlst }
+    spinnlst:AddItem(minrev)
+
     local hasdep = xlib.makecheckbox { label = "ttt_deputy_enabled (def. 0)", repconvar = "rep_ttt_deputy_enabled", parent = spinnlst }
     spinnlst:AddItem(hasdep)
 
-    local weightrdep = xlib.makeslider { label = "ttt_deputy_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_deputy_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightrdep)
+    local weightdep = xlib.makeslider { label = "ttt_deputy_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_deputy_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weightdep)
+
+    local mindep = xlib.makeslider { label = "ttt_deputy_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_min_players", parent = spinnlst }
+    spinnlst:AddItem(mindep)
+
+    local hasmer = xlib.makecheckbox { label = "ttt_mercenary_enabled (def. 0)", repconvar = "rep_ttt_mercenary_enabled", parent = spinnlst }
+    spinnlst:AddItem(hasmer)
+
+    local weightmer = xlib.makeslider { label = "ttt_mercenary_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_mercenary_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weightmer)
+
+    local minmer = xlib.makeslider { label = "ttt_mercenary_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_min_players", parent = spinnlst }
+    spinnlst:AddItem(minmer)
 end
 
 local function AddIndependentRoleSettings(gppnl)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 300)
+    indclp:SetSize(390, 445)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 300)
+    indlst:SetSize(390, 445)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
@@ -262,11 +289,17 @@ local function AddIndependentRoleSettings(gppnl)
     local weightjes = xlib.makeslider { label = "ttt_jester_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_jester_spawn_weight", parent = indlst }
     indlst:AddItem(weightjes)
 
+    local minjes = xlib.makeslider { label = "ttt_jester_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_jester_min_players", parent = indlst }
+    indlst:AddItem(minjes)
+
     local hasswa = xlib.makecheckbox { label = "ttt_swapper_enabled (def. 0)", repconvar = "rep_ttt_swapper_enabled", parent = indlst }
     indlst:AddItem(hasswa)
 
     local weightswa = xlib.makeslider { label = "ttt_swapper_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_swapper_spawn_weight", parent = indlst }
     indlst:AddItem(weightswa)
+
+    local minswa = xlib.makeslider { label = "ttt_swapper_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swapper_min_players", parent = indlst }
+    indlst:AddItem(minswa)
 
     local hasclo = xlib.makecheckbox { label = "ttt_clown_enabled (def. 0)", repconvar = "rep_ttt_clown_enabled", parent = indlst }
     indlst:AddItem(hasclo)
@@ -274,11 +307,17 @@ local function AddIndependentRoleSettings(gppnl)
     local weightclo = xlib.makeslider { label = "ttt_clown_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_clown_spawn_weight", parent = indlst }
     indlst:AddItem(weightclo)
 
+    local minclo = xlib.makeslider { label = "ttt_clown_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_min_players", parent = indlst }
+    indlst:AddItem(minclo)
+
     local hasbeg = xlib.makecheckbox { label = "ttt_beggar_enabled (def. 0)", repconvar = "rep_ttt_beggar_enabled", parent = indlst }
     indlst:AddItem(hasbeg)
 
     local weightbeg = xlib.makeslider { label = "ttt_beggar_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_beggar_spawn_weight", parent = indlst }
     indlst:AddItem(weightbeg)
+
+    local minbeg = xlib.makeslider { label = "ttt_beggar_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_beggar_min_players", parent = indlst }
+    indlst:AddItem(minbeg)
 
     local hasdru = xlib.makecheckbox { label = "ttt_drunk_enabled (def. 0)", repconvar = "rep_ttt_drunk_enabled", parent = indlst }
     indlst:AddItem(hasdru)
@@ -286,11 +325,17 @@ local function AddIndependentRoleSettings(gppnl)
     local weightdru = xlib.makeslider { label = "ttt_drunk_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_drunk_spawn_weight", parent = indlst }
     indlst:AddItem(weightdru)
 
+    local mindru = xlib.makeslider { label = "ttt_drunk_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_drunk_min_players", parent = indlst }
+    indlst:AddItem(mindru)
+
     local hasold = xlib.makecheckbox { label = "ttt_old_man_enabled (def. 0)", repconvar = "rep_ttt_old_man_enabled", parent = indlst }
     indlst:AddItem(hasold)
 
     local weightold = xlib.makeslider { label = "ttt_old_man_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_old_man_spawn_weight", parent = indlst }
     indlst:AddItem(weightold)
+
+    local minold = xlib.makeslider { label = "ttt_old_man_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_old_man_min_players", parent = indlst }
+    indlst:AddItem(minold)
 end
 
 local function AddTraitorProperties(gppnl)
@@ -494,13 +539,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 375)
+    rspnl:SetSize(390, 450)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 375)
+    rslst:SetSize(390, 450)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -548,11 +593,20 @@ local function AddRoleShop(gppnl)
     local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
     rslst:AddItem(rseswa)
 
+    local rspmer = xlib.makeslider { label = "ttt_shop_random_mer_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_mer_percent", parent = rslst }
+    rslst:AddItem(rspmer)
+
+    local rsemer = xlib.makecheckbox { label = "ttt_shop_random_mer_enabled (def. 0)", repconvar = "rep_ttt_shop_random_mer_enabled", parent = rslst }
+    rslst:AddItem(rsemer)
+
     local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
     rslst:AddItem(rshsync)
 
     local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
     rslst:AddItem(rsisync)
+
+    local rsmmode = xlib.makeslider { label = "ttt_shop_mer_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_mer_mode", parent = rslst }
+    rslst:AddItem(rsmmode)
 end
 
 local function AddDna(gppnl)
