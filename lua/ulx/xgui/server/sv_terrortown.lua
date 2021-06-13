@@ -207,6 +207,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_jes_credits_starting", "rep_ttt_jes_credits_starting", GetConVarNumber("ttt_jes_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_swa_credits_starting", "rep_ttt_swa_credits_starting", GetConVarNumber("ttt_swa_credits_starting"), false, false, "xgui_gmsettings")
 
+        --other credits
+        ULib.replicatedWritableCvar("ttt_mer_credits_starting", "rep_ttt_mer_credits_starting", GetConVarNumber("ttt_mer_credits_starting"), false, false, "xgui_gmsettings")
+
         --sprint
         ULib.replicatedWritableCvar("ttt_sprint_bonus_rel", "rep_ttt_sprint_bonus_rel", GetConVarNumber("ttt_sprint_bonus_rel"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_sprint_regenerate_innocent", "rep_ttt_sprint_regenerate_innocent", GetConVarNumber("ttt_sprint_regenerate_innocent"), false, false, "xgui_gmsettings")
