@@ -884,6 +884,20 @@ local function AddEquipmentCreditsModule()
     local ecsccs = xlib.makeslider { label = "ttt_swa_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swa_credits_starting", parent = ecjclst }
     ecjclst:AddItem(ecsccs)
 
+    --Other Credits
+    local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
+    ecocclp:SetSize(390, 25)
+    ecocclp:SetExpanded(0)
+    ecocclp:SetLabel("Other Credits")
+
+    local ecoclst = vgui.Create("DPanelList", ecocclp)
+    ecoclst:SetPos(5, 25)
+    ecoclst:SetSize(390, 25)
+    ecoclst:SetSpacing(5)
+
+    local ecmccs = xlib.makeslider { label = "ttt_mer_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_mer_credits_starting", parent = ecoclst }
+    ecoclst:AddItem(ecmccs)
+
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
     xgui.addSubModule("Equipment Credits", ecpnl, nil, "terrortown_settings")
 end
