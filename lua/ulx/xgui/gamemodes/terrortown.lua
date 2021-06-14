@@ -355,19 +355,19 @@ local function AddTraitorProperties(gppnl)
     local implbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Impersonator settings:", parent = traproplst }
     traproplst:AddItem(implbl)
 
-    local imppen = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 100)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = traproplst }
+    local imppen = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = traproplst }
     traproplst:AddItem(imppen)
 end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 475)
+    innpropclp:SetSize(390, 500)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 475)
+    innproplst:SetSize(390, 500)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -375,6 +375,9 @@ local function AddInnocentProperties(gppnl)
 
     local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = innproplst }
     innproplst:AddItem(detsch)
+
+    local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = innproplst }
+    innproplst:AddItem(prsrch)
 
     local deth = xlib.makeslider { label = "ttt_detective_starting_health (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_detective_starting_health", parent = innproplst }
     innproplst:AddItem(deth)
@@ -436,22 +439,25 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 315)
+    jespropclp:SetSize(390, 335)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 315)
+    jesproplst:SetSize(390, 335)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
     jesproplst:AddItem(jestester)
 
+    local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jester settings:", parent = jesproplst }
+    jesproplst:AddItem(jeslbl)
+
     local jeswbt = xlib.makecheckbox { label = "ttt_jester_win_by_traitors (def. 1)", repconvar = "rep_ttt_jester_win_by_traitors", parent = jesproplst }
     jesproplst:AddItem(jeswbt)
 
-    local jesnm = xlib.makeslider { label = "ttt_jester_notify_mode (def. 1)", min = 0, max = 4, repconvar = "rep_ttt_jester_notify_mode", parent = jesproplst }
+    local jesnm = xlib.makeslider { label = "ttt_jester_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_jester_notify_mode", parent = jesproplst }
     jesproplst:AddItem(jesnm)
 
     local jesns = xlib.makecheckbox { label = "ttt_jester_notify_sound (def. 0)", repconvar = "rep_ttt_jester_notify_sound", parent = jesproplst }
@@ -466,7 +472,7 @@ local function AddJesterRoleProperties(gppnl)
     local swahp = xlib.makeslider { label = "ttt_swapper_respawn_health (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_swapper_respawn_health", parent = jesproplst }
     jesproplst:AddItem(swahp)
 
-    local swanm = xlib.makeslider { label = "ttt_swapper_notify_mode (def. 1)", min = 0, max = 4, repconvar = "rep_ttt_swapper_notify_mode", parent = jesproplst }
+    local swanm = xlib.makeslider { label = "ttt_swapper_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_swapper_notify_mode", parent = jesproplst }
     jesproplst:AddItem(swanm)
 
     local swans = xlib.makecheckbox { label = "ttt_swapper_notify_sound (def. 0)", repconvar = "rep_ttt_swapper_notify_sound", parent = jesproplst }
