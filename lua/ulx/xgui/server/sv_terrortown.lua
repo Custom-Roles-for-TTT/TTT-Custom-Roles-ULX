@@ -54,6 +54,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_mercenary_enabled", "rep_ttt_mercenary_enabled", GetConVarNumber("ttt_mercenary_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_mercenary_spawn_weight", "rep_ttt_mercenary_spawn_weight", GetConVarNumber("ttt_mercenary_spawn_weight"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_mercenary_min_players", "rep_ttt_mercenary_min_players", GetConVarNumber("ttt_mercenary_min_players"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_enabled", "rep_ttt_veteran_enabled", GetConVarNumber("ttt_veteran_enabled"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_spawn_weight", "rep_ttt_veteran_spawn_weight", GetConVarNumber("ttt_veteran_spawn_weight"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_min_players", "rep_ttt_veteran_min_players", GetConVarNumber("ttt_veteran_min_players"), false, false, "xgui_gmsettings")
 
         --independent role settings
         ULib.replicatedWritableCvar("ttt_independent_chance", "rep_ttt_independent_chance", GetConVarNumber("ttt_independent_chance"), false, false, "xgui_gmsettings")
@@ -75,6 +78,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_old_man_enabled", "rep_ttt_old_man_enabled", GetConVarNumber("ttt_old_man_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_old_man_spawn_weight", "rep_ttt_old_man_spawn_weight", GetConVarNumber("ttt_old_man_spawn_weight"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_old_man_min_players", "rep_ttt_old_man_min_players", GetConVarNumber("ttt_old_man_min_players"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bodysnatcher_enabled", "rep_ttt_bodysnatcher_enabled", GetConVarNumber("ttt_bodysnatcher_enabled"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bodysnatcher_spawn_weight", "rep_ttt_bodysnatcher_spawn_weight", GetConVarNumber("ttt_bodysnatcher_spawn_weight"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bodysnatcher_min_players", "rep_ttt_bodysnatcher_min_players", GetConVarNumber("ttt_bodysnatcher_min_players"), false, false, "xgui_gmsettings")
 
         --traitor properties
         ULib.replicatedWritableCvar("ttt_traitor_vision_enable", "rep_ttt_traitor_vision_enable", GetConVarNumber("ttt_traitor_vision_enable"), false, false, "xgui_gmsettings")
@@ -99,16 +105,11 @@ local function init()
         ULib.replicatedWritableCvar("ttt_revenger_radar_timer", "rep_ttt_revenger_radar_timer", GetConVarNumber("ttt_revenger_radar_timer"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_revenger_damage_bonus", "rep_ttt_revenger_damage_bonus", GetConVarNumber("ttt_revenger_damage_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_deputy_damage_penalty", "rep_ttt_deputy_damage_penalty", GetConVarNumber("ttt_deputy_damage_penalty"), false, false, "xgui_gmsettings")
-
-        --custom role properties
-        ULib.replicatedWritableCvar("ttt_drunk_sober_time", "rep_ttt_drunk_sober_time", GetConVarNumber("ttt_drunk_sober_time"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_drunk_innocent_chance", "rep_ttt_drunk_innocent_chance", GetConVarNumber("ttt_drunk_innocent_chance"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_single_deputy_impersonator", "rep_ttt_single_deputy_impersonator", GetConVarNumber("ttt_single_deputy_impersonator"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_old_man_starting_health", "rep_ttt_old_man_starting_health", GetConVarNumber("ttt_old_man_starting_health"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_independents_trigger_traitor_testers", "rep_ttt_independents_trigger_traitor_testers", GetConVarNumber("ttt_independents_trigger_traitor_testers"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_damage_bonus", "rep_ttt_veteran_damage_bonus", GetConVarNumber("ttt_veteran_damage_bonus"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_full_heal", "rep_ttt_veteran_full_heal", GetConVarNumber("ttt_veteran_full_heal"), false, false, "xgui_gmsettings")
 
         --jester properties
+        ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_win_by_traitors", "rep_ttt_jester_win_by_traitors", GetConVarNumber("ttt_jester_win_by_traitors"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_notify_mode", "rep_ttt_jester_notify_mode", GetConVarNumber("ttt_jester_notify_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_notify_sound", "rep_ttt_jester_notify_sound", GetConVarNumber("ttt_jester_notify_sound"), false, false, "xgui_gmsettings")
@@ -120,6 +121,18 @@ local function init()
         ULib.replicatedWritableCvar("ttt_swapper_killer_health", "rep_ttt_swapper_killer_health", GetConVarNumber("ttt_swapper_killer_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_clown_damage_bonus", "rep_ttt_clown_damage_bonus", GetConVarNumber("ttt_clown_damage_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_reveal_beggar_change", "rep_ttt_reveal_beggar_change", GetConVarNumber("ttt_reveal_beggar_change"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_reveal_beggar_change", "rep_ttt_reveal_beggar_change", GetConVarNumber("ttt_reveal_beggar_change"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bodysnatcher_destroy_body", "rep_ttt_bodysnatcher_destroy_body", GetConVarNumber("ttt_bodysnatcher_destroy_body"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_bodysnatcher_show_role", "rep_ttt_bodysnatcher_show_role", GetConVarNumber("ttt_bodysnatcher_show_role"), false, false, "xgui_gmsettings")
+
+        --independent properties
+        ULib.replicatedWritableCvar("ttt_independents_trigger_traitor_testers", "rep_ttt_independents_trigger_traitor_testers", GetConVarNumber("ttt_independents_trigger_traitor_testers"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_drunk_sober_time", "rep_ttt_drunk_sober_time", GetConVarNumber("ttt_drunk_sober_time"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_drunk_innocent_chance", "rep_ttt_drunk_innocent_chance", GetConVarNumber("ttt_drunk_innocent_chance"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_old_man_starting_health", "rep_ttt_old_man_starting_health", GetConVarNumber("ttt_old_man_starting_health"), false, false, "xgui_gmsettings")
+
+        --other custom role properties
+        ULib.replicatedWritableCvar("ttt_single_deputy_impersonator", "rep_ttt_single_deputy_impersonator", GetConVarNumber("ttt_single_deputy_impersonator"), false, false, "xgui_gmsettings")
 
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")

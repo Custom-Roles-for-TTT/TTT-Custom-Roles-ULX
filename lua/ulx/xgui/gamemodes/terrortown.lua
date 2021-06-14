@@ -208,13 +208,13 @@ end
 
 local function AddSpecialistInnocentSettings(gppnl)
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 400)
+    spinnclp:SetSize(390, 470)
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 400)
+    spinnlst:SetSize(390, 470)
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -267,17 +267,26 @@ local function AddSpecialistInnocentSettings(gppnl)
 
     local minmer = xlib.makeslider { label = "ttt_mercenary_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_min_players", parent = spinnlst }
     spinnlst:AddItem(minmer)
+
+    local hasvet = xlib.makecheckbox { label = "ttt_veteran_enabled (def. 0)", repconvar = "rep_ttt_veteran_enabled", parent = spinnlst }
+    spinnlst:AddItem(hasvet)
+
+    local weightvet = xlib.makeslider { label = "ttt_veteran_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_veteran_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weightvet)
+
+    local minvet = xlib.makeslider { label = "ttt_veteran_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_min_players", parent = spinnlst }
+    spinnlst:AddItem(minvet)
 end
 
 local function AddIndependentRoleSettings(gppnl)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 445)
+    indclp:SetSize(390, 515)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 445)
+    indlst:SetSize(390, 515)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
@@ -318,6 +327,15 @@ local function AddIndependentRoleSettings(gppnl)
 
     local minbeg = xlib.makeslider { label = "ttt_beggar_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_beggar_min_players", parent = indlst }
     indlst:AddItem(minbeg)
+
+    local hasbod = xlib.makecheckbox { label = "ttt_bodysnatcher_enabled (def. 0)", repconvar = "rep_ttt_bodysnatcher_enabled", parent = indlst }
+    indlst:AddItem(hasbod)
+
+    local weightbod = xlib.makeslider { label = "ttt_bodysnatcher_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_bodysnatcher_spawn_weight", parent = indlst }
+    indlst:AddItem(weightbod)
+
+    local minbod = xlib.makeslider { label = "ttt_bodysnatcher_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_bodysnatcher_min_players", parent = indlst }
+    indlst:AddItem(minbod)
 
     local hasdru = xlib.makecheckbox { label = "ttt_drunk_enabled (def. 0)", repconvar = "rep_ttt_drunk_enabled", parent = indlst }
     indlst:AddItem(hasdru)
@@ -361,13 +379,13 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 500)
+    innpropclp:SetSize(390, 570)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 500)
+    innproplst:SetSize(390, 570)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -435,17 +453,26 @@ local function AddInnocentProperties(gppnl)
 
     local deppen = xlib.makeslider { label = "ttt_deputy_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_deputy_damage_penalty", parent = innproplst }
     innproplst:AddItem(deppen)
+
+    local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
+    innproplst:AddItem(vetlbl)
+
+    local vetbon = xlib.makeslider { label = "ttt_veteran_damage_bonus (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_veteran_damage_bonus", parent = innproplst }
+    innproplst:AddItem(vetbon)
+
+    local vetheal = xlib.makecheckbox { label = "ttt_veteran_full_heal (def. 1)", repconvar = "rep_ttt_veteran_full_heal", parent = innproplst }
+    innproplst:AddItem(vetheal)
 end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 335)
+    jespropclp:SetSize(390, 405)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 335)
+    jesproplst:SetSize(390, 405)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -495,6 +522,15 @@ local function AddJesterRoleProperties(gppnl)
 
     local begrev = xlib.makecheckbox { label = "ttt_reveal_beggar_change (def. 1)", repconvar = "rep_ttt_reveal_beggar_change", parent = jesproplst }
     jesproplst:AddItem(begrev)
+
+    local bodlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Bodysnatcher settings:", parent = jesproplst }
+    jesproplst:AddItem(bodlbl)
+
+    local boddes = xlib.makecheckbox { label = "ttt_bodysnatcher_destroy_body (def. 0)", repconvar = "rep_ttt_bodysnatcher_destroy_body", parent = jesproplst }
+    jesproplst:AddItem(boddes)
+
+    local bodrol = xlib.makecheckbox { label = "ttt_bodysnatcher_show_role (def. 1)", repconvar = "rep_ttt_bodysnatcher_show_role", parent = jesproplst }
+    jesproplst:AddItem(bodrol)
 end
 
 local function AddIndependentRoleProperties(gppnl)

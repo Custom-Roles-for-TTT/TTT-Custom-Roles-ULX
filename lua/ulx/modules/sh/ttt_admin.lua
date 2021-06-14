@@ -26,6 +26,8 @@ function UpdateRoles()
     table.insert(ulx.target_role, "beggar") -- Add "beggar" to the table.
     table.insert(ulx.target_role, "old man") -- Add "old man" to the table.
     table.insert(ulx.target_role, "mercenary") -- Add "mercenary" to the table.
+    table.insert(ulx.target_role, "bodysnatcher") -- Add "bodysnatcher" to the table.
+    table.insert(ulx.target_role, "veteran") -- Add "veteran" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -70,7 +72,9 @@ function GetRoleStartingCredits(role)
 		[ROLE_IMPERSONATOR] = GetConVarNumber("ttt_imp_credits_starting"),
 		[ROLE_BEGGAR] = 0,
 		[ROLE_OLDMAN] = 0,
-        [ROLE_MERCENARY] = GetConVarNumber("ttt_mer_credits_starting")
+        [ROLE_MERCENARY] = GetConVarNumber("ttt_mer_credits_starting"),
+        [ROLE_BODYSNATCHER] = 0,
+        [ROLE_VETERAN] = 0
 	}
 	return credits[role] or 0
 end
@@ -327,6 +331,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
         if target_role == "beggar" then role, role_grammar, role_string, role_credits = ROLE_BEGGAR, "a ", target_role, GetRoleStartingCredits(ROLE_BEGGAR) end
         if target_role == "old man" then role, role_grammar, role_string, role_credits = ROLE_OLDMAN, "an ", target_role, GetRoleStartingCredits(ROLE_OLDMAN) end
         if target_role == "mercenary" then role, role_grammar, role_string, role_credits = ROLE_MERCENARY, "a ", target_role, GetRoleStartingCredits(ROLE_MERCENARY) end
+        if target_role == "bodysnatcher" then role, role_grammar, role_string, role_credits = ROLE_BODYSNATCHER, "a ", target_role, GetRoleStartingCredits(ROLE_BODYSNATCHER) end
+        if target_role == "veteran" then role, role_grammar, role_string, role_credits = ROLE_VETERAN, "a ", target_role, GetRoleStartingCredits(ROLE_VETERAN) end
 
         for i = 1, #target_plys do
             local v = target_plys[i]
@@ -405,7 +411,9 @@ local function GetLoadoutWeapons(r)
             [ROLE_IMPERSONATOR] = {},
             [ROLE_BEGGAR] = {},
             [ROLE_OLDMAN] = {},
-            [ROLE_MERCENARY] = {}
+            [ROLE_MERCENARY] = {},
+            [ROLE_BODYSNATCHER] = {},
+            [ROLE_VETERAN] = {}
         };
 
         for _, w in pairs(weapons.GetList()) do
@@ -723,6 +731,8 @@ local function updateNextround()
     table.insert(ulx.next_round, "beggar") -- Add "beggar" to the table.
     table.insert(ulx.next_round, "old man") -- Add "old man" to the table.
     table.insert(ulx.next_round, "mercenary") -- Add "mercenary" to the table.
+    table.insert(ulx.next_round, "bodysnatcher") -- Add "bodysnatcher" to the table.
+    table.insert(ulx.next_round, "veteran") -- Add "veteran" to the table.
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -745,6 +755,8 @@ local PlysMarkedForImpersonator = {}
 local PlysMarkedForBeggar = {}
 local PlysMarkedForOldMan = {}
 local PlysMarkedForMercenary = {}
+local PlysMarkedForBodysnatcher = {}
+local PlysMarkedForVeteran = {}
 
 local function MarkedElsewhere(id)
     if (PlysMarkedForTraitor[id] == true or
@@ -762,7 +774,9 @@ local function MarkedElsewhere(id)
             PlysMarkedForImpersonator[id] == true or
             PlysMarkedForBeggar[id] == true or
             PlysMarkedForOldMan[id] == true or
-            PlysMarkedForMercenary[id] == true) then
+            PlysMarkedForMercenary[id] == true or
+            PlysMarkedForBodysnatcher[id] == true or
+            PlysMarkedForVeteran[id] == true) then
         return true
     else
         return false
@@ -888,6 +902,20 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForMercenary[id] = true
                     table.insert(affected_plys, v)
                 end
+            elseif next_round == "bodysnatcher" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForBodysnatcher[id] = true
+                    table.insert(affected_plys, v)
+                end
+            elseif next_round == "veteran" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForVeteran[id] = true
+                    table.insert(affected_plys, v)
+                end
             elseif next_round == "unmark" then
                 if PlysMarkedForInnocent[id] == true then
                     PlysMarkedForInnocent[id] = false
@@ -953,6 +981,14 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForMercenary[id] = false
                     table.insert(affected_plys, v)
                 end
+                if PlysMarkedForBodysnatcher[id] == true then
+                    PlysMarkedForBodysnatcher[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForVeteran[id] == true then
+                    PlysMarkedForVeteran[id] = false
+                    table.insert(affected_plys, v)
+                end
             end
         end
 
@@ -976,11 +1012,6 @@ local function InnocentMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_INNOCENT)
             PlysMarkedForInnocent[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -991,13 +1022,7 @@ local function TraitorMarkedPlayers()
         if v then
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_TRAITOR)
-            ply:SetCredits(GetConVarNumber("ttt_credits_starting"))
             PlysMarkedForTraitor[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1008,14 +1033,7 @@ local function DetectiveMarkedPlayers()
         if v then
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DETECTIVE)
-            ply:SetCredits(GetConVarNumber("ttt_det_credits_starting"))
             PlysMarkedForDetective[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            local health = GetConVar("ttt_detective_starting_health"):GetInt()
-            ply:SetMaxHealth(100)
-            ply:SetHealth(health)
         end
     end
 end
@@ -1027,11 +1045,6 @@ local function JesterMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_JESTER)
             PlysMarkedForJester[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1043,11 +1056,6 @@ local function SwapperMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_SWAPPER)
             PlysMarkedForSwapper[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1059,11 +1067,6 @@ local function GlitchMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_GLITCH)
             PlysMarkedForGlitch[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1075,11 +1078,6 @@ local function PhantomMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_PHANTOM)
             PlysMarkedForPhantom[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1090,14 +1088,7 @@ local function HypnotistMarkedPlayers()
         if v then
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_HYPNOTIST)
-            ply:SetCredits(GetConVarNumber("ttt_hyp_credits_starting"))
             PlysMarkedForHypnotist[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
-            ply:Give("weapon_ttt_brainwash")
         end
     end
 end
@@ -1109,11 +1100,6 @@ local function RevengerMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_REVENGER)
             PlysMarkedForRevenger[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1125,11 +1111,6 @@ local function DrunkMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DRUNK)
             PlysMarkedForDrunk[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1141,11 +1122,6 @@ local function ClownMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_CLOWN)
             PlysMarkedForClown[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1157,11 +1133,6 @@ local function DeputyMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_DEPUTY)
             PlysMarkedForDeputy[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1173,11 +1144,6 @@ local function ImpersonatorMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_IMPERSONATOR)
             PlysMarkedForImpersonator[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1189,11 +1155,6 @@ local function BeggarMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_BEGGAR)
             PlysMarkedForBeggar[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
@@ -1205,12 +1166,6 @@ local function OldManMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_OLDMAN)
             PlysMarkedForOldMan[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            local health = GetConVar("ttt_old_man_starting_health"):GetInt()
-            ply:SetMaxHealth(health)
-            ply:SetHealth(health)
         end
     end
 end
@@ -1222,15 +1177,32 @@ local function MercenaryMarkedPlayers()
             local ply = player.GetBySteamID64(k)
             ply:SetRole(ROLE_MERCENARY)
             PlysMarkedForMercenary[k] = false
-            if ply:HasWeapon("weapon_ttt_brainwash") then
-                ply:StripWeapon("weapon_ttt_brainwash")
-            end
-            ply:SetMaxHealth(100)
-            ply:SetHealth(100)
         end
     end
 end
 hook.Add("TTTSelectRoles", "Admin_Round_Mercenary", MercenaryMarkedPlayers)
+
+local function BodysnatcherMarkedPlayers()
+    for k, v in pairs(PlysMarkedForBodysnatcher) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_BODYSNATCHER)
+            PlysMarkedForBodysnatcher[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Bodysnatcher", BodysnatcherMarkedPlayers)
+
+local function VeteranMarkedPlayers()
+    for k, v in pairs(PlysMarkedForVeteran) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_VETERAN)
+            PlysMarkedForVeteran[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Veteran", VeteranMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
