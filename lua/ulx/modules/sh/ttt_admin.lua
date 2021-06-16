@@ -28,6 +28,7 @@ function UpdateRoles()
     table.insert(ulx.target_role, "mercenary") -- Add "mercenary" to the table.
     table.insert(ulx.target_role, "bodysnatcher") -- Add "bodysnatcher" to the table.
     table.insert(ulx.target_role, "veteran") -- Add "veteran" to the table.
+    table.insert(ulx.target_role, "assassin") -- Add "assassin" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -74,7 +75,8 @@ function GetRoleStartingCredits(role)
 		[ROLE_OLDMAN] = 0,
         [ROLE_MERCENARY] = GetConVarNumber("ttt_mer_credits_starting"),
         [ROLE_BODYSNATCHER] = 0,
-        [ROLE_VETERAN] = 0
+        [ROLE_VETERAN] = 0,
+        [ROLE_ASSASSIN] = GetConVarNumber("ttt_asn_credits_starting")
 	}
 	return credits[role] or 0
 end
@@ -333,6 +335,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
         if target_role == "mercenary" then role, role_grammar, role_string, role_credits = ROLE_MERCENARY, "a ", target_role, GetRoleStartingCredits(ROLE_MERCENARY) end
         if target_role == "bodysnatcher" then role, role_grammar, role_string, role_credits = ROLE_BODYSNATCHER, "a ", target_role, GetRoleStartingCredits(ROLE_BODYSNATCHER) end
         if target_role == "veteran" then role, role_grammar, role_string, role_credits = ROLE_VETERAN, "a ", target_role, GetRoleStartingCredits(ROLE_VETERAN) end
+        if target_role == "assassin" then role, role_grammar, role_string, role_credits = ROLE_ASSASSIN, "an ", target_role, GetRoleStartingCredits(ROLE_ASSASSIN) end
 
         for i = 1, #target_plys do
             local v = target_plys[i]
@@ -413,7 +416,8 @@ local function GetLoadoutWeapons(r)
             [ROLE_OLDMAN] = {},
             [ROLE_MERCENARY] = {},
             [ROLE_BODYSNATCHER] = {},
-            [ROLE_VETERAN] = {}
+            [ROLE_VETERAN] = {},
+            [ROLE_ASSASSIN] = {}
         };
 
         for _, w in pairs(weapons.GetList()) do
@@ -733,6 +737,7 @@ local function updateNextround()
     table.insert(ulx.next_round, "mercenary") -- Add "mercenary" to the table.
     table.insert(ulx.next_round, "bodysnatcher") -- Add "bodysnatcher" to the table.
     table.insert(ulx.next_round, "veteran") -- Add "veteran" to the table.
+    table.insert(ulx.next_round, "assassin") -- Add "assassin" to the table.
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -757,6 +762,7 @@ local PlysMarkedForOldMan = {}
 local PlysMarkedForMercenary = {}
 local PlysMarkedForBodysnatcher = {}
 local PlysMarkedForVeteran = {}
+local PlysMarkedForAssassin = {}
 
 local function MarkedElsewhere(id)
     if (PlysMarkedForTraitor[id] == true or
@@ -776,7 +782,8 @@ local function MarkedElsewhere(id)
             PlysMarkedForOldMan[id] == true or
             PlysMarkedForMercenary[id] == true or
             PlysMarkedForBodysnatcher[id] == true or
-            PlysMarkedForVeteran[id] == true) then
+            PlysMarkedForVeteran[id] == true or
+            PlysMarkedForAssassin[id] == true) then
         return true
     else
         return false
@@ -916,6 +923,13 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForVeteran[id] = true
                     table.insert(affected_plys, v)
                 end
+            elseif next_round == "assassin" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForAssassin[id] = true
+                    table.insert(affected_plys, v)
+                end
             elseif next_round == "unmark" then
                 if PlysMarkedForInnocent[id] == true then
                     PlysMarkedForInnocent[id] = false
@@ -987,6 +1001,10 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 if PlysMarkedForVeteran[id] == true then
                     PlysMarkedForVeteran[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForAssassin[id] == true then
+                    PlysMarkedForAssassin[id] = false
                     table.insert(affected_plys, v)
                 end
             end
@@ -1203,6 +1221,17 @@ local function VeteranMarkedPlayers()
     end
 end
 hook.Add("TTTSelectRoles", "Admin_Round_Veteran", VeteranMarkedPlayers)
+
+local function AssassinMarkedPlayers()
+    for k, v in pairs(PlysMarkedForAssassin) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_ASSASSIN)
+            PlysMarkedForAssassin[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Assassin", AssassinMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
