@@ -164,6 +164,9 @@ local function init()
 
         --monster properties
         ULib.replicatedWritableCvar("ttt_zombies_are_traitors", "rep_ttt_zombies_are_traitors", GetConVarNumber("ttt_zombies_are_traitors"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_round_chance", "rep_ttt_zombie_round_chance", GetConVarNumber("ttt_zombie_round_chance"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_spit_enable", "rep_ttt_zombie_spit_enable", GetConVarNumber("ttt_zombie_spit_enable"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_leap_enable", "rep_ttt_zombie_leap_enable", GetConVarNumber("ttt_zombie_leap_enable"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_show_target_icon", "rep_ttt_zombie_show_target_icon", GetConVarNumber("ttt_zombie_show_target_icon"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_damage_penalty", "rep_ttt_zombie_damage_penalty", GetConVarNumber("ttt_zombie_damage_penalty"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_damage_reduction", "rep_ttt_zombie_damage_reduction", GetConVarNumber("ttt_zombie_damage_reduction"), false, false, "xgui_gmsettings")
@@ -172,7 +175,12 @@ local function init()
         ULib.replicatedWritableCvar("ttt_vampires_are_traitors", "rep_ttt_vampires_are_traitors", GetConVarNumber("ttt_vampires_are_traitors"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_show_target_icon", "rep_ttt_vampire_show_target_icon", GetConVarNumber("ttt_vampire_show_target_icon"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_damage_reduction", "rep_ttt_vampire_damage_reduction", GetConVarNumber("ttt_vampire_damage_reduction"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_vampire_convert_enable", "rep_ttt_vampire_convert_enable", GetConVarNumber("ttt_vampire_convert_enable"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_vampire_fang_timer", "rep_ttt_vampire_fang_timer", GetConVarNumber("ttt_vampire_fang_timer"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_vampire_fang_heal", "rep_ttt_vampire_fang_heal", GetConVarNumber("ttt_vampire_fang_heal"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_vampire_fang_overheal", "rep_ttt_vampire_fang_overheal", GetConVarNumber("ttt_vampire_fang_overheal"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_prime_death_mode", "rep_ttt_vampire_prime_death_mode", GetConVarNumber("ttt_vampire_prime_death_mode"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_vampire_prime_only_convert", "rep_ttt_vampire_prime_only_convert", GetConVarNumber("ttt_vampire_prime_only_convert"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_vision_enable", "rep_ttt_vampire_vision_enable", GetConVarNumber("ttt_vampire_vision_enable"), false, false, "xgui_gmsettings")
 
         --other custom role properties
