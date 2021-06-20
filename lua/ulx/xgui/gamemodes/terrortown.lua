@@ -289,13 +289,13 @@ end
 
 local function AddIndependentRoleSettings(gppnl)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 515)
+    indclp:SetSize(390, 580)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 515)
+    indlst:SetSize(390, 580)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
@@ -363,6 +363,15 @@ local function AddIndependentRoleSettings(gppnl)
 
     local minold = xlib.makeslider { label = "ttt_old_man_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_old_man_min_players", parent = indlst }
     indlst:AddItem(minold)
+
+    local haskil = xlib.makecheckbox { label = "ttt_killer_enabled (def. 0)", repconvar = "rep_ttt_killer_enabled", parent = indlst }
+    indlst:AddItem(haskil)
+
+    local weightkil = xlib.makeslider { label = "ttt_killer_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_killer_spawn_weight", parent = indlst }
+    indlst:AddItem(weightkil)
+
+    local minkil = xlib.makeslider { label = "ttt_killer_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_killer_min_players", parent = indlst }
+    indlst:AddItem(minkil)
 end
 
 local function AddTraitorProperties(gppnl)
@@ -562,13 +571,13 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 135)
+    indpropclp:SetSize(390, 345)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
     local indproplst = vgui.Create("DPanelList", indpropclp)
     indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, 135)
+    indproplst:SetSize(390, 345)
     indproplst:SetSpacing(5)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
@@ -589,6 +598,35 @@ local function AddIndependentRoleProperties(gppnl)
     local oldh = xlib.makeslider { label = "ttt_old_man_starting_health (def. 1)", min = 0, max = 100, repconvar = "rep_ttt_old_man_starting_health", parent = indproplst }
     indproplst:AddItem(oldh)
 
+    local killbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Killer settings:", parent = indproplst }
+    indproplst:AddItem(killbl)
+
+    local kilmhp = xlib.makeslider { label = "ttt_killer_max_health (def. 100)", min = 50, max = 200, repconvar = "rep_ttt_killer_max_health", parent = indproplst }
+    indproplst:AddItem(kilmhp)
+
+    local kilken = xlib.makecheckbox { label = "ttt_killer_knife_enabled (def. 1)", repconvar = "rep_ttt_killer_knife_enabled", parent = indproplst }
+    indproplst:AddItem(kilken)
+
+    local kilsen = xlib.makecheckbox { label = "ttt_killer_smoke_enabled (def. 1)", repconvar = "rep_ttt_killer_smoke_enabled", parent = indproplst }
+    indproplst:AddItem(kilsen)
+
+    local kilstm = xlib.makeslider { label = "ttt_killer_smoke_timer (def. 60)", min = 1, max = 120, repconvar = "rep_ttt_killer_smoke_timer", parent = indproplst }
+    indproplst:AddItem(kilstm)
+
+    local kilsti = xlib.makecheckbox { label = "ttt_killer_show_target_icon (def. 1)", repconvar = "rep_ttt_killer_show_target_icon", parent = indproplst }
+    indproplst:AddItem(kilsti)
+
+    local kildpe = xlib.makeslider { label = "ttt_killer_damage_penalty (def. 0.75)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_killer_damage_penalty", parent = indproplst }
+    indproplst:AddItem(kildpe)
+
+    local kildre = xlib.makeslider { label = "ttt_killer_damage_reduction (def. 0.45)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_killer_damage_reduction", parent = indproplst }
+    indproplst:AddItem(kildre)
+
+    local kilwal = xlib.makecheckbox { label = "ttt_killer_warn_all (def. 0)", repconvar = "rep_ttt_killer_warn_all", parent = indproplst }
+    indproplst:AddItem(kilwal)
+
+    local kilven = xlib.makecheckbox { label = "ttt_killer_vision_enable (def. 1)", repconvar = "rep_ttt_killer_vision_enable", parent = indproplst }
+    indproplst:AddItem(kilven)
 end
 
 local function AddCustomRoleProperties(gppnl)
@@ -608,13 +646,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 520)
+    rspnl:SetSize(390, 565)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 520)
+    rslst:SetSize(390, 565)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -673,6 +711,12 @@ local function AddRoleShop(gppnl)
 
     local rseasn = xlib.makecheckbox { label = "ttt_shop_random_asn_enabled (def. 0)", repconvar = "rep_ttt_shop_random_asn_enabled", parent = rslst }
     rslst:AddItem(rseasn)
+
+    local rspkil = xlib.makeslider { label = "ttt_shop_random_kil_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_kil_percent", parent = rslst }
+    rslst:AddItem(rspkil)
+
+    local rsekil = xlib.makecheckbox { label = "ttt_shop_random_kil_enabled (def. 0)", repconvar = "rep_ttt_shop_random_kil_enabled", parent = rslst }
+    rslst:AddItem(rsekil)
 
     local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
     rslst:AddItem(rshsync)
@@ -967,17 +1011,20 @@ local function AddEquipmentCreditsModule()
 
     --Other Credits
     local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecocclp:SetSize(390, 25)
+    ecocclp:SetSize(390, 50)
     ecocclp:SetExpanded(0)
     ecocclp:SetLabel("Other Credits")
 
     local ecoclst = vgui.Create("DPanelList", ecocclp)
     ecoclst:SetPos(5, 25)
-    ecoclst:SetSize(390, 25)
+    ecoclst:SetSize(390, 50)
     ecoclst:SetSpacing(5)
 
     local ecmccs = xlib.makeslider { label = "ttt_mer_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_mer_credits_starting", parent = ecoclst }
     ecoclst:AddItem(ecmccs)
+
+    local eckccs = xlib.makeslider { label = "ttt_kil_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_kil_credits_starting", parent = ecoclst }
+    ecoclst:AddItem(eckccs)
 
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
     xgui.addSubModule("Equipment Credits", ecpnl, nil, "terrortown_settings")

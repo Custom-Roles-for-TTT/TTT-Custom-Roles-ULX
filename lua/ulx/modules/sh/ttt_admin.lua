@@ -24,11 +24,12 @@ function UpdateRoles()
     table.insert(ulx.target_role, "deputy") -- Add "deputy" to the table.
     table.insert(ulx.target_role, "impersonator") -- Add "impersonator" to the table.
     table.insert(ulx.target_role, "beggar") -- Add "beggar" to the table.
-    table.insert(ulx.target_role, "old man") -- Add "old man" to the table.
+    table.insert(ulx.target_role, "oldman") -- Add "oldman" to the table.
     table.insert(ulx.target_role, "mercenary") -- Add "mercenary" to the table.
     table.insert(ulx.target_role, "bodysnatcher") -- Add "bodysnatcher" to the table.
     table.insert(ulx.target_role, "veteran") -- Add "veteran" to the table.
     table.insert(ulx.target_role, "assassin") -- Add "assassin" to the table.
+    table.insert(ulx.target_role, "killer") -- Add "killer" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -51,34 +52,6 @@ function SetRole(ply, role)
         net.WriteUInt(role, 8)
         net.Broadcast()
     end
-end
-
---[[GetRoleStartingCredits][Gets the starting credits for the given role]
-@param  {[Integer]} role       [The player role to get starting credits for.]
---]]
-function GetRoleStartingCredits(role)
-	local credits = {
-		[ROLE_INNOCENT] = 0,
-		[ROLE_TRAITOR] = GetConVarNumber("ttt_credits_starting"),
-		[ROLE_DETECTIVE] = GetConVarNumber("ttt_det_credits_starting"),
-		[ROLE_JESTER] = GetConVarNumber("ttt_jes_credits_starting"),
-		[ROLE_SWAPPER] = GetConVarNumber("ttt_swa_credits_starting"),
-		[ROLE_GLITCH] = 0,
-		[ROLE_PHANTOM] = 0,
-		[ROLE_HYPNOTIST] = GetConVarNumber("ttt_hyp_credits_starting"),
-		[ROLE_REVENGER] = 0,
-		[ROLE_DRUNK] = 0,
-		[ROLE_CLOWN] = 0,
-		[ROLE_DEPUTY] = 0,
-		[ROLE_IMPERSONATOR] = GetConVarNumber("ttt_imp_credits_starting"),
-		[ROLE_BEGGAR] = 0,
-		[ROLE_OLDMAN] = 0,
-        [ROLE_MERCENARY] = GetConVarNumber("ttt_mer_credits_starting"),
-        [ROLE_BODYSNATCHER] = 0,
-        [ROLE_VETERAN] = 0,
-        [ROLE_ASSASSIN] = GetConVarNumber("ttt_asn_credits_starting")
-	}
-	return credits[role] or 0
 end
 
 --[[SendMessages][Sends messages to player(s)]
@@ -312,31 +285,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
         local affected_plys = {}
 
-        local role
-        local role_grammar
-        local role_string
-        local role_credits
-
-        if target_role == "innocent" then role, role_grammar, role_string, role_credits = ROLE_INNOCENT, "an ", target_role, GetRoleStartingCredits(ROLE_INNOCENT) end
-        if target_role == "traitor" then role, role_grammar, role_string, role_credits = ROLE_TRAITOR, "a ", target_role, GetRoleStartingCredits(ROLE_TRAITOR) end
-        if target_role == "detective" then role, role_grammar, role_string, role_credits = ROLE_DETECTIVE, "a ", target_role, GetRoleStartingCredits(ROLE_DETECTIVE) end
-        if target_role == "jester" then role, role_grammar, role_string, role_credits = ROLE_JESTER, "a ", target_role, GetRoleStartingCredits(ROLE_JESTER) end
-        if target_role == "swapper" then role, role_grammar, role_string, role_credits = ROLE_SWAPPER, "a ", target_role, GetRoleStartingCredits(ROLE_SWAPPER) end
-        if target_role == "glitch" then role, role_grammar, role_string, role_credits = ROLE_GLITCH, "a ", target_role, GetRoleStartingCredits(ROLE_GLITCH) end
-        if target_role == "phantom" then role, role_grammar, role_string, role_credits = ROLE_PHANTOM, "a ", target_role, GetRoleStartingCredits(ROLE_PHANTOM) end
-        if target_role == "hypnotist" then role, role_grammar, role_string, role_credits = ROLE_HYPNOTIST, "a ", target_role, GetRoleStartingCredits(ROLE_HYPNOTIST) end
-        if target_role == "revenger" then role, role_grammar, role_string, role_credits = ROLE_REVENGER, "a ", target_role, GetRoleStartingCredits(ROLE_REVENGER) end
-        if target_role == "drunk" then role, role_grammar, role_string, role_credits = ROLE_DRUNK, "a ", target_role, GetRoleStartingCredits(ROLE_DRUNK) end
-        if target_role == "clown" then role, role_grammar, role_string, role_credits = ROLE_CLOWN, "a ", target_role, GetRoleStartingCredits(ROLE_CLOWN) end
-        if target_role == "deputy" then role, role_grammar, role_string, role_credits = ROLE_DEPUTY, "a ", target_role, GetRoleStartingCredits(ROLE_DEPUTY) end
-        if target_role == "impersonator" then role, role_grammar, role_string, role_credits = ROLE_IMPERSONATOR, "an ", target_role, GetRoleStartingCredits(ROLE_IMPERSONATOR) end
-        if target_role == "beggar" then role, role_grammar, role_string, role_credits = ROLE_BEGGAR, "a ", target_role, GetRoleStartingCredits(ROLE_BEGGAR) end
-        if target_role == "old man" then role, role_grammar, role_string, role_credits = ROLE_OLDMAN, "an ", target_role, GetRoleStartingCredits(ROLE_OLDMAN) end
-        if target_role == "mercenary" then role, role_grammar, role_string, role_credits = ROLE_MERCENARY, "a ", target_role, GetRoleStartingCredits(ROLE_MERCENARY) end
-        if target_role == "bodysnatcher" then role, role_grammar, role_string, role_credits = ROLE_BODYSNATCHER, "a ", target_role, GetRoleStartingCredits(ROLE_BODYSNATCHER) end
-        if target_role == "veteran" then role, role_grammar, role_string, role_credits = ROLE_VETERAN, "a ", target_role, GetRoleStartingCredits(ROLE_VETERAN) end
-        if target_role == "assassin" then role, role_grammar, role_string, role_credits = ROLE_ASSASSIN, "an ", target_role, GetRoleStartingCredits(ROLE_ASSASSIN) end
-
+        local role = table.KeyFromValue(ROLE_STRINGS, target_role)
+        local role_string = ROLE_STRINGS_EXT[role]
         for i = 1, #target_plys do
             local v = target_plys[i]
             local current_role = v:GetRole()
@@ -350,14 +300,14 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
             elseif not v:Alive() then
                 ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
             elseif current_role == role then
-                ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_grammar .. role_string, true)
+                ULib.tsayError(calling_ply, v:Nick() .. " is already " .. role_string, true)
             else
                 v:ResetEquipment()
                 RemoveLoadoutWeapons(v)
                 RemoveBoughtWeapons(v)
 
                 SetRole(v, role)
-                v:SetCredits(role_credits)
+                v:SetDefaultCredits()
                 SendFullStateUpdate()
 
                 GiveLoadoutItems(v)
@@ -376,7 +326,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 v:SetHealth(100)
             end
         end
-        ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of " .. role_grammar .. "#s.", affected_plys, role_string)
+        ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of #s.", affected_plys, role_string)
         SendMessages(affected_plys, "Your role has been set to " .. role_string .. ".")
     end
 end
@@ -398,27 +348,11 @@ force:help("Force <target(s)> to become a specified role.")
 local loadout_weapons = nil
 local function GetLoadoutWeapons(r)
     if not loadout_weapons then
-        local tbl = {
-            [ROLE_INNOCENT] = {},
-            [ROLE_TRAITOR] = {},
-            [ROLE_DETECTIVE] = {},
-            [ROLE_JESTER] = {},
-            [ROLE_SWAPPER] = {},
-            [ROLE_GLITCH] = {},
-            [ROLE_PHANTOM] = {},
-            [ROLE_HYPNOTIST] = {},
-            [ROLE_REVENGER] = {},
-            [ROLE_DRUNK] = {},
-            [ROLE_CLOWN] = {},
-            [ROLE_DEPUTY] = {},
-            [ROLE_IMPERSONATOR] = {},
-            [ROLE_BEGGAR] = {},
-            [ROLE_OLDMAN] = {},
-            [ROLE_MERCENARY] = {},
-            [ROLE_BODYSNATCHER] = {},
-            [ROLE_VETERAN] = {},
-            [ROLE_ASSASSIN] = {}
-        };
+        local tbl = {}
+        -- Initialize the table for every role
+        for wrole = 0, ROLE_MAX do
+            tbl[wrole] = {}
+        end
 
         for _, w in pairs(weapons.GetList()) do
             if WEPS.GetClass(w) == "weapon_ttt_unarmed" or WEPS.GetClass(w) == "weapon_zm_carry" or WEPS.GetClass(w) == "weapon_zm_improvised" then
@@ -529,7 +463,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
                     if corpse then CorpseRemove(corpse) end
 
                     v:SpawnForRound(true)
-					v:SetCredits(GetRoleStartingCredits(v:GetRole()))
+					v:SetDefaultCredits()
 
                     table.insert(affected_plys, v)
 
@@ -547,7 +481,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
                 if corpse then CorpseRemove(corpse) end
 
                 v:SpawnForRound(true)
-                v:SetCredits(GetRoleStartingCredits(v:GetRole()))
+                v:SetDefaultCredits()
                 table.insert(affected_plys, v)
             end
         end
@@ -603,7 +537,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
                 if corpse then CorpseRemove(corpse) end
 
                 target_ply:SpawnForRound(true)
-				target_ply:SetCredits(GetRoleStartingCredits(target_ply:GetRole()))
+				target_ply:SetDefaultCredits()
 
                 target_ply:SetPos(pos)
                 table.insert(affected_ply, target_ply)
@@ -633,7 +567,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
             if corpse then CorpseRemove(corpse) end
 
             target_ply:SpawnForRound(true)
-            target_ply:SetCredits(GetRoleStartingCredits(target_ply:GetRole()))
+            target_ply:SetDefaultCredits()
 
             target_ply:SetPos(pos)
             table.insert(affected_ply, target_ply)
@@ -733,11 +667,12 @@ local function updateNextround()
     table.insert(ulx.next_round, "deputy") -- Add "deputy" to the table.
     table.insert(ulx.next_round, "impersonator") -- Add "impersonator" to the table.
     table.insert(ulx.next_round, "beggar") -- Add "beggar" to the table.
-    table.insert(ulx.next_round, "old man") -- Add "old man" to the table.
+    table.insert(ulx.next_round, "oldman") -- Add "oldman" to the table.
     table.insert(ulx.next_round, "mercenary") -- Add "mercenary" to the table.
     table.insert(ulx.next_round, "bodysnatcher") -- Add "bodysnatcher" to the table.
     table.insert(ulx.next_round, "veteran") -- Add "veteran" to the table.
     table.insert(ulx.next_round, "assassin") -- Add "assassin" to the table.
+    table.insert(ulx.next_round, "killer") -- Add "killer" to the table.
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -763,6 +698,7 @@ local PlysMarkedForMercenary = {}
 local PlysMarkedForBodysnatcher = {}
 local PlysMarkedForVeteran = {}
 local PlysMarkedForAssassin = {}
+local PlysMarkedForKiller = {}
 
 local function MarkedElsewhere(id)
     if (PlysMarkedForTraitor[id] == true or
@@ -783,7 +719,8 @@ local function MarkedElsewhere(id)
             PlysMarkedForMercenary[id] == true or
             PlysMarkedForBodysnatcher[id] == true or
             PlysMarkedForVeteran[id] == true or
-            PlysMarkedForAssassin[id] == true) then
+            PlysMarkedForAssassin[id] == true or
+            PlysMarkedForKiller[id] == true) then
         return true
     else
         return false
@@ -895,7 +832,7 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForBeggar[id] = true
                     table.insert(affected_plys, v)
                 end
-            elseif next_round == "old man" then
+            elseif next_round == "oldman" then
                 if MarkedElsewhere(id) then
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
@@ -928,6 +865,13 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
                 else
                     PlysMarkedForAssassin[id] = true
+                    table.insert(affected_plys, v)
+                end
+            elseif next_round == "killer" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForKiller[id] = true
                     table.insert(affected_plys, v)
                 end
             elseif next_round == "unmark" then
@@ -1005,6 +949,10 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 if PlysMarkedForAssassin[id] == true then
                     PlysMarkedForAssassin[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForKiller[id] == true then
+                    PlysMarkedForKiller[id] = false
                     table.insert(affected_plys, v)
                 end
             end
@@ -1232,6 +1180,17 @@ local function AssassinMarkedPlayers()
     end
 end
 hook.Add("TTTSelectRoles", "Admin_Round_Assassin", AssassinMarkedPlayers)
+
+local function KillerMarkedPlayers()
+    for k, v in pairs(PlysMarkedForKiller) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_KILLER)
+            PlysMarkedForKiller[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Killer", KillerMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
