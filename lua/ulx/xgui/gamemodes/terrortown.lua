@@ -374,6 +374,42 @@ local function AddIndependentRoleSettings(gppnl)
     indlst:AddItem(minkil)
 end
 
+local function AddMonsterSettings(gppnl)
+    local monclp = vgui.Create("DCollapsibleCategory", gppnl)
+    monclp:SetSize(390, 185)
+    monclp:SetExpanded(1)
+    monclp:SetLabel("Monster Settings")
+
+    local monlst = vgui.Create("DPanelList", monclp)
+    monlst:SetPos(5, 25)
+    monlst:SetSize(390, 185)
+    monlst:SetSpacing(5)
+
+    local monpercet = xlib.makeslider { label = "ttt_monster_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_pct", parent = monlst }
+    monlst:AddItem(monpercet)
+
+    local monchance = xlib.makeslider { label = "ttt_monster_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_chance", parent = monlst }
+    monlst:AddItem(monchance)
+
+    local haszom = xlib.makecheckbox { label = "ttt_zombie_enabled (def. 0)", repconvar = "rep_ttt_zombie_enabled", parent = monlst }
+    monlst:AddItem(haszom)
+
+    local weightzom = xlib.makeslider { label = "ttt_zombie_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_zombie_spawn_weight", parent = monlst }
+    monlst:AddItem(weightzom)
+
+    local minzom = xlib.makeslider { label = "ttt_zombie_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zombie_min_players", parent = monlst }
+    monlst:AddItem(minzom)
+
+    local hasvam = xlib.makecheckbox { label = "ttt_vampire_enabled (def. 0)", repconvar = "rep_ttt_vampire_enabled", parent = monlst }
+    monlst:AddItem(hasvam)
+
+    local weightvam = xlib.makeslider { label = "ttt_vampire_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_vampire_spawn_weight", parent = monlst }
+    monlst:AddItem(weightvam)
+
+    local minvam = xlib.makeslider { label = "ttt_vampire_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vampire_min_players", parent = monlst }
+    monlst:AddItem(minvam)
+end
+
 local function AddTraitorProperties(gppnl)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, 200)
@@ -629,6 +665,81 @@ local function AddIndependentRoleProperties(gppnl)
     indproplst:AddItem(kilven)
 end
 
+local function AddMonsterRoleProperties(gppnl)
+    local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    monpropclp:SetSize(390, 455)
+    monpropclp:SetExpanded(1)
+    monpropclp:SetLabel("Monster Properties")
+
+    local monproplst = vgui.Create("DPanelList", monpropclp)
+    monproplst:SetPos(5, 25)
+    monproplst:SetSize(390, 455)
+    monproplst:SetSpacing(5)
+
+    local zomlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Zombie settings:", parent = monproplst }
+    monproplst:AddItem(zomlbl)
+
+    local zomatra = xlib.makecheckbox { label = "ttt_zombies_are_traitors (def. 0)", repconvar = "rep_ttt_zombies_are_traitors", parent = monproplst }
+    monproplst:AddItem(zomatra)
+
+    local zomrch = xlib.makeslider { label = "ttt_zombie_round_chance (def. 0.1)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_round_chance", parent = monproplst }
+    monproplst:AddItem(zomrch)
+
+    local zomlen = xlib.makecheckbox { label = "ttt_zombie_leap_enable (def. 1)", repconvar = "rep_ttt_zombie_leap_enable", parent = monproplst }
+    monproplst:AddItem(zomlen)
+
+    local zomsen = xlib.makecheckbox { label = "ttt_zombie_spit_enable (def. 1)", repconvar = "rep_ttt_zombie_spit_enable", parent = monproplst }
+    monproplst:AddItem(zomsen)
+
+    local zomsti = xlib.makecheckbox { label = "ttt_zombie_show_target_icon (def. 1)", repconvar = "rep_ttt_zombie_show_target_icon", parent = monproplst }
+    monproplst:AddItem(zomsti)
+
+    local zomdpe = xlib.makeslider { label = "ttt_zombie_damage_penalty (def. 0.8)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_damage_penalty", parent = monproplst }
+    monproplst:AddItem(zomdpe)
+
+    local zomdre = xlib.makeslider { label = "ttt_zombie_damage_reduction (def. 0.2)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_damage_reduction", parent = monproplst }
+    monproplst:AddItem(zomdre)
+
+    local zompow = xlib.makecheckbox { label = "ttt_zombie_prime_only_weapons (def. 1)", repconvar = "rep_ttt_zombie_prime_only_weapons", parent = monproplst }
+    monproplst:AddItem(zompow)
+
+    local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 1)", repconvar = "rep_ttt_zombie_vision_enable", parent = monproplst }
+    monproplst:AddItem(zomve)
+
+    local vamlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Vampire settings:", parent = monproplst }
+    monproplst:AddItem(vamlbl)
+
+    local vamatra = xlib.makecheckbox { label = "ttt_vampires_are_traitors (def. 0)", repconvar = "rep_ttt_vampires_are_traitors", parent = monproplst }
+    monproplst:AddItem(vamatra)
+
+    local vamcen = xlib.makecheckbox { label = "ttt_vampire_convert_enable (def. 1)", repconvar = "rep_ttt_vampire_convert_enable", parent = monproplst }
+    monproplst:AddItem(vamcen)
+
+    local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = monproplst }
+    monproplst:AddItem(vamft)
+
+    local vamfh = xlib.makeslider { label = "ttt_vampire_fang_heal (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_heal", parent = monproplst }
+    monproplst:AddItem(vamfh)
+
+    local vamfoh = xlib.makeslider { label = "ttt_vampire_fang_overheal (def. 25)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_overheal", parent = monproplst }
+    monproplst:AddItem(vamfoh)
+
+    local vamdre = xlib.makeslider { label = "ttt_vampire_damage_reduction (def. 0.2)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_vampire_damage_reduction", parent = monproplst }
+    monproplst:AddItem(vamdre)
+
+    local vampoc = xlib.makecheckbox { label = "ttt_vampire_prime_only_convert (def. 1)", repconvar = "rep_ttt_vampire_prime_only_convert", parent = monproplst }
+    monproplst:AddItem(vampoc)
+
+    local vampdm = xlib.makeslider { label = "ttt_vampire_prime_death_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_vampire_prime_death_mode", parent = monproplst }
+    monproplst:AddItem(vampdm)
+
+    local vamsti = xlib.makecheckbox { label = "ttt_vampire_show_target_icon (def. 1)", repconvar = "rep_ttt_vampire_show_target_icon", parent = monproplst }
+    monproplst:AddItem(vamsti)
+
+    local vamve = xlib.makecheckbox { label = "ttt_vampire_vision_enable (def. 1)", repconvar = "rep_ttt_vampire_vision_enable", parent = monproplst }
+    monproplst:AddItem(vamve)
+end
+
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     crpropclp:SetSize(390, 25)
@@ -646,17 +757,20 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 565)
+    rspnl:SetSize(390, 740)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 565)
+    rslst:SetSize(390, 740)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
     rslst:AddItem(rsp)
+
+    local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Traitors:", parent = rslst }
+    rslst:AddItem(tralbl)
 
     local rsptra = xlib.makeslider { label = "ttt_shop_random_tra_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_tra_percent", parent = rslst }
     rslst:AddItem(rsptra)
@@ -664,17 +778,41 @@ local function AddRoleShop(gppnl)
     local rsetra = xlib.makecheckbox { label = "ttt_shop_random_tra_enabled (def. 0)", repconvar = "rep_ttt_shop_random_tra_enabled", parent = rslst }
     rslst:AddItem(rsetra)
 
-    local rspdet = xlib.makeslider { label = "ttt_shop_random_det_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_det_percent", parent = rslst }
-    rslst:AddItem(rspdet)
-
-    local rsedet = xlib.makecheckbox { label = "ttt_shop_random_det_enabled (def. 0)", repconvar = "rep_ttt_shop_random_det_enabled", parent = rslst }
-    rslst:AddItem(rsedet)
-
     local rsphyp = xlib.makeslider { label = "ttt_shop_random_hyp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_hyp_percent", parent = rslst }
     rslst:AddItem(rsphyp)
 
     local rsehyp = xlib.makecheckbox { label = "ttt_shop_random_hyp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_hyp_enabled", parent = rslst }
     rslst:AddItem(rsehyp)
+
+    local rspimp = xlib.makeslider { label = "ttt_shop_random_imp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_imp_percent", parent = rslst }
+    rslst:AddItem(rspimp)
+
+    local rseimp = xlib.makecheckbox { label = "ttt_shop_random_imp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_imp_enabled", parent = rslst }
+    rslst:AddItem(rseimp)
+
+    local rspasn = xlib.makeslider { label = "ttt_shop_random_asn_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_asn_percent", parent = rslst }
+    rslst:AddItem(rspasn)
+
+    local rseasn = xlib.makecheckbox { label = "ttt_shop_random_asn_enabled (def. 0)", repconvar = "rep_ttt_shop_random_asn_enabled", parent = rslst }
+    rslst:AddItem(rseasn)
+
+    local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
+    rslst:AddItem(rshsync)
+
+    local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
+    rslst:AddItem(rsisync)
+
+    local rsasync = xlib.makecheckbox { label = "ttt_shop_asn_sync (def. 0)", repconvar = "rep_ttt_shop_asn_sync", parent = rslst }
+    rslst:AddItem(rsasync)
+
+    local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
+    rslst:AddItem(innlbl)
+
+    local rspdet = xlib.makeslider { label = "ttt_shop_random_det_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_det_percent", parent = rslst }
+    rslst:AddItem(rspdet)
+
+    local rsedet = xlib.makecheckbox { label = "ttt_shop_random_det_enabled (def. 0)", repconvar = "rep_ttt_shop_random_det_enabled", parent = rslst }
+    rslst:AddItem(rsedet)
 
     local rspdep = xlib.makeslider { label = "ttt_shop_random_dep_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_dep_percent", parent = rslst }
     rslst:AddItem(rspdep)
@@ -682,11 +820,17 @@ local function AddRoleShop(gppnl)
     local rsedep = xlib.makecheckbox { label = "ttt_shop_random_dep_enabled (def. 0)", repconvar = "rep_ttt_shop_random_dep_enabled", parent = rslst }
     rslst:AddItem(rsedep)
 
-    local rspimp = xlib.makeslider { label = "ttt_shop_random_imp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_imp_percent", parent = rslst }
-    rslst:AddItem(rspimp)
+    local rspmer = xlib.makeslider { label = "ttt_shop_random_mer_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_mer_percent", parent = rslst }
+    rslst:AddItem(rspmer)
 
-    local rseimp = xlib.makecheckbox { label = "ttt_shop_random_imp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_imp_enabled", parent = rslst }
-    rslst:AddItem(rseimp)
+    local rsemer = xlib.makecheckbox { label = "ttt_shop_random_mer_enabled (def. 0)", repconvar = "rep_ttt_shop_random_mer_enabled", parent = rslst }
+    rslst:AddItem(rsemer)
+
+    local rsmmode = xlib.makeslider { label = "ttt_shop_mer_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_mer_mode", parent = rslst }
+    rslst:AddItem(rsmmode)
+
+    local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jesters:", parent = rslst }
+    rslst:AddItem(jeslbl)
 
     local rspjes = xlib.makeslider { label = "ttt_shop_random_jes_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_jes_percent", parent = rslst }
     rslst:AddItem(rspjes)
@@ -700,17 +844,8 @@ local function AddRoleShop(gppnl)
     local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
     rslst:AddItem(rseswa)
 
-    local rspmer = xlib.makeslider { label = "ttt_shop_random_mer_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_mer_percent", parent = rslst }
-    rslst:AddItem(rspmer)
-
-    local rsemer = xlib.makecheckbox { label = "ttt_shop_random_mer_enabled (def. 0)", repconvar = "rep_ttt_shop_random_mer_enabled", parent = rslst }
-    rslst:AddItem(rsemer)
-
-    local rspasn = xlib.makeslider { label = "ttt_shop_random_asn_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_asn_percent", parent = rslst }
-    rslst:AddItem(rspasn)
-
-    local rseasn = xlib.makecheckbox { label = "ttt_shop_random_asn_enabled (def. 0)", repconvar = "rep_ttt_shop_random_asn_enabled", parent = rslst }
-    rslst:AddItem(rseasn)
+    local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
+    rslst:AddItem(indlbl)
 
     local rspkil = xlib.makeslider { label = "ttt_shop_random_kil_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_kil_percent", parent = rslst }
     rslst:AddItem(rspkil)
@@ -718,17 +853,20 @@ local function AddRoleShop(gppnl)
     local rsekil = xlib.makecheckbox { label = "ttt_shop_random_kil_enabled (def. 0)", repconvar = "rep_ttt_shop_random_kil_enabled", parent = rslst }
     rslst:AddItem(rsekil)
 
-    local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
-    rslst:AddItem(rshsync)
+    local monlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Monsters:", parent = rslst }
+    rslst:AddItem(monlbl)
 
-    local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
-    rslst:AddItem(rsisync)
+    local rspzom = xlib.makeslider { label = "ttt_shop_random_zom_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_zom_percent", parent = rslst }
+    rslst:AddItem(rspzom)
 
-    local rsasync = xlib.makecheckbox { label = "ttt_shop_asn_sync (def. 0)", repconvar = "rep_ttt_shop_asn_sync", parent = rslst }
-    rslst:AddItem(rsasync)
+    local rsezom = xlib.makecheckbox { label = "ttt_shop_random_zom_enabled (def. 0)", repconvar = "rep_ttt_shop_random_zom_enabled", parent = rslst }
+    rslst:AddItem(rsezom)
 
-    local rsmmode = xlib.makeslider { label = "ttt_shop_mer_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_mer_mode", parent = rslst }
-    rslst:AddItem(rsmmode)
+    local rspvam = xlib.makeslider { label = "ttt_shop_random_vam_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_vam_percent", parent = rslst }
+    rslst:AddItem(rspvam)
+
+    local rsevam = xlib.makecheckbox { label = "ttt_shop_random_vam_enabled (def. 0)", repconvar = "rep_ttt_shop_random_vam_enabled", parent = rslst }
+    rslst:AddItem(rsevam)
 end
 
 local function AddDna(gppnl)
@@ -820,10 +958,12 @@ local function AddGameplayModule()
     AddSpecialistTraitorSettings(gppnl)
     AddSpecialistInnocentSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
+    AddMonsterSettings(gppnl)
     AddTraitorProperties(gppnl)
     AddInnocentProperties(gppnl)
     AddJesterRoleProperties(gppnl)
     AddIndependentRoleProperties(gppnl)
+    AddMonsterRoleProperties(gppnl)
     AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
@@ -1008,6 +1148,23 @@ local function AddEquipmentCreditsModule()
 
     local ecsccs = xlib.makeslider { label = "ttt_swa_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swa_credits_starting", parent = ecjclst }
     ecjclst:AddItem(ecsccs)
+
+    --Monsters Credits
+    local ecmcclp = vgui.Create("DCollapsibleCategory", ecpnl)
+    ecmcclp:SetSize(390, 50)
+    ecmcclp:SetExpanded(0)
+    ecmcclp:SetLabel("Monster Credits")
+
+    local ecmclst = vgui.Create("DPanelList", ecmcclp)
+    ecmclst:SetPos(5, 25)
+    ecmclst:SetSize(390, 50)
+    ecmclst:SetSpacing(5)
+
+    local eczccs = xlib.makeslider { label = "ttt_zom_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zom_credits_starting", parent = ecmclst }
+    ecmclst:AddItem(eczccs)
+
+    local ecvccs = xlib.makeslider { label = "ttt_vam_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vam_credits_starting", parent = ecmclst }
+    ecmclst:AddItem(ecvccs)
 
     --Other Credits
     local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)

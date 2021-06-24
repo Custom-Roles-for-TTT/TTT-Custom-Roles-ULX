@@ -30,6 +30,8 @@ function UpdateRoles()
     table.insert(ulx.target_role, "veteran") -- Add "veteran" to the table.
     table.insert(ulx.target_role, "assassin") -- Add "assassin" to the table.
     table.insert(ulx.target_role, "killer") -- Add "killer" to the table.
+    table.insert(ulx.target_role, "zombie") -- Add "zombie" to the table.
+    table.insert(ulx.target_role, "vampire") -- Add "vampire" to the table.
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -673,6 +675,8 @@ local function updateNextround()
     table.insert(ulx.next_round, "veteran") -- Add "veteran" to the table.
     table.insert(ulx.next_round, "assassin") -- Add "assassin" to the table.
     table.insert(ulx.next_round, "killer") -- Add "killer" to the table.
+    table.insert(ulx.next_round, "zombie") -- Add "zombie" to the table.
+    table.insert(ulx.next_round, "vampire") -- Add "vampire" to the table.
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -699,6 +703,8 @@ local PlysMarkedForBodysnatcher = {}
 local PlysMarkedForVeteran = {}
 local PlysMarkedForAssassin = {}
 local PlysMarkedForKiller = {}
+local PlysMarkedForZombie = {}
+local PlysMarkedForVampire = {}
 
 local function MarkedElsewhere(id)
     if (PlysMarkedForTraitor[id] == true or
@@ -720,7 +726,9 @@ local function MarkedElsewhere(id)
             PlysMarkedForBodysnatcher[id] == true or
             PlysMarkedForVeteran[id] == true or
             PlysMarkedForAssassin[id] == true or
-            PlysMarkedForKiller[id] == true) then
+            PlysMarkedForKiller[id] == true or
+            PlysMarkedForZombie[id] == true or
+            PlysMarkedForVampire[id] == true) then
         return true
     else
         return false
@@ -874,6 +882,20 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForKiller[id] = true
                     table.insert(affected_plys, v)
                 end
+            elseif next_round == "zombie" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForZombie[id] = true
+                    table.insert(affected_plys, v)
+                end
+            elseif next_round == "vampire" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForVampire[id] = true
+                    table.insert(affected_plys, v)
+                end
             elseif next_round == "unmark" then
                 if PlysMarkedForInnocent[id] == true then
                     PlysMarkedForInnocent[id] = false
@@ -953,6 +975,14 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 if PlysMarkedForKiller[id] == true then
                     PlysMarkedForKiller[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForZombie[id] == true then
+                    PlysMarkedForZombie[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForVampire[id] == true then
+                    PlysMarkedForVampire[id] = false
                     table.insert(affected_plys, v)
                 end
             end
@@ -1191,6 +1221,28 @@ local function KillerMarkedPlayers()
     end
 end
 hook.Add("TTTSelectRoles", "Admin_Round_Killer", KillerMarkedPlayers)
+
+local function ZombieMarkedPlayers()
+    for k, v in pairs(PlysMarkedForZombie) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_ZOMBIE)
+            PlysMarkedForZombie[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Zombie", ZombieMarkedPlayers)
+
+local function VampireMarkedPlayers()
+    for k, v in pairs(PlysMarkedForVampire) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_VAMPIRE)
+            PlysMarkedForVampire[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Vampire", VampireMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
