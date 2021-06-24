@@ -172,13 +172,13 @@ end
 
 local function AddSpecialistTraitorSettings(gppnl)
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
-    sptraclp:SetSize(390, 260)
+    sptraclp:SetSize(390, 355)
     sptraclp:SetExpanded(1)
     sptraclp:SetLabel("Specialist Traitor Settings")
 
     local sptralst = vgui.Create("DPanelList", sptraclp)
     sptralst:SetPos(5, 25)
-    sptralst:SetSize(390, 330)
+    sptralst:SetSize(390, 355)
     sptralst:SetSpacing(5)
 
     local stpercet = xlib.makeslider { label = "ttt_special_traitor_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_pct", parent = sptralst }
@@ -186,6 +186,9 @@ local function AddSpecialistTraitorSettings(gppnl)
 
     local stchance = xlib.makeslider { label = "ttt_special_traitor_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_chance", parent = sptralst }
     sptralst:AddItem(stchance)
+
+    local zomrch = xlib.makeslider { label = "ttt_zombie_round_chance (def. 0.1)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_round_chance", parent = sptralst }
+    sptralst:AddItem(zomrch)
 
     local hashyp = xlib.makecheckbox { label = "ttt_hypnotist_enabled (def. 0)", repconvar = "rep_ttt_hypnotist_enabled", parent = sptralst }
     sptralst:AddItem(hashyp)
@@ -298,13 +301,13 @@ end
 
 local function AddIndependentRoleSettings(gppnl)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 600)
+    indclp:SetSize(390, 650)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 640)
+    indlst:SetSize(390, 650)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
@@ -413,13 +416,13 @@ end
 
 local function AddTraitorProperties(gppnl)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    trapropclp:SetSize(390, 200)
+    trapropclp:SetSize(390, 445)
     trapropclp:SetExpanded(1)
     trapropclp:SetLabel("Traitor Properties")
 
     local traproplst = vgui.Create("DPanelList", trapropclp)
     traproplst:SetPos(5, 25)
-    traproplst:SetSize(390, 450)
+    traproplst:SetSize(390, 445)
     traproplst:SetSpacing(5)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
@@ -641,7 +644,7 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 345)
+    indpropclp:SetSize(390, 545)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
@@ -743,13 +746,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 740)
+    rspnl:SetSize(390, 765)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 740)
+    rslst:SetSize(390, 765)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -799,6 +802,9 @@ local function AddRoleShop(gppnl)
 
     local rsvsync = xlib.makecheckbox { label = "ttt_shop_vam_sync (def. 0)", repconvar = "rep_ttt_shop_vam_sync", parent = rslst }
     rslst:AddItem(rsvsync)
+
+    local rszsync = xlib.makecheckbox { label = "ttt_shop_zom_sync (def. 0)", repconvar = "rep_ttt_shop_zom_sync", parent = rslst }
+    rslst:AddItem(rszsync)
 
     local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
     rslst:AddItem(innlbl)
@@ -1062,13 +1068,13 @@ local function AddEquipmentCreditsModule()
 
     --Traitor Credits
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 220)
+    ectcclp:SetSize(390, 245)
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 220)
+    ectclst:SetSize(390, 245)
     ectclst:SetSpacing(5)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
@@ -1082,6 +1088,9 @@ local function AddEquipmentCreditsModule()
 
     local ectacs = xlib.makeslider { label = "ttt_asn_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_asn_credits_starting", parent = ectclst }
     ectclst:AddItem(ectacs)
+
+    local ecvccs = xlib.makeslider { label = "ttt_vam_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vam_credits_starting", parent = ectclst }
+    ectclst:AddItem(ecvccs)
 
     local ectcab = xlib.makecheckbox { label = "ttt_credits_alonebonus (def. 1)", repconvar = "rep_ttt_credits_alonebonus", parent = ectclst }
     ectclst:AddItem(ectcab)
@@ -1135,32 +1144,15 @@ local function AddEquipmentCreditsModule()
     local ecsccs = xlib.makeslider { label = "ttt_swa_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swa_credits_starting", parent = ecjclst }
     ecjclst:AddItem(ecsccs)
 
-    --Monsters Credits
-    local ecmcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecmcclp:SetSize(390, 50)
-    ecmcclp:SetExpanded(0)
-    ecmcclp:SetLabel("Monster Credits")
-
-    local ecmclst = vgui.Create("DPanelList", ecmcclp)
-    ecmclst:SetPos(5, 25)
-    ecmclst:SetSize(390, 50)
-    ecmclst:SetSpacing(5)
-
-    local eczccs = xlib.makeslider { label = "ttt_zom_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zom_credits_starting", parent = ecmclst }
-    ecmclst:AddItem(eczccs)
-
-    local ecvccs = xlib.makeslider { label = "ttt_vam_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vam_credits_starting", parent = ecmclst }
-    ecmclst:AddItem(ecvccs)
-
     --Other Credits
     local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecocclp:SetSize(390, 50)
+    ecocclp:SetSize(390, 75)
     ecocclp:SetExpanded(0)
     ecocclp:SetLabel("Other Credits")
 
     local ecoclst = vgui.Create("DPanelList", ecocclp)
     ecoclst:SetPos(5, 25)
-    ecoclst:SetSize(390, 50)
+    ecoclst:SetSize(390, 75)
     ecoclst:SetSpacing(5)
 
     local ecmccs = xlib.makeslider { label = "ttt_mer_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_mer_credits_starting", parent = ecoclst }
@@ -1168,6 +1160,9 @@ local function AddEquipmentCreditsModule()
 
     local eckccs = xlib.makeslider { label = "ttt_kil_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_kil_credits_starting", parent = ecoclst }
     ecoclst:AddItem(eckccs)
+
+    local eczccs = xlib.makeslider { label = "ttt_zom_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zom_credits_starting", parent = ecoclst }
+    ecoclst:AddItem(eczccs)
 
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
     xgui.addSubModule("Equipment Credits", ecpnl, nil, "terrortown_settings")
