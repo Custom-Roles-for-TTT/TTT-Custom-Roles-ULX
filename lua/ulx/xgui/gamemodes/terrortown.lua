@@ -226,13 +226,13 @@ end
 
 local function AddSpecialistInnocentSettings(gppnl)
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 470)
+    spinnclp:SetSize(390, 540)
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 470)
+    spinnlst:SetSize(390, 540)
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -294,6 +294,15 @@ local function AddSpecialistInnocentSettings(gppnl)
 
     local minvet = xlib.makeslider { label = "ttt_veteran_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_min_players", parent = spinnlst }
     spinnlst:AddItem(minvet)
+
+    local hasdoc = xlib.makecheckbox { label = "ttt_Doctor_enabled (def. 0)", repconvar = "rep_ttt_doctor_enabled", parent = spinnlst }
+    spinnlst:AddItem(hasdoc)
+
+    local weightdoc = xlib.makeslider { label = "ttt_doctor_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_doctor_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weightdoc)
+
+    local mindoc = xlib.makeslider { label = "ttt_doctor_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_doctor_min_players", parent = spinnlst }
+    spinnlst:AddItem(mindoc)
 end
 
 local function AddIndependentRoleSettings(gppnl)
@@ -485,13 +494,13 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 560)
+    innpropclp:SetSize(390, 605)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 560)
+    innproplst:SetSize(390, 605)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -568,6 +577,12 @@ local function AddInnocentProperties(gppnl)
 
     local vetheal = xlib.makecheckbox { label = "ttt_veteran_full_heal (def. 1)", repconvar = "rep_ttt_veteran_full_heal", parent = innproplst }
     innproplst:AddItem(vetheal)
+
+    local doclbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Doctor settings:", parent = innproplst }
+    innproplst:AddItem(doclbl)
+
+    local docmode = xlib.makeslider { label = "ttt_doctor_mode (def. 0)", min = 0, max = 1, repconvar = "rep_ttt_doctor_mode", parent = innproplst }
+    innproplst:AddItem(docmode)
 end
 
 local function AddJesterRoleProperties(gppnl)
@@ -1154,7 +1169,7 @@ local function AddEquipmentCreditsModule()
 
     --Other Credits
     local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecocclp:SetSize(390, 50)
+    ecocclp:SetSize(390, 75)
     ecocclp:SetExpanded(0)
     ecocclp:SetLabel("Other Credits")
 
@@ -1165,6 +1180,9 @@ local function AddEquipmentCreditsModule()
 
     local ecmccs = xlib.makeslider { label = "ttt_mer_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_mer_credits_starting", parent = ecoclst }
     ecoclst:AddItem(ecmccs)
+
+    local ecdccs = xlib.makeslider { label = "ttt_doc_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_doc_credits_starting", parent = ecoclst }
+    ecoclst:AddItem(ecdccs)
 
     local eckccs = xlib.makeslider { label = "ttt_kil_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_kil_credits_starting", parent = ecoclst }
     ecoclst:AddItem(eckccs)
