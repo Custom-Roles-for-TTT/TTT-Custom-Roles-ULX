@@ -295,7 +295,7 @@ local function AddSpecialistInnocentSettings(gppnl)
     local minvet = xlib.makeslider { label = "ttt_veteran_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_min_players", parent = spinnlst }
     spinnlst:AddItem(minvet)
 
-    local hasdoc = xlib.makecheckbox { label = "ttt_Doctor_enabled (def. 0)", repconvar = "rep_ttt_doctor_enabled", parent = spinnlst }
+    local hasdoc = xlib.makecheckbox { label = "ttt_doctor_enabled (def. 0)", repconvar = "rep_ttt_doctor_enabled", parent = spinnlst }
     spinnlst:AddItem(hasdoc)
 
     local weightdoc = xlib.makeslider { label = "ttt_doctor_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_doctor_spawn_weight", parent = spinnlst }
