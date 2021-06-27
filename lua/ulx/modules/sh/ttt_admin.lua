@@ -319,6 +319,9 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 if v:HasWeapon("weapon_hyp_brainwash") then
                     v:StripWeapon("weapon_hyp_brainwash")
                 end
+                if v:HasWeapon("weapon_bod_bodysnatch") then
+                    v:StripWeapon("weapon_bod_bodysnatch")
+                end
                 if v:HasWeapon("weapon_kil_knife") then
                     v:StripWeapon("weapon_kil_knife")
                 end
