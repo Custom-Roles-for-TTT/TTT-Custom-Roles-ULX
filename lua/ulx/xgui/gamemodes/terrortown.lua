@@ -397,7 +397,7 @@ end
 
 local function AddMonsterSettings(gppnl)
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monclp:SetSize(390, 185)
+    monclp:SetSize(390, 50)
     monclp:SetExpanded(1)
     monclp:SetLabel("Monster Settings")
 
@@ -629,6 +629,9 @@ local function AddJesterRoleProperties(gppnl)
     local clobon = xlib.makeslider { label = "ttt_clown_damage_bonus (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_clown_damage_bonus", parent = jesproplst }
     jesproplst:AddItem(clobon)
 
+    local cloac = xlib.makeslider { label = "ttt_clown_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_activation_credits", parent = jesproplst }
+    jesproplst:AddItem(cloac)
+
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
 
@@ -764,13 +767,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 765)
+    rspnl:SetSize(390, 815)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 765)
+    rslst:SetSize(390, 815)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -862,6 +865,15 @@ local function AddRoleShop(gppnl)
 
     local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
     rslst:AddItem(rseswa)
+
+    local rspclo = xlib.makeslider { label = "ttt_shop_random_clo_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_clo_percent", parent = rslst }
+    rslst:AddItem(rspclo)
+
+    local rseclo = xlib.makecheckbox { label = "ttt_shop_random_clo_enabled (def. 0)", repconvar = "rep_ttt_shop_random_clo_enabled", parent = rslst }
+    rslst:AddItem(rseclo)
+
+    local rscmode = xlib.makeslider { label = "ttt_shop_clo_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_clo_mode", parent = rslst }
+    rslst:AddItem(rscmode)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
     rslst:AddItem(indlbl)
