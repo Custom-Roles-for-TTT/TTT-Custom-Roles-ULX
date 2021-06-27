@@ -578,13 +578,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 400)
+    jespropclp:SetSize(390, 505)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 400)
+    jesproplst:SetSize(390, 505)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -634,6 +634,21 @@ local function AddJesterRoleProperties(gppnl)
 
     local begrev = xlib.makecheckbox { label = "ttt_reveal_beggar_change (def. 1)", repconvar = "rep_ttt_reveal_beggar_change", parent = jesproplst }
     jesproplst:AddItem(begrev)
+
+    local begres = xlib.makecheckbox { label = "ttt_beggar_respawn (def. 0)", repconvar = "rep_ttt_beggar_respawn", parent = jesproplst }
+    jesproplst:AddItem(begres)
+
+    local begresd = xlib.makeslider { label = "ttt_beggar_respawn_delay (def. 3)", min = 0, max = 30, repconvar = "rep_ttt_beggar_respawn_delay", parent = jesproplst }
+    jesproplst:AddItem(begresd)
+
+    local begnm = xlib.makeslider { label = "ttt_beggar_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_beggar_notify_mode", parent = jesproplst }
+    jesproplst:AddItem(begnm)
+
+    local begns = xlib.makecheckbox { label = "ttt_beggar_notify_sound (def. 1)", repconvar = "rep_ttt_beggar_notify_sound", parent = jesproplst }
+    jesproplst:AddItem(begns)
+
+    local begnc = xlib.makecheckbox { label = "ttt_beggar_notify_confetti (def. 1)", repconvar = "rep_ttt_beggar_notify_confetti", parent = jesproplst }
+    jesproplst:AddItem(begnc)
 
     local bodlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Bodysnatcher settings:", parent = jesproplst }
     jesproplst:AddItem(bodlbl)
