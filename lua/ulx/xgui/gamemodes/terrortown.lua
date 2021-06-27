@@ -641,13 +641,13 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 345)
+    indpropclp:SetSize(390, 395)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
     local indproplst = vgui.Create("DPanelList", indpropclp)
     indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, 545)
+    indproplst:SetSize(390, 595)
     indproplst:SetSpacing(5)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
@@ -701,8 +701,14 @@ local function AddIndependentRoleProperties(gppnl)
     local zomlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Zombie settings:", parent = indproplst }
     indproplst:AddItem(zomlbl)
 
-    local zomatra = xlib.makecheckbox { label = "ttt_zombies_are_monsters (def. 0)", repconvar = "rep_ttt_zombies_are_monsters", parent = indproplst }
+    local zomamon = xlib.makecheckbox { label = "ttt_zombies_are_monsters (def. 0)", repconvar = "rep_ttt_zombies_are_monsters", parent = indproplst }
+    indproplst:AddItem(zomamon)
+
+    local zomatra = xlib.makecheckbox { label = "ttt_zombies_are_traitors (def. 0)", repconvar = "rep_ttt_zombies_are_traitors", parent = indproplst }
     indproplst:AddItem(zomatra)
+
+    local zomchance = xlib.makeslider { label = "ttt_zombie_round_chance (def. 0.1)", min = 0, max = 1, decimal = 2, repconvar = "ttt_zombie_round_chance", parent = indproplst }
+    indproplst:AddItem(zomchance)
 
     local zomlen = xlib.makecheckbox { label = "ttt_zombie_leap_enable (def. 1)", repconvar = "rep_ttt_zombie_leap_enable", parent = indproplst }
     indproplst:AddItem(zomlen)
@@ -743,13 +749,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 740)
+    rspnl:SetSize(390, 810)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 740)
+    rslst:SetSize(390, 810)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -838,6 +844,15 @@ local function AddRoleShop(gppnl)
 
     local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
     rslst:AddItem(rseswa)
+
+    local rspclo = xlib.makeslider { label = "ttt_shop_random_clo_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_clo_percent", parent = rslst }
+    rslst:AddItem(rspclo)
+
+    local rseclo = xlib.makecheckbox { label = "ttt_shop_random_clo_enabled (def. 0)", repconvar = "rep_ttt_shop_random_clo_enabled", parent = rslst }
+    rslst:AddItem(rseclo)
+
+    local rscmode = xlib.makeslider { label = "ttt_shop_clo_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_shop_clo_mode", parent = rslst }
+    rslst:AddItem(rscmode)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
     rslst:AddItem(indlbl)
