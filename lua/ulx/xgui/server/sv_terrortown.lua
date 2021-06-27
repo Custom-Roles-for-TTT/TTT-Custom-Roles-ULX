@@ -35,6 +35,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_impersonator_enabled", "rep_ttt_impersonator_enabled", GetConVarNumber("ttt_impersonator_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_impersonator_spawn_weight", "rep_ttt_impersonator_spawn_weight", GetConVarNumber("ttt_impersonator_spawn_weight"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_impersonator_min_players", "rep_ttt_impersonator_min_players", GetConVarNumber("ttt_impersonator_min_players"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_assassin_enabled", "rep_ttt_assassin_enabled", GetConVarNumber("ttt_assassin_enabled"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_assassin_spawn_weight", "rep_ttt_assassin_spawn_weight", GetConVarNumber("ttt_assassin_spawn_weight"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_assassin_min_players", "rep_ttt_assassin_min_players", GetConVarNumber("ttt_assassin_min_players"), false, false, "xgui_gmsettings")
 
         --special innocent settings
         ULib.replicatedWritableCvar("ttt_special_innocent_pct", "rep_ttt_special_innocent_pct", GetConVarNumber("ttt_special_innocent_pct"), false, false, "xgui_gmsettings")
@@ -57,9 +60,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_veteran_enabled", "rep_ttt_veteran_enabled", GetConVarNumber("ttt_veteran_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_spawn_weight", "rep_ttt_veteran_spawn_weight", GetConVarNumber("ttt_veteran_spawn_weight"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_min_players", "rep_ttt_veteran_min_players", GetConVarNumber("ttt_veteran_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_enabled", "rep_ttt_assassin_enabled", GetConVarNumber("ttt_assassin_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_spawn_weight", "rep_ttt_assassin_spawn_weight", GetConVarNumber("ttt_assassin_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_min_players", "rep_ttt_assassin_min_players", GetConVarNumber("ttt_assassin_min_players"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_doctor_enabled", "rep_ttt_doctor_enabled", GetConVarNumber("ttt_doctor_enabled"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_doctor_spawn_weight", "rep_ttt_doctor_spawn_weight", GetConVarNumber("ttt_doctor_spawn_weight"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_doctor_min_players", "rep_ttt_doctor_min_players", GetConVarNumber("ttt_assassin_min_players"), false, false, "xgui_gmsettings")
 
         --independent role settings
         ULib.replicatedWritableCvar("ttt_independent_chance", "rep_ttt_independent_chance", GetConVarNumber("ttt_independent_chance"), false, false, "xgui_gmsettings")
@@ -140,6 +143,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_deputy_damage_penalty", "rep_ttt_deputy_damage_penalty", GetConVarNumber("ttt_deputy_damage_penalty"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_damage_bonus", "rep_ttt_veteran_damage_bonus", GetConVarNumber("ttt_veteran_damage_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_full_heal", "rep_ttt_veteran_full_heal", GetConVarNumber("ttt_veteran_full_heal"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_doctor_mode", "rep_ttt_doctor_mode", GetConVarNumber("ttt_doctor_mode"), false, false, "xgui_gmsettings")
 
         --jester properties
         ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
@@ -298,6 +302,7 @@ local function init()
 
         --other credits
         ULib.replicatedWritableCvar("ttt_mer_credits_starting", "rep_ttt_mer_credits_starting", GetConVarNumber("ttt_mer_credits_starting"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_doc_credits_starting", "rep_ttt_doc_credits_starting", GetConVarNumber("ttt_doc_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_kil_credits_starting", "rep_ttt_kil_credits_starting", GetConVarNumber("ttt_kil_credits_starting"), false, false, "xgui_gmsettings")
 
         --sprint
