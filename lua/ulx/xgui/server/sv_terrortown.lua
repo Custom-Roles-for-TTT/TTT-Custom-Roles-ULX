@@ -299,7 +299,7 @@ local function init()
 
         --other credits
         ULib.replicatedWritableCvar("ttt_mer_credits_starting", "rep_ttt_mer_credits_starting", GetConVarNumber("ttt_mer_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_kil_credits_starting", "rep_ttt_kil_credits_starting", GetConVarNumber("ttt_kil_credits_starting"), false, false, "xgui_gmsettings") ULib.replicatedWritableCvar("ttt_doc_credits_starting", "rep_ttt_doc_credits_starting", GetConVarNumber("ttt_doc_credits_starting"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_kil_credits_starting", "rep_ttt_kil_credits_starting", GetConVarNumber("ttt_kil_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zom_credits_starting", "rep_ttt_zom_credits_starting", GetConVarNumber("ttt_zom_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_doc_credits_starting", "rep_ttt_doc_credits_starting", GetConVarNumber("ttt_doc_credits_starting"), false, false, "xgui_gmsettings")
 
