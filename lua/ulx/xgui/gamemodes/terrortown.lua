@@ -172,13 +172,13 @@ end
 
 local function AddSpecialistTraitorSettings(gppnl)
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
-    sptraclp:SetSize(390, 330)
+    sptraclp:SetSize(390, 470)
     sptraclp:SetExpanded(1)
     sptraclp:SetLabel("Specialist Traitor Settings")
 
     local sptralst = vgui.Create("DPanelList", sptraclp)
     sptralst:SetPos(5, 25)
-    sptralst:SetSize(390, 330)
+    sptralst:SetSize(390, 470)
     sptralst:SetSpacing(5)
 
     local stpercet = xlib.makeslider { label = "ttt_special_traitor_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_pct", parent = sptralst }
@@ -222,6 +222,24 @@ local function AddSpecialistTraitorSettings(gppnl)
 
     local minvam = xlib.makeslider { label = "ttt_vampire_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vampire_min_players", parent = sptralst }
     sptralst:AddItem(minvam)
+
+    local hasqua = xlib.makecheckbox { label = "ttt_quack_enabled (def. 0)", repconvar = "rep_ttt_quack_enabled", parent = sptralst }
+    sptralst:AddItem(hasqua)
+
+    local weightqua = xlib.makeslider { label = "ttt_quack_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_quack_spawn_weight", parent = sptralst }
+    sptralst:AddItem(weightqua)
+
+    local minqua = xlib.makeslider { label = "ttt_quack_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_quack_min_players", parent = sptralst }
+    sptralst:AddItem(minqua)
+
+    local haspar = xlib.makecheckbox { label = "ttt_parasite_enabled (def. 0)", repconvar = "rep_ttt_parasite_enabled", parent = sptralst }
+    sptralst:AddItem(haspar)
+
+    local weightpar = xlib.makeslider { label = "ttt_parasite_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_parasite_spawn_weight", parent = sptralst }
+    sptralst:AddItem(weightpar)
+
+    local minpar = xlib.makeslider { label = "ttt_parasite_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_parasite_min_players", parent = sptralst }
+    sptralst:AddItem(minpar)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
@@ -785,13 +803,13 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 815)
+    rspnl:SetSize(390, 955)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 815)
+    rslst:SetSize(390, 955)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
@@ -830,6 +848,18 @@ local function AddRoleShop(gppnl)
     local rsevam = xlib.makecheckbox { label = "ttt_shop_random_vam_enabled (def. 0)", repconvar = "rep_ttt_shop_random_vam_enabled", parent = rslst }
     rslst:AddItem(rsevam)
 
+    local rspqua = xlib.makeslider { label = "ttt_shop_random_qua_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_qua_percent", parent = rslst }
+    rslst:AddItem(rspqua)
+
+    local rsequa = xlib.makecheckbox { label = "ttt_shop_random_qua_enabled (def. 0)", repconvar = "rep_ttt_shop_random_qua_enabled", parent = rslst }
+    rslst:AddItem(rsequa)
+
+    local rsppar = xlib.makeslider { label = "ttt_shop_random_par_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_par_percent", parent = rslst }
+    rslst:AddItem(rsppar)
+
+    local rsepar = xlib.makecheckbox { label = "ttt_shop_random_par_enabled (def. 0)", repconvar = "rep_ttt_shop_random_par_enabled", parent = rslst }
+    rslst:AddItem(rsepar)
+
     local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
     rslst:AddItem(rshsync)
 
@@ -844,6 +874,12 @@ local function AddRoleShop(gppnl)
 
     local rszsync = xlib.makecheckbox { label = "ttt_shop_zom_sync (def. 0)", repconvar = "rep_ttt_shop_zom_sync", parent = rslst }
     rslst:AddItem(rszsync)
+
+    local rsqsync = xlib.makecheckbox { label = "ttt_shop_qua_sync (def. 0)", repconvar = "rep_ttt_shop_qua_sync", parent = rslst }
+    rslst:AddItem(rsqsync)
+
+    local rspsync = xlib.makecheckbox { label = "ttt_shop_par_sync (def. 0)", repconvar = "rep_ttt_shop_par_sync", parent = rslst }
+    rslst:AddItem(rspsync)
 
     local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
     rslst:AddItem(innlbl)
@@ -1116,13 +1152,13 @@ local function AddEquipmentCreditsModule()
 
     --Traitor Credits
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 245)
+    ectcclp:SetSize(390, 290)
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 245)
+    ectclst:SetSize(390, 290)
     ectclst:SetSpacing(5)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
@@ -1137,8 +1173,14 @@ local function AddEquipmentCreditsModule()
     local ectacs = xlib.makeslider { label = "ttt_asn_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_asn_credits_starting", parent = ectclst }
     ectclst:AddItem(ectacs)
 
-    local ecvccs = xlib.makeslider { label = "ttt_vam_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vam_credits_starting", parent = ectclst }
+    local ecvccs = xlib.makeslider { label = "ttt_vam_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_vam_credits_starting", parent = ectclst }
     ectclst:AddItem(ecvccs)
+
+    local ecqacs = xlib.makeslider { label = "ttt_qua_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_qua_credits_starting", parent = ectclst }
+    ectclst:AddItem(ecqacs)
+
+    local ecpccs = xlib.makeslider { label = "ttt_par_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_par_credits_starting", parent = ectclst }
+    ectclst:AddItem(ecpccs)
 
     local ectcab = xlib.makecheckbox { label = "ttt_credits_alonebonus (def. 1)", repconvar = "rep_ttt_credits_alonebonus", parent = ectclst }
     ectclst:AddItem(ectcab)

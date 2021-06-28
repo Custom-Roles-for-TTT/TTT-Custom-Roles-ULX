@@ -10,29 +10,9 @@ ulx.target_role = {}
 function UpdateRoles()
     table.Empty(ulx.target_role)
 
-    table.insert(ulx.target_role, "innocent") -- Add "innocent" to the table.
-    table.insert(ulx.target_role, "traitor") -- Add "traitor" to the table.
-    table.insert(ulx.target_role, "detective") -- Add "detective" to the table.
-    table.insert(ulx.target_role, "jester") -- Add "jester" to the table.
-    table.insert(ulx.target_role, "swapper") -- Add "innocent" to the table.
-    table.insert(ulx.target_role, "glitch") -- Add "glitch" to the table.
-    table.insert(ulx.target_role, "phantom") -- Add "phantom" to the table.
-    table.insert(ulx.target_role, "hypnotist") -- Add "hypnotist" to the table.
-    table.insert(ulx.target_role, "revenger") -- Add "revenger" to the table.
-    table.insert(ulx.target_role, "drunk") -- Add "drunk" to the table.
-    table.insert(ulx.target_role, "clown") -- Add "clown" to the table.
-    table.insert(ulx.target_role, "deputy") -- Add "deputy" to the table.
-    table.insert(ulx.target_role, "impersonator") -- Add "impersonator" to the table.
-    table.insert(ulx.target_role, "beggar") -- Add "beggar" to the table.
-    table.insert(ulx.target_role, "oldman") -- Add "oldman" to the table.
-    table.insert(ulx.target_role, "mercenary") -- Add "mercenary" to the table.
-    table.insert(ulx.target_role, "bodysnatcher") -- Add "bodysnatcher" to the table.
-    table.insert(ulx.target_role, "veteran") -- Add "veteran" to the table.
-    table.insert(ulx.target_role, "assassin") -- Add "assassin" to the table.
-    table.insert(ulx.target_role, "killer") -- Add "killer" to the table.
-    table.insert(ulx.target_role, "zombie") -- Add "zombie" to the table.
-    table.insert(ulx.target_role, "vampire") -- Add "vampire" to the table.
-    table.insert(ulx.target_role, "doctor") -- Add "doctor" to the table.
+    for wrole = 0, ROLE_MAX do
+        table.insert(ulx.target_role, ROLE_STRINGS[wrole])
+    end
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -676,29 +656,9 @@ ulx.next_round = {}
 local function updateNextround()
     table.Empty(ulx.next_round) -- Don't reassign so we don't lose our refs
 
-    table.insert(ulx.next_round, "innocent") -- Add "innocent" to the table.
-    table.insert(ulx.next_round, "traitor") -- Add "traitor" to the table.
-    table.insert(ulx.next_round, "detective") -- Add "detective" to the table.
-    table.insert(ulx.next_round, "jester") -- Add "jester" to the table.
-    table.insert(ulx.next_round, "swapper") -- Add "innocent" to the table.
-    table.insert(ulx.next_round, "glitch") -- Add "glitch" to the table.
-    table.insert(ulx.next_round, "phantom") -- Add "phantom" to the table.
-    table.insert(ulx.next_round, "hypnotist") -- Add "hypnotist" to the table.
-    table.insert(ulx.next_round, "revenger") -- Add "revenger" to the table.
-    table.insert(ulx.next_round, "drunk") -- Add "drunk" to the table.
-    table.insert(ulx.next_round, "clown") -- Add "clown" to the table.
-    table.insert(ulx.next_round, "deputy") -- Add "deputy" to the table.
-    table.insert(ulx.next_round, "impersonator") -- Add "impersonator" to the table.
-    table.insert(ulx.next_round, "beggar") -- Add "beggar" to the table.
-    table.insert(ulx.next_round, "oldman") -- Add "oldman" to the table.
-    table.insert(ulx.next_round, "mercenary") -- Add "mercenary" to the table.
-    table.insert(ulx.next_round, "bodysnatcher") -- Add "bodysnatcher" to the table.
-    table.insert(ulx.next_round, "veteran") -- Add "veteran" to the table.
-    table.insert(ulx.next_round, "assassin") -- Add "assassin" to the table.
-    table.insert(ulx.next_round, "killer") -- Add "killer" to the table.
-    table.insert(ulx.next_round, "zombie") -- Add "zombie" to the table.
-    table.insert(ulx.next_round, "vampire") -- Add "vampire" to the table.
-    table.insert(ulx.next_round, "doctor") -- Add "doctor" to the table.
+    for wrole = 0, ROLE_MAX do
+        table.insert(ulx.next_round, ROLE_STRINGS[wrole])
+    end
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -728,6 +688,8 @@ local PlysMarkedForKiller = {}
 local PlysMarkedForZombie = {}
 local PlysMarkedForVampire = {}
 local PlysMarkedForDoctor = {}
+local PlysMarkedForQuack = {}
+local PlysMarkedForParasite = {}
 
 local function MarkedElsewhere(id)
     if (PlysMarkedForTraitor[id] == true or
@@ -752,7 +714,9 @@ local function MarkedElsewhere(id)
             PlysMarkedForKiller[id] == true or
             PlysMarkedForZombie[id] == true or
             PlysMarkedForVampire[id] == true or
-            PlysMarkedForDoctor[id] == true) then
+            PlysMarkedForDoctor[id] == true or
+            PlysMarkedForQuack[id] == true or
+            PlysMarkedForParasite[id] == true) then
         return true
     else
         return false
@@ -927,6 +891,20 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                     PlysMarkedForDoctor[id] = true
                     table.insert(affected_plys, v)
                 end
+            elseif next_round == "quack" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForQuack[id] = true
+                    table.insert(affected_plys, v)
+                end
+            elseif next_round == "parasite" then
+                if MarkedElsewhere(id) then
+                    ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                else
+                    PlysMarkedForParasite[id] = true
+                    table.insert(affected_plys, v)
+                end
             elseif next_round == "unmark" then
                 if PlysMarkedForInnocent[id] == true then
                     PlysMarkedForInnocent[id] = false
@@ -1018,6 +996,14 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 end
                 if PlysMarkedForDoctor[id] == true then
                     PlysMarkedForDoctor[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForQuack[id] == true then
+                    PlysMarkedForQuack[id] = false
+                    table.insert(affected_plys, v)
+                end
+                if PlysMarkedForParasite[id] == true then
+                    PlysMarkedForParasite[id] = false
                     table.insert(affected_plys, v)
                 end
             end
@@ -1289,6 +1275,28 @@ local function DoctorMarkedPlayers()
     end
 end
 hook.Add("TTTSelectRoles", "Admin_Round_Doctor", DoctorMarkedPlayers)
+
+local function QuackMarkedPlayers()
+    for k, v in pairs(PlysMarkedForQuack) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_QUACK)
+            PlysMarkedForQuack[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Quack", QuackMarkedPlayers)
+
+local function ParasiteMarkedPlayers()
+    for k, v in pairs(PlysMarkedForParasite) do
+        if v then
+            local ply = player.GetBySteamID64(k)
+            ply:SetRole(ROLE_PARASITE)
+            PlysMarkedForParasite[k] = false
+        end
+    end
+end
+hook.Add("TTTSelectRoles", "Admin_Round_Parasite", ParasiteMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
