@@ -321,6 +321,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                     elseif mode == DOCTOR_MODE_EMT then
                         v:Give("weapon_doc_defib")
                     end
+                elseif target_role == "quack" then
+                    v:Give("weapon_qua_bomb_station")
                 end
 
                 table.insert(affected_plys, v)
