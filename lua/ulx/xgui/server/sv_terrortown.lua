@@ -126,6 +126,10 @@ local function init()
         ULib.replicatedWritableCvar("ttt_vampire_prime_death_mode", "rep_ttt_vampire_prime_death_mode", GetConVarNumber("ttt_vampire_prime_death_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_prime_only_convert", "rep_ttt_vampire_prime_only_convert", GetConVarNumber("ttt_vampire_prime_only_convert"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_vampire_vision_enable", "rep_ttt_vampire_vision_enable", GetConVarNumber("ttt_vampire_vision_enable"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_parasite_infection_time", "rep_ttt_parasite_infection_time", GetConVarNumber("ttt_parasite_infection_time"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_parasite_respawn_mode", "rep_ttt_parasite_respawn_mode", GetConVarNumber("ttt_parasite_respawn_mode"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_parasite_respawn_health", "rep_ttt_parasite_respawn_health", GetConVarNumber("ttt_parasite_respawn_health"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_parasite_announce_infection", "rep_ttt_parasite_announce_infection", GetConVarNumber("ttt_parasite_announce_infection"), false, false, "xgui_gmsettings")
 
         --innocent properties
         ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
@@ -199,6 +203,7 @@ local function init()
 
         --other custom role properties
         ULib.replicatedWritableCvar("ttt_single_deputy_impersonator", "rep_ttt_single_deputy_impersonator", GetConVarNumber("ttt_single_deputy_impersonator"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_single_doctor_quack", "rep_ttt_single_doctor_quack", GetConVarNumber("ttt_single_doctor_quack"), false, false, "xgui_gmsettings")
 
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")

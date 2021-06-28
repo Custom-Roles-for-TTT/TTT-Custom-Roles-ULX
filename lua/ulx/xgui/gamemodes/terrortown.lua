@@ -440,13 +440,13 @@ end
 
 local function AddTraitorProperties(gppnl)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    trapropclp:SetSize(390, 470)
+    trapropclp:SetSize(390, 570)
     trapropclp:SetExpanded(1)
     trapropclp:SetLabel("Traitor Properties")
 
     local traproplst = vgui.Create("DPanelList", trapropclp)
     traproplst:SetPos(5, 25)
-    traproplst:SetSize(390, 470)
+    traproplst:SetSize(390, 570)
     traproplst:SetSpacing(5)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
@@ -511,6 +511,22 @@ local function AddTraitorProperties(gppnl)
 
     local vamve = xlib.makecheckbox { label = "ttt_vampire_vision_enable (def. 0)", repconvar = "rep_ttt_vampire_vision_enable", parent = traproplst }
     traproplst:AddItem(vamve)
+
+    local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
+    traproplst:AddItem(parlbl)
+
+    local partim = xlib.makeslider { label = "ttt_parasite_infection_time (def. 90)", min = 0, max = 300, repconvar = "rep_ttt_parasite_infection_time", parent = traproplst }
+    traproplst:AddItem(partim)
+
+    local parrmd = xlib.makeslider { label = "ttt_parasite_respawn_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_parasite_respawn_mode", parent = traproplst }
+    traproplst:AddItem(parrmd)
+
+    local parhea = xlib.makeslider { label = "ttt_parasite_respawn_health (def. 100)", min = 0, max = 100, repconvar = "rep_ttt_parasite_respawn_health", parent = traproplst }
+    traproplst:AddItem(parhea)
+
+    local parann = xlib.makecheckbox { label = "ttt_parasite_announce_infection (def. 0)", repconvar = "rep_ttt_parasite_announce_infection", parent = traproplst }
+    traproplst:AddItem(parann)
+
 end
 
 local function AddInnocentProperties(gppnl)
@@ -788,17 +804,20 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 25)
+    crpropclp:SetSize(390, 50)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 25)
+    crproplst:SetSize(390, 50)
     crproplst:SetSpacing(5)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
+
+    local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
+    crproplst:AddItem(singdocqua)
 end
 
 local function AddRoleShop(gppnl)

@@ -7,16 +7,17 @@ end
 
 --[Ulx Completes]------------------------------------------------------------------------------
 ulx.target_role = {}
-function UpdateRoles()
+local function UpdateRoles()
     table.Empty(ulx.target_role)
 
-    for wrole = 0, ROLE_MAX do
+    for wrole = 0, ROLE_MAX or 24 do
         table.insert(ulx.target_role, ROLE_STRINGS[wrole])
     end
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
-UpdateRoles()
+--updateNextround()
+--UpdateRoles()
 
 --[End]----------------------------------------------------------------------------------------
 
@@ -665,7 +666,6 @@ local function updateNextround()
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
-updateNextround() -- Init
 
 local PlysMarkedForInnocent = {}
 local PlysMarkedForTraitor = {}
