@@ -624,13 +624,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 505)
+    jespropclp:SetSize(390, 565)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 505)
+    jesproplst:SetSize(390, 565)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -677,6 +677,12 @@ local function AddJesterRoleProperties(gppnl)
 
     local cloac = xlib.makeslider { label = "ttt_clown_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_activation_credits", parent = jesproplst }
     jesproplst:AddItem(cloac)
+
+    local clohwa = xlib.makecheckbox { label = "ttt_clown_hide_when_active (def. 0)", repconvar = "rep_ttt_clown_hide_when_active", parent = jesproplst }
+    jesproplst:AddItem(clohwa)
+
+    local closti = xlib.makecheckbox { label = "ttt_clown_show_target_icon (def. 0)", repconvar = "rep_ttt_clown_show_target_icon", parent = jesproplst }
+    jesproplst:AddItem(closti)
 
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
