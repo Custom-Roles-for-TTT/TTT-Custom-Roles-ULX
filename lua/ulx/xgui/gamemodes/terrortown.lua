@@ -717,13 +717,13 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 595)
+    indpropclp:SetSize(390, 730)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
     local indproplst = vgui.Create("DPanelList", indpropclp)
     indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, 595)
+    indproplst:SetSize(390, 730)
     indproplst:SetSpacing(5)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
@@ -803,6 +803,24 @@ local function AddIndependentRoleProperties(gppnl)
 
     local zompow = xlib.makecheckbox { label = "ttt_zombie_prime_only_weapons (def. 1)", repconvar = "rep_ttt_zombie_prime_only_weapons", parent = indproplst }
     indproplst:AddItem(zompow)
+
+    local zompadmg = xlib.makeslider { label = "ttt_zombie_prime_attack_damage (def. 65)", min = 1, max = 100, repconvar = "rep_ttt_zombie_prime_attack_damage", parent = indproplst }
+    indproplst:AddItem(zompadmg)
+
+    local zompadel = xlib.makeslider { label = "ttt_zombie_prime_attack_delay (def. 0.7)", min = 0.1, max = 3, decimal = 2, repconvar = "rep_ttt_zombie_prime_attack_delay", parent = indproplst }
+    indproplst:AddItem(zompadel)
+
+    local zompsb = xlib.makeslider { label = "ttt_zombie_prime_speed_bonus (def. 0.35)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_prime_speed_bonus", parent = indproplst }
+    indproplst:AddItem(zompsb)
+
+    local zomtadmg = xlib.makeslider { label = "ttt_zombie_thrall_attack_damage (def. 45)", min = 1, max = 100, repconvar = "rep_ttt_zombie_thrall_attack_damage", parent = indproplst }
+    indproplst:AddItem(zomtadmg)
+
+    local zomtadel = xlib.makeslider { label = "ttt_zombie_thrall_attack_delay (def. 1.4)", min = 0.1, max = 3, decimal = 2, repconvar = "rep_ttt_zombie_thrall_attack_delay", parent = indproplst }
+    indproplst:AddItem(zomtadel)
+
+    local zomtsb = xlib.makeslider { label = "ttt_zombie_thrall_speed_bonus (def. 0.15)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_thrall_speed_bonus", parent = indproplst }
+    indproplst:AddItem(zomtsb)
 
     local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 0)", repconvar = "rep_ttt_zombie_vision_enable", parent = indproplst }
     indproplst:AddItem(zomve)

@@ -201,6 +201,12 @@ local function init()
         ULib.replicatedWritableCvar("ttt_zombie_damage_penalty", "rep_ttt_zombie_damage_penalty", GetConVarNumber("ttt_zombie_damage_penalty"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_damage_reduction", "rep_ttt_zombie_damage_reduction", GetConVarNumber("ttt_zombie_damage_reduction"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_prime_only_weapons", "rep_ttt_zombie_prime_only_weapons", GetConVarNumber("ttt_zombie_prime_only_weapons"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_prime_attack_damage", "rep_ttt_zombie_prime_attack_damage", GetConVarNumber("ttt_zombie_prime_attack_damage"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_prime_attack_delay", "rep_ttt_zombie_prime_attack_delay", GetConVarNumber("ttt_zombie_prime_attack_delay"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_prime_speed_bonus", "rep_ttt_zombie_prime_speed_bonus", GetConVarNumber("ttt_zombie_prime_speed_bonus"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_thrall_attack_damage", "rep_ttt_zombie_thrall_attack_damage", GetConVarNumber("ttt_zombie_thrall_attack_damage"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_thrall_attack_delay", "rep_ttt_zombie_thrall_attack_delay", GetConVarNumber("ttt_zombie_thrall_attack_delay"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_zombie_thrall_speed_bonus", "rep_ttt_zombie_thrall_speed_bonus", GetConVarNumber("ttt_zombie_thrall_speed_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_zombie_vision_enable", "rep_ttt_zombie_vision_enable", GetConVarNumber("ttt_zombie_vision_enable"), false, false, "xgui_gmsettings")
 
         --other custom role properties
