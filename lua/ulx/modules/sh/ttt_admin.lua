@@ -1188,7 +1188,7 @@ local function OldManMarkedPlayers()
         end
     end
 end
-hook.Add("TTTSelectRoles", "Admin_Round_Old_Man", OldManMarkedPlayers)
+hook.Add("TTTSelectRoles", "Admin_Round_oldman", OldManMarkedPlayers)
 
 local function MercenaryMarkedPlayers()
     for k, v in pairs(PlysMarkedForMercenary) do

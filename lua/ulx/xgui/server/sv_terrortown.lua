@@ -26,86 +26,25 @@ local function init()
         ULib.replicatedWritableCvar("ttt_detective_min_players", "rep_ttt_detective_min_players", GetConVarNumber("ttt_detective_min_players"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_detective_karma_min", "rep_ttt_detective_karma_min", GetConVarNumber("ttt_detective_karma_min"), false, false, "xgui_gmsettings")
 
-        --special traitor settings
+        --role spawn parameters
         ULib.replicatedWritableCvar("ttt_special_traitor_pct", "rep_ttt_special_traitor_pct", GetConVarNumber("ttt_special_traitor_pct"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_special_traitor_chance", "rep_ttt_special_traitor_chance", GetConVarNumber("ttt_special_traitor_chance"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_hypnotist_enabled", "rep_ttt_hypnotist_enabled", GetConVarNumber("ttt_hypnotist_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_hypnotist_spawn_weight", "rep_ttt_hypnotist_spawn_weight", GetConVarNumber("ttt_hypnotist_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_hypnotist_min_players", "rep_ttt_hypnotist_min_players", GetConVarNumber("ttt_hypnotist_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_impersonator_enabled", "rep_ttt_impersonator_enabled", GetConVarNumber("ttt_impersonator_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_impersonator_spawn_weight", "rep_ttt_impersonator_spawn_weight", GetConVarNumber("ttt_impersonator_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_impersonator_min_players", "rep_ttt_impersonator_min_players", GetConVarNumber("ttt_impersonator_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_enabled", "rep_ttt_assassin_enabled", GetConVarNumber("ttt_assassin_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_spawn_weight", "rep_ttt_assassin_spawn_weight", GetConVarNumber("ttt_assassin_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_assassin_min_players", "rep_ttt_assassin_min_players", GetConVarNumber("ttt_assassin_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_vampire_enabled", "rep_ttt_vampire_enabled", GetConVarNumber("ttt_vampire_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_vampire_spawn_weight", "rep_ttt_vampire_spawn_weight", GetConVarNumber("ttt_vampire_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_vampire_min_players", "rep_ttt_vampire_min_players", GetConVarNumber("ttt_vampire_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_quack_enabled", "rep_ttt_quack_enabled", GetConVarNumber("ttt_quack_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_quack_spawn_weight", "rep_ttt_quack_spawn_weight", GetConVarNumber("ttt_quack_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_quack_min_players", "rep_ttt_quack_min_players", GetConVarNumber("ttt_quack_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_parasite_enabled", "rep_ttt_parasite_enabled", GetConVarNumber("ttt_parasite_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_parasite_spawn_weight", "rep_ttt_parasite_spawn_weight", GetConVarNumber("ttt_parasite_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_parasite_min_players", "rep_ttt_parasite_min_players", GetConVarNumber("ttt_parasite_min_players"), false, false, "xgui_gmsettings")
-
-        --special innocent settings
         ULib.replicatedWritableCvar("ttt_special_innocent_pct", "rep_ttt_special_innocent_pct", GetConVarNumber("ttt_special_innocent_pct"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_special_innocent_chance", "rep_ttt_special_innocent_chance", GetConVarNumber("ttt_special_innocent_chance"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_glitch_enabled", "rep_ttt_glitch_enabled", GetConVarNumber("ttt_glitch_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_glitch_spawn_weight", "rep_ttt_glitch_spawn_weight", GetConVarNumber("ttt_glitch_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_glitch_min_players", "rep_ttt_glitch_min_players", GetConVarNumber("ttt_glitch_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_phantom_enabled", "rep_ttt_phantom_enabled", GetConVarNumber("ttt_phantom_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_phantom_spawn_weight", "rep_ttt_phantom_spawn_weight", GetConVarNumber("ttt_phantom_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_phantom_min_players", "rep_ttt_phantom_min_players", GetConVarNumber("ttt_phantom_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_revenger_enabled", "rep_ttt_revenger_enabled", GetConVarNumber("ttt_revenger_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_revenger_spawn_weight", "rep_ttt_revenger_spawn_weight", GetConVarNumber("ttt_revenger_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_revenger_min_players", "rep_ttt_revenger_min_players", GetConVarNumber("ttt_revenger_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_deputy_enabled", "rep_ttt_deputy_enabled", GetConVarNumber("ttt_deputy_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_deputy_spawn_weight", "rep_ttt_deputy_spawn_weight", GetConVarNumber("ttt_deputy_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_deputy_min_players", "rep_ttt_deputy_min_players", GetConVarNumber("ttt_deputy_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_mercenary_enabled", "rep_ttt_mercenary_enabled", GetConVarNumber("ttt_mercenary_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_mercenary_spawn_weight", "rep_ttt_mercenary_spawn_weight", GetConVarNumber("ttt_mercenary_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_mercenary_min_players", "rep_ttt_mercenary_min_players", GetConVarNumber("ttt_mercenary_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_veteran_enabled", "rep_ttt_veteran_enabled", GetConVarNumber("ttt_veteran_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_veteran_spawn_weight", "rep_ttt_veteran_spawn_weight", GetConVarNumber("ttt_veteran_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_veteran_min_players", "rep_ttt_veteran_min_players", GetConVarNumber("ttt_veteran_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_doctor_enabled", "rep_ttt_doctor_enabled", GetConVarNumber("ttt_doctor_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_doctor_spawn_weight", "rep_ttt_doctor_spawn_weight", GetConVarNumber("ttt_doctor_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_doctor_min_players", "rep_ttt_doctor_min_players", GetConVarNumber("ttt_assassin_min_players"), false, false, "xgui_gmsettings")
-
-        --independent role settings
         ULib.replicatedWritableCvar("ttt_independent_chance", "rep_ttt_independent_chance", GetConVarNumber("ttt_independent_chance"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_jester_enabled", "rep_ttt_jester_enabled", GetConVarNumber("ttt_jester_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_jester_spawn_weight", "rep_ttt_jester_spawn_weight", GetConVarNumber("ttt_jester_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_jester_min_players", "rep_ttt_jester_min_players", GetConVarNumber("ttt_jester_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_swapper_enabled", "rep_ttt_swapper_enabled", GetConVarNumber("ttt_swapper_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_swapper_spawn_weight", "rep_ttt_swapper_spawn_weight", GetConVarNumber("ttt_swapper_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_swapper_min_players", "rep_ttt_swapper_min_players", GetConVarNumber("ttt_swapper_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_drunk_enabled", "rep_ttt_drunk_enabled", GetConVarNumber("ttt_drunk_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_drunk_spawn_weight", "rep_ttt_drunk_spawn_weight", GetConVarNumber("ttt_drunk_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_drunk_min_players", "rep_ttt_drunk_min_players", GetConVarNumber("ttt_drunk_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_clown_enabled", "rep_ttt_clown_enabled", GetConVarNumber("ttt_clown_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_clown_spawn_weight", "rep_ttt_clown_spawn_weight", GetConVarNumber("ttt_clown_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_clown_min_players", "rep_ttt_clown_min_players", GetConVarNumber("ttt_clown_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_beggar_enabled", "rep_ttt_beggar_enabled", GetConVarNumber("ttt_beggar_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_beggar_spawn_weight", "rep_ttt_beggar_spawn_weight", GetConVarNumber("ttt_beggar_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_beggar_min_players", "rep_ttt_beggar_min_players", GetConVarNumber("ttt_beggar_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_old_man_enabled", "rep_ttt_old_man_enabled", GetConVarNumber("ttt_old_man_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_old_man_spawn_weight", "rep_ttt_old_man_spawn_weight", GetConVarNumber("ttt_old_man_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_old_man_min_players", "rep_ttt_old_man_min_players", GetConVarNumber("ttt_old_man_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_bodysnatcher_enabled", "rep_ttt_bodysnatcher_enabled", GetConVarNumber("ttt_bodysnatcher_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_bodysnatcher_spawn_weight", "rep_ttt_bodysnatcher_spawn_weight", GetConVarNumber("ttt_bodysnatcher_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_bodysnatcher_min_players", "rep_ttt_bodysnatcher_min_players", GetConVarNumber("ttt_bodysnatcher_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_killer_enabled", "rep_ttt_killer_enabled", GetConVarNumber("ttt_killer_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_killer_spawn_weight", "rep_ttt_killer_spawn_weight", GetConVarNumber("ttt_killer_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_killer_min_players", "rep_ttt_killer_min_players", GetConVarNumber("ttt_killer_min_players"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_zombie_enabled", "rep_ttt_zombie_enabled", GetConVarNumber("ttt_zombie_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_zombie_spawn_weight", "rep_ttt_zombie_spawn_weight", GetConVarNumber("ttt_zombie_spawn_weight"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_zombie_min_players", "rep_ttt_zombie_min_players", GetConVarNumber("ttt_zombie_min_players"), false, false, "xgui_gmsettings")
-
-        --monster role settings
         ULib.replicatedWritableCvar("ttt_monster_pct", "rep_ttt_monster_pct", GetConVarNumber("ttt_monster_pct"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_monster_chance", "rep_ttt_monster_chance", GetConVarNumber("ttt_monster_chance"), false, false, "xgui_gmsettings")
+
+        for role = 0, ROLE_MAX do
+            local rolestring = ROLE_STRINGS[role]
+            if not DEFAULT_ROLES[role] then
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_enabled", "rep_ttt_" .. rolestring .. "_enabled", GetConVarNumber("ttt_" .. rolestring .. "_enabled"), false, false, "xgui_gmsettings")
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_spawn_weight", "rep_ttt_" .. rolestring .. "_spawn_weight", GetConVarNumber("ttt_" .. rolestring .. "_spawn_weight"), false, false, "xgui_gmsettings")
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_min_players", "rep_ttt_" .. rolestring .. "_min_players", GetConVarNumber("ttt_" .. rolestring .. "_min_players"), false, false, "xgui_gmsettings")
+            end
+            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_starting_health", "rep_ttt_" .. rolestring .. "_starting_health", GetConVarNumber("ttt_" .. rolestring .. "_starting_health"), false, false, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_max_health", "rep_ttt_" .. rolestring .. "_max_health", GetConVarNumber("ttt_" .. rolestring .. "_max_health"), false, false, "xgui_gmsettings")
+        end
 
         --traitor properties
         ULib.replicatedWritableCvar("ttt_traitor_vision_enable", "rep_ttt_traitor_vision_enable", GetConVarNumber("ttt_traitor_vision_enable"), false, false, "xgui_gmsettings")
@@ -134,7 +73,6 @@ local function init()
         --innocent properties
         ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_all_search_postround", "rep_ttt_all_search_postround", GetConVarNumber("ttt_all_search_postround"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_detective_starting_health", "rep_ttt_detective_starting_health", GetConVarNumber("ttt_detective_starting_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_respawn_health", "rep_ttt_phantom_respawn_health", GetConVarNumber("ttt_phantom_respawn_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_weaker_each_respawn", "rep_ttt_phantom_weaker_each_respawn", GetConVarNumber("ttt_phantom_weaker_each_respawn"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_smoke", "rep_ttt_phantom_killer_smoke", GetConVarNumber("ttt_phantom_killer_smoke"), false, false, "xgui_gmsettings")
@@ -169,7 +107,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_clown_activation_credits", "rep_ttt_clown_activation_credits", GetConVarNumber("ttt_clown_activation_credits"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_clown_hide_when_active", "rep_ttt_clown_hide_when_active", GetConVarNumber("ttt_clown_hide_when_active"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_clown_show_target_icon", "rep_ttt_clown_show_target_icon", GetConVarNumber("ttt_clown_show_target_icon"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_reveal_beggar_change", "rep_ttt_reveal_beggar_change", GetConVarNumber("ttt_reveal_beggar_change"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_beggar_reveal_change", "rep_ttt_beggar_reveal_change", GetConVarNumber("ttt_beggar_reveal_change"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_beggar_respawn", "rep_ttt_beggar_respawn", GetConVarNumber("ttt_beggar_respawn"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_beggar_respawn_delay", "rep_ttt_beggar_respawn_delay", GetConVarNumber("ttt_beggar_respawn_delay"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_beggar_notify_mode", "rep_ttt_beggar_notify_mode", GetConVarNumber("ttt_beggar_notify_mode"), false, false, "xgui_gmsettings")
@@ -182,8 +120,6 @@ local function init()
         ULib.replicatedWritableCvar("ttt_independents_trigger_traitor_testers", "rep_ttt_independents_trigger_traitor_testers", GetConVarNumber("ttt_independents_trigger_traitor_testers"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_drunk_sober_time", "rep_ttt_drunk_sober_time", GetConVarNumber("ttt_drunk_sober_time"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_drunk_innocent_chance", "rep_ttt_drunk_innocent_chance", GetConVarNumber("ttt_drunk_innocent_chance"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_old_man_starting_health", "rep_ttt_old_man_starting_health", GetConVarNumber("ttt_old_man_starting_health"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_killer_max_health", "rep_ttt_killer_max_health", GetConVarNumber("ttt_killer_max_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_knife_enabled", "rep_ttt_killer_knife_enabled", GetConVarNumber("ttt_killer_knife_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_smoke_enabled", "rep_ttt_killer_smoke_enabled", GetConVarNumber("ttt_killer_smoke_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_smoke_timer", "rep_ttt_killer_smoke_timer", GetConVarNumber("ttt_killer_smoke_timer"), false, false, "xgui_gmsettings")
@@ -215,45 +151,19 @@ local function init()
 
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_tra_percent", "rep_ttt_shop_random_tra_percent", GetConVarNumber("ttt_shop_random_tra_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_det_percent", "rep_ttt_shop_random_det_percent", GetConVarNumber("ttt_shop_random_det_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_hyp_percent", "rep_ttt_shop_random_hyp_percent", GetConVarNumber("ttt_shop_random_hyp_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_dep_percent", "rep_ttt_shop_random_dep_percent", GetConVarNumber("ttt_shop_random_dep_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_imp_percent", "rep_ttt_shop_random_imp_percent", GetConVarNumber("ttt_shop_random_imp_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_jes_percent", "rep_ttt_shop_random_jes_percent", GetConVarNumber("ttt_shop_random_jes_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_swa_percent", "rep_ttt_shop_random_swa_percent", GetConVarNumber("ttt_shop_random_swa_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_mer_percent", "rep_ttt_shop_random_mer_percent", GetConVarNumber("ttt_shop_random_mer_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_asn_percent", "rep_ttt_shop_random_asn_percent", GetConVarNumber("ttt_shop_random_asn_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_kil_percent", "rep_ttt_shop_random_kil_percent", GetConVarNumber("ttt_shop_random_kil_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_zom_percent", "rep_ttt_shop_random_zom_percent", GetConVarNumber("ttt_shop_random_zom_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_vam_percent", "rep_ttt_shop_random_vam_percent", GetConVarNumber("ttt_shop_random_vam_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_clo_percent", "rep_ttt_shop_random_clo_percent", GetConVarNumber("ttt_shop_random_clo_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_qua_percent", "rep_ttt_shop_random_qua_percent", GetConVarNumber("ttt_shop_random_qua_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_par_percent", "rep_ttt_shop_random_par_percent", GetConVarNumber("ttt_shop_random_par_percent"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_tra_enabled", "rep_ttt_shop_random_tra_enabled", GetConVarNumber("ttt_shop_random_tra_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_det_enabled", "rep_ttt_shop_random_det_enabled", GetConVarNumber("ttt_shop_random_det_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_hyp_enabled", "rep_ttt_shop_random_hyp_enabled", GetConVarNumber("ttt_shop_random_hyp_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_dep_enabled", "rep_ttt_shop_random_dep_enabled", GetConVarNumber("ttt_shop_random_dep_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_imp_enabled", "rep_ttt_shop_random_imp_enabled", GetConVarNumber("ttt_shop_random_imp_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_jes_enabled", "rep_ttt_shop_random_jes_enabled", GetConVarNumber("ttt_shop_random_jes_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_swa_enabled", "rep_ttt_shop_random_swa_enabled", GetConVarNumber("ttt_shop_random_swa_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_mer_enabled", "rep_ttt_shop_random_mer_enabled", GetConVarNumber("ttt_shop_random_mer_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_asn_enabled", "rep_ttt_shop_random_asn_enabled", GetConVarNumber("ttt_shop_random_asn_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_kil_enabled", "rep_ttt_shop_random_kil_enabled", GetConVarNumber("ttt_shop_random_kil_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_zom_enabled", "rep_ttt_shop_random_zom_enabled", GetConVarNumber("ttt_shop_random_zom_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_vam_enabled", "rep_ttt_shop_random_vam_enabled", GetConVarNumber("ttt_shop_random_vam_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_clo_enabled", "rep_ttt_shop_random_clo_enabled", GetConVarNumber("ttt_shop_random_clo_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_qua_enabled", "rep_ttt_shop_random_qua_enabled", GetConVarNumber("ttt_shop_random_qua_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_random_par_enabled", "rep_ttt_shop_random_par_enabled", GetConVarNumber("ttt_shop_random_par_enabled"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_hyp_sync", "rep_ttt_shop_hyp_sync", GetConVarNumber("ttt_shop_hyp_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_imp_sync", "rep_ttt_shop_imp_sync", GetConVarNumber("ttt_shop_imp_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_asn_sync", "rep_ttt_shop_asn_sync", GetConVarNumber("ttt_shop_asn_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_vam_sync", "rep_ttt_shop_vam_sync", GetConVarNumber("ttt_shop_vam_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_zom_sync", "rep_ttt_shop_zom_sync", GetConVarNumber("ttt_shop_zom_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_qua_sync", "rep_ttt_shop_qua_sync", GetConVarNumber("ttt_shop_qua_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_par_sync", "rep_ttt_shop_par_sync", GetConVarNumber("ttt_shop_par_sync"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_mer_mode", "rep_ttt_shop_mer_mode", GetConVarNumber("ttt_shop_mer_mode"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_shop_clo_mode", "rep_ttt_shop_clo_mode", GetConVarNumber("ttt_shop_clo_mode"), false, false, "xgui_gmsettings")
+        for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
+            local rolestring = ROLE_STRINGS[role]
+            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
+            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
+
+            if (TRAITOR_ROLES[role] and role ~= ROLE_TRAITOR) or role == ROLE_ZOMBIE or role == ROLE_VAMPIRE then -- Make sure zombie and vampire are always included even if they arent traitors at the time
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_sync", "rep_ttt_" .. rolestring .. "_shop_sync", GetConVarNumber("ttt_" .. rolestring .. "_shop_sync"), false, false, "xgui_gmsettings")
+            end
+
+            if role == ROLE_MERCENARY or (INDEPENDENT_ROLES[role] and role ~= ROLE_ZOMBIE) then
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_mode", "rep_ttt_" .. rolestring .. "_shop_mode", GetConVarNumber("ttt_" .. rolestring .. "_shop_mode"), false, false, "xgui_gmsettings")
+            end
+        end
 
         --dna
         ULib.replicatedWritableCvar("ttt_killer_dna_range", "rep_ttt_killer_dna_range", GetConVarNumber("ttt_killer_dna_range"), false, false, "xgui_gmsettings")
@@ -303,12 +213,6 @@ local function init()
 
         --traitor credits
         ULib.replicatedWritableCvar("ttt_credits_starting", "rep_ttt_credits_starting", GetConVarNumber("ttt_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_hyp_credits_starting", "rep_ttt_hyp_credits_starting", GetConVarNumber("ttt_hyp_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_imp_credits_starting", "rep_ttt_imp_credits_starting", GetConVarNumber("ttt_imp_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_asn_credits_starting", "rep_ttt_asn_credits_starting", GetConVarNumber("ttt_asn_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_vam_credits_starting", "rep_ttt_vam_credits_starting", GetConVarNumber("ttt_vam_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_qua_credits_starting", "rep_ttt_qua_credits_starting", GetConVarNumber("ttt_qua_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_par_credits_starting", "rep_ttt_par_credits_starting", GetConVarNumber("ttt_par_credits_starting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_alonebonus", "rep_ttt_credits_alonebonus", GetConVarNumber("ttt_credits_alonebonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_award_pct", "rep_ttt_credits_award_pct", GetConVarNumber("ttt_credits_award_pct"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_credits_award_size", "rep_ttt_credits_award_size", GetConVarNumber("ttt_credits_award_size"), false, false, "xgui_gmsettings")
@@ -320,15 +224,13 @@ local function init()
         ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVarNumber("ttt_det_credits_traitorkill"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVarNumber("ttt_det_credits_traitordead"), false, false, "xgui_gmsettings")
 
-        --jester credits
-        ULib.replicatedWritableCvar("ttt_jes_credits_starting", "rep_ttt_jes_credits_starting", GetConVarNumber("ttt_jes_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_swa_credits_starting", "rep_ttt_swa_credits_starting", GetConVarNumber("ttt_swa_credits_starting"), false, false, "xgui_gmsettings")
-
-        --other credits
-        ULib.replicatedWritableCvar("ttt_mer_credits_starting", "rep_ttt_mer_credits_starting", GetConVarNumber("ttt_mer_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_kil_credits_starting", "rep_ttt_kil_credits_starting", GetConVarNumber("ttt_kil_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_zom_credits_starting", "rep_ttt_zom_credits_starting", GetConVarNumber("ttt_zom_credits_starting"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_doc_credits_starting", "rep_ttt_doc_credits_starting", GetConVarNumber("ttt_doc_credits_starting"), false, false, "xgui_gmsettings")
+        -- other credits
+        for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
+            if not DEFAULT_ROLES[role] then
+                local rolestring = ROLE_STRINGS[role]
+                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting", "rep_ttt_" .. rolestring .. "_credits_starting", GetConVarNumber("ttt_" .. rolestring .. "_credits_starting"), false, false, "xgui_gmsettings")
+            end
+        end
 
         --sprint
         ULib.replicatedWritableCvar("ttt_sprint_bonus_rel", "rep_ttt_sprint_bonus_rel", GetConVarNumber("ttt_sprint_bonus_rel"), false, false, "xgui_gmsettings")
