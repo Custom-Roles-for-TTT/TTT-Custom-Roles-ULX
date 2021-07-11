@@ -156,12 +156,14 @@ local function init()
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
 
-            if (TRAITOR_ROLES[role] and role ~= ROLE_TRAITOR) or role == ROLE_ZOMBIE or role == ROLE_VAMPIRE then -- Make sure zombie and vampire are always included even if they arent traitors at the time
-                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_sync", "rep_ttt_" .. rolestring .. "_shop_sync", GetConVarNumber("ttt_" .. rolestring .. "_shop_sync"), false, false, "xgui_gmsettings")
+            local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
+            if ConVarExists(sync_cvar) then
+                ULib.replicatedWritableCvar(sync_cvar, "rep_" .. sync_cvar, GetConVarNumber(sync_cvar), false, false, "xgui_gmsettings")
             end
 
-            if role == ROLE_MERCENARY or (INDEPENDENT_ROLES[role] and role ~= ROLE_ZOMBIE) then
-                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_mode", "rep_ttt_" .. rolestring .. "_shop_mode", GetConVarNumber("ttt_" .. rolestring .. "_shop_mode"), false, false, "xgui_gmsettings")
+            local mode_cvar = "ttt_" .. rolestring .. "_shop_mode"
+            if ConVarExists(mode_cvar) then
+                ULib.replicatedWritableCvar(mode_cvar, "rep_" .. mode_cvar, GetConVarNumber(mode_cvar), false, false, "xgui_gmsettings")
             end
         end
 

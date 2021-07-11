@@ -914,25 +914,25 @@ local function AddRoleShop(gppnl)
     local rsepar = xlib.makecheckbox { label = "ttt_shop_random_par_enabled (def. 0)", repconvar = "rep_ttt_shop_random_par_enabled", parent = rslst }
     rslst:AddItem(rsepar)
 
-    local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
+    local rshsync = xlib.makecheckbox { label = "ttt_hypnotist_shop_sync (def. 0)", repconvar = "rep_ttt_hypnotist_shop_sync", parent = rslst }
     rslst:AddItem(rshsync)
 
-    local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
+    local rsisync = xlib.makecheckbox { label = "ttt_impersonator_shop_sync (def. 0)", repconvar = "rep_ttt_impersonator_shop_sync", parent = rslst }
     rslst:AddItem(rsisync)
 
-    local rsasync = xlib.makecheckbox { label = "ttt_shop_asn_sync (def. 0)", repconvar = "rep_ttt_shop_asn_sync", parent = rslst }
+    local rsasync = xlib.makecheckbox { label = "ttt_assassin_shop_sync (def. 0)", repconvar = "rep_ttt_assassin_shop_sync", parent = rslst }
     rslst:AddItem(rsasync)
 
-    local rsvsync = xlib.makecheckbox { label = "ttt_shop_vam_sync (def. 0)", repconvar = "rep_ttt_shop_vam_sync", parent = rslst }
+    local rsvsync = xlib.makecheckbox { label = "ttt_vampire_shop_sync (def. 0)", repconvar = "rep_ttt_vampire_shop_sync", parent = rslst }
     rslst:AddItem(rsvsync)
 
-    local rszsync = xlib.makecheckbox { label = "ttt_shop_zom_sync (def. 0)", repconvar = "rep_ttt_shop_zom_sync", parent = rslst }
+    local rszsync = xlib.makecheckbox { label = "ttt_zombie_shop_sync (def. 0)", repconvar = "rep_ttt_zombie_shop_sync", parent = rslst }
     rslst:AddItem(rszsync)
 
-    local rsqsync = xlib.makecheckbox { label = "ttt_shop_qua_sync (def. 0)", repconvar = "rep_ttt_shop_qua_sync", parent = rslst }
+    local rsqsync = xlib.makecheckbox { label = "ttt_quack_shop_sync (def. 0)", repconvar = "rep_ttt_quack_shop_sync", parent = rslst }
     rslst:AddItem(rsqsync)
 
-    local rspsync = xlib.makecheckbox { label = "ttt_shop_par_sync (def. 0)", repconvar = "rep_ttt_shop_par_sync", parent = rslst }
+    local rspsync = xlib.makecheckbox { label = "ttt_parasite_shop_sync (def. 0)", repconvar = "rep_ttt_parasite_shop_sync", parent = rslst }
     rslst:AddItem(rspsync)
 
     local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
@@ -956,7 +956,7 @@ local function AddRoleShop(gppnl)
     local rsemer = xlib.makecheckbox { label = "ttt_shop_random_mer_enabled (def. 0)", repconvar = "rep_ttt_shop_random_mer_enabled", parent = rslst }
     rslst:AddItem(rsemer)
 
-    local rsmmode = xlib.makeslider { label = "ttt_shop_mer_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_mer_mode", parent = rslst }
+    local rsmmode = xlib.makeslider { label = "ttt_mercenary_shop_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_mercenary_shop_mode", parent = rslst }
     rslst:AddItem(rsmmode)
 
     local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jesters:", parent = rslst }
@@ -980,7 +980,7 @@ local function AddRoleShop(gppnl)
     local rseclo = xlib.makecheckbox { label = "ttt_shop_random_clo_enabled (def. 0)", repconvar = "rep_ttt_shop_random_clo_enabled", parent = rslst }
     rslst:AddItem(rseclo)
 
-    local rscmode = xlib.makeslider { label = "ttt_shop_clo_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_shop_clo_mode", parent = rslst }
+    local rscmode = xlib.makeslider { label = "ttt_clown_shop_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_clown_shop_mode", parent = rslst }
     rslst:AddItem(rscmode)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
