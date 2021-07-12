@@ -99,6 +99,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_jester_notify_sound", "rep_ttt_jester_notify_sound", GetConVarNumber("ttt_jester_notify_sound"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_notify_confetti", "rep_ttt_jester_notify_confetti", GetConVarNumber("ttt_jester_notify_confetti"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_swapper_respawn_health", "rep_ttt_swapper_respawn_health", GetConVarNumber("ttt_swapper_respawn_health"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_swapper_weapon_mode", "rep_ttt_swapper_weapon_mode", GetConVarNumber("ttt_swapper_weapon_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_swapper_notify_mode", "rep_ttt_swapper_notify_mode", GetConVarNumber("ttt_swapper_notify_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_swapper_notify_sound", "rep_ttt_swapper_notify_sound", GetConVarNumber("ttt_swapper_notify_sound"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_swapper_notify_confetti", "rep_ttt_swapper_notify_confetti", GetConVarNumber("ttt_swapper_notify_confetti"), false, false, "xgui_gmsettings")
@@ -151,17 +152,20 @@ local function init()
 
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_shop_random_position", "rep_ttt_shop_random_position", GetConVarNumber("ttt_shop_random_position"), false, false, "xgui_gmsettings")
         for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
             local rolestring = ROLE_STRINGS[role]
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
 
-            if (TRAITOR_ROLES[role] and role ~= ROLE_TRAITOR) or role == ROLE_ZOMBIE or role == ROLE_VAMPIRE then -- Make sure zombie and vampire are always included even if they arent traitors at the time
-                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_sync", "rep_ttt_" .. rolestring .. "_shop_sync", GetConVarNumber("ttt_" .. rolestring .. "_shop_sync"), false, false, "xgui_gmsettings")
+            local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
+            if ConVarExists(sync_cvar) then
+                ULib.replicatedWritableCvar(sync_cvar, "rep_" .. sync_cvar, GetConVarNumber(sync_cvar), false, false, "xgui_gmsettings")
             end
 
-            if role == ROLE_MERCENARY or (INDEPENDENT_ROLES[role] and role ~= ROLE_ZOMBIE) then
-                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_mode", "rep_ttt_" .. rolestring .. "_shop_mode", GetConVarNumber("ttt_" .. rolestring .. "_shop_mode"), false, false, "xgui_gmsettings")
+            local mode_cvar = "ttt_" .. rolestring .. "_shop_mode"
+            if ConVarExists(mode_cvar) then
+                ULib.replicatedWritableCvar(mode_cvar, "rep_" .. mode_cvar, GetConVarNumber(mode_cvar), false, false, "xgui_gmsettings")
             end
         end
 

@@ -644,13 +644,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 570)
+    jespropclp:SetSize(390, 595)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 570)
+    jesproplst:SetSize(390, 595)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -676,6 +676,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local swahp = xlib.makeslider { label = "ttt_swapper_respawn_health (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_swapper_respawn_health", parent = jesproplst }
     jesproplst:AddItem(swahp)
+
+    local swawm = xlib.makeslider { label = "ttt_swapper_weapon_mode (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_swapper_weapon_mode", parent = jesproplst }
+    jesproplst:AddItem(swawm)
 
     local swanm = xlib.makeslider { label = "ttt_swapper_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_swapper_notify_mode", parent = jesproplst }
     jesproplst:AddItem(swanm)
@@ -857,145 +860,148 @@ end
 
 local function AddRoleShop(gppnl)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
-    rspnl:SetSize(390, 955)
+    rspnl:SetSize(390, 980)
     rspnl:SetExpanded(0)
     rspnl:SetLabel("Role Shop")
 
     local rslst = vgui.Create("DPanelList", rspnl)
     rslst:SetPos(5, 25)
-    rslst:SetSize(390, 955)
+    rslst:SetSize(390, 980)
     rslst:SetSpacing(5)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
     rslst:AddItem(rsp)
 
+    local rspos = xlib.makecheckbox { label = "ttt_shop_random_position (def. 0)", repconvar = "rep_ttt_shop_random_position", parent = rslst }
+    rslst:AddItem(rspos)
+
     local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Traitors:", parent = rslst }
     rslst:AddItem(tralbl)
 
-    local rsptra = xlib.makeslider { label = "ttt_shop_random_tra_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_tra_percent", parent = rslst }
+    local rsptra = xlib.makeslider { label = "ttt_traitor_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_traitor_shop_random_percent", parent = rslst }
     rslst:AddItem(rsptra)
 
-    local rsetra = xlib.makecheckbox { label = "ttt_shop_random_tra_enabled (def. 0)", repconvar = "rep_ttt_shop_random_tra_enabled", parent = rslst }
+    local rsetra = xlib.makecheckbox { label = "ttt_traitor_shop_random_enabled (def. 0)", repconvar = "rep_ttt_traitor_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsetra)
 
-    local rsphyp = xlib.makeslider { label = "ttt_shop_random_hyp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_hyp_percent", parent = rslst }
+    local rsphyp = xlib.makeslider { label = "ttt_hypnotist_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_hypnotist_shop_random_percent", parent = rslst }
     rslst:AddItem(rsphyp)
 
-    local rsehyp = xlib.makecheckbox { label = "ttt_shop_random_hyp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_hyp_enabled", parent = rslst }
+    local rsehyp = xlib.makecheckbox { label = "ttt_hypnotist_shop_random_enabled (def. 0)", repconvar = "rep_ttt_hypnotist_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsehyp)
 
-    local rspimp = xlib.makeslider { label = "ttt_shop_random_imp_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_imp_percent", parent = rslst }
+    local rspimp = xlib.makeslider { label = "ttt_impersonator_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_impersonator_shop_random_percent", parent = rslst }
     rslst:AddItem(rspimp)
 
-    local rseimp = xlib.makecheckbox { label = "ttt_shop_random_imp_enabled (def. 0)", repconvar = "rep_ttt_shop_random_imp_enabled", parent = rslst }
+    local rseimp = xlib.makecheckbox { label = "ttt_impersonator_shop_random_enabled (def. 0)", repconvar = "rep_ttt_impersonator_shop_random_enabled", parent = rslst }
     rslst:AddItem(rseimp)
 
-    local rspasn = xlib.makeslider { label = "ttt_shop_random_asn_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_asn_percent", parent = rslst }
+    local rspasn = xlib.makeslider { label = "ttt_assassin_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_assassin_shop_random_percent", parent = rslst }
     rslst:AddItem(rspasn)
 
-    local rseasn = xlib.makecheckbox { label = "ttt_shop_random_asn_enabled (def. 0)", repconvar = "rep_ttt_shop_random_asn_enabled", parent = rslst }
+    local rseasn = xlib.makecheckbox { label = "ttt_assassin_shop_random_enabled (def. 0)", repconvar = "rep_ttt_assassin_shop_random_enabled", parent = rslst }
     rslst:AddItem(rseasn)
 
-    local rspvam = xlib.makeslider { label = "ttt_shop_random_vam_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_vam_percent", parent = rslst }
+    local rspvam = xlib.makeslider { label = "ttt_vampire_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_vampire_shop_random_percent", parent = rslst }
     rslst:AddItem(rspvam)
 
-    local rsevam = xlib.makecheckbox { label = "ttt_shop_random_vam_enabled (def. 0)", repconvar = "rep_ttt_shop_random_vam_enabled", parent = rslst }
+    local rsevam = xlib.makecheckbox { label = "ttt_vampire_shop_random_enabled (def. 0)", repconvar = "rep_ttt_vampire_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsevam)
 
-    local rspqua = xlib.makeslider { label = "ttt_shop_random_qua_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_qua_percent", parent = rslst }
+    local rspqua = xlib.makeslider { label = "ttt_quack_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_quack_shop_random_percent", parent = rslst }
     rslst:AddItem(rspqua)
 
-    local rsequa = xlib.makecheckbox { label = "ttt_shop_random_qua_enabled (def. 0)", repconvar = "rep_ttt_shop_random_qua_enabled", parent = rslst }
+    local rsequa = xlib.makecheckbox { label = "ttt_quack_shop_random_enabled (def. 0)", repconvar = "rep_ttt_quack_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsequa)
 
-    local rsppar = xlib.makeslider { label = "ttt_shop_random_par_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_par_percent", parent = rslst }
+    local rsppar = xlib.makeslider { label = "ttt_parasite_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_parasite_shop_random_percent", parent = rslst }
     rslst:AddItem(rsppar)
 
-    local rsepar = xlib.makecheckbox { label = "ttt_shop_random_par_enabled (def. 0)", repconvar = "rep_ttt_shop_random_par_enabled", parent = rslst }
+    local rsepar = xlib.makecheckbox { label = "ttt_parsite_shop_random_enabled (def. 0)", repconvar = "rep_ttt_parsite_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsepar)
 
-    local rshsync = xlib.makecheckbox { label = "ttt_shop_hyp_sync (def. 0)", repconvar = "rep_ttt_shop_hyp_sync", parent = rslst }
+    local rshsync = xlib.makecheckbox { label = "ttt_hypnotist_shop_sync (def. 0)", repconvar = "rep_ttt_hypnotist_shop_sync", parent = rslst }
     rslst:AddItem(rshsync)
 
-    local rsisync = xlib.makecheckbox { label = "ttt_shop_imp_sync (def. 0)", repconvar = "rep_ttt_shop_imp_sync", parent = rslst }
+    local rsisync = xlib.makecheckbox { label = "ttt_impersonator_shop_sync (def. 0)", repconvar = "rep_ttt_impersonator_shop_sync", parent = rslst }
     rslst:AddItem(rsisync)
 
-    local rsasync = xlib.makecheckbox { label = "ttt_shop_asn_sync (def. 0)", repconvar = "rep_ttt_shop_asn_sync", parent = rslst }
+    local rsasync = xlib.makecheckbox { label = "ttt_assassin_shop_sync (def. 0)", repconvar = "rep_ttt_assassin_shop_sync", parent = rslst }
     rslst:AddItem(rsasync)
 
-    local rsvsync = xlib.makecheckbox { label = "ttt_shop_vam_sync (def. 0)", repconvar = "rep_ttt_shop_vam_sync", parent = rslst }
+    local rsvsync = xlib.makecheckbox { label = "ttt_vampire_shop_sync (def. 0)", repconvar = "rep_ttt_vampire_shop_sync", parent = rslst }
     rslst:AddItem(rsvsync)
 
-    local rszsync = xlib.makecheckbox { label = "ttt_shop_zom_sync (def. 0)", repconvar = "rep_ttt_shop_zom_sync", parent = rslst }
+    local rszsync = xlib.makecheckbox { label = "ttt_zombie_shop_sync (def. 0)", repconvar = "rep_ttt_zombie_shop_sync", parent = rslst }
     rslst:AddItem(rszsync)
 
-    local rsqsync = xlib.makecheckbox { label = "ttt_shop_qua_sync (def. 0)", repconvar = "rep_ttt_shop_qua_sync", parent = rslst }
+    local rsqsync = xlib.makecheckbox { label = "ttt_quack_shop_sync (def. 0)", repconvar = "rep_ttt_quack_shop_sync", parent = rslst }
     rslst:AddItem(rsqsync)
 
-    local rspsync = xlib.makecheckbox { label = "ttt_shop_par_sync (def. 0)", repconvar = "rep_ttt_shop_par_sync", parent = rslst }
+    local rspsync = xlib.makecheckbox { label = "ttt_parasite_shop_sync (def. 0)", repconvar = "rep_ttt_parasite_shop_sync", parent = rslst }
     rslst:AddItem(rspsync)
 
     local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
     rslst:AddItem(innlbl)
 
-    local rspdet = xlib.makeslider { label = "ttt_shop_random_det_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_det_percent", parent = rslst }
+    local rspdet = xlib.makeslider { label = "ttt_detective_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_detective_shop_random_percent", parent = rslst }
     rslst:AddItem(rspdet)
 
-    local rsedet = xlib.makecheckbox { label = "ttt_shop_random_det_enabled (def. 0)", repconvar = "rep_ttt_shop_random_det_enabled", parent = rslst }
+    local rsedet = xlib.makecheckbox { label = "ttt_detective_shop_random_enabled (def. 0)", repconvar = "rep_ttt_detective_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsedet)
 
-    local rspdep = xlib.makeslider { label = "ttt_shop_random_dep_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_dep_percent", parent = rslst }
+    local rspdep = xlib.makeslider { label = "ttt_deputy_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_deputy_shop_random_percent", parent = rslst }
     rslst:AddItem(rspdep)
 
-    local rsedep = xlib.makecheckbox { label = "ttt_shop_random_dep_enabled (def. 0)", repconvar = "rep_ttt_shop_random_dep_enabled", parent = rslst }
+    local rsedep = xlib.makecheckbox { label = "ttt_deputy_shop_random_enabled (def. 0)", repconvar = "rep_ttt_deputy_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsedep)
 
-    local rspmer = xlib.makeslider { label = "ttt_shop_random_mer_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_mer_percent", parent = rslst }
+    local rspmer = xlib.makeslider { label = "ttt_mercenary_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_mercenary_shop_random_percent", parent = rslst }
     rslst:AddItem(rspmer)
 
-    local rsemer = xlib.makecheckbox { label = "ttt_shop_random_mer_enabled (def. 0)", repconvar = "rep_ttt_shop_random_mer_enabled", parent = rslst }
+    local rsemer = xlib.makecheckbox { label = "ttt_mercenary_shop_random_enabled (def. 0)", repconvar = "rep_ttt_mercenary_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsemer)
 
-    local rsmmode = xlib.makeslider { label = "ttt_shop_mer_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_shop_mer_mode", parent = rslst }
+    local rsmmode = xlib.makeslider { label = "ttt_mercenary_shop_mode (def. 2)", min = 0, max = 4, repconvar = "rep_ttt_mercenary_shop_mode", parent = rslst }
     rslst:AddItem(rsmmode)
 
     local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jesters:", parent = rslst }
     rslst:AddItem(jeslbl)
 
-    local rspjes = xlib.makeslider { label = "ttt_shop_random_jes_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_jes_percent", parent = rslst }
+    local rspjes = xlib.makeslider { label = "ttt_jester_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_jester_shop_random_percent", parent = rslst }
     rslst:AddItem(rspjes)
 
-    local rsejes = xlib.makecheckbox { label = "ttt_shop_random_jes_enabled (def. 0)", repconvar = "rep_ttt_shop_random_jes_enabled", parent = rslst }
+    local rsejes = xlib.makecheckbox { label = "ttt_jester_shop_random_enabled (def. 0)", repconvar = "rep_ttt_jester_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsejes)
 
-    local rspswa = xlib.makeslider { label = "ttt_shop_random_swa_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_swa_percent", parent = rslst }
+    local rspswa = xlib.makeslider { label = "ttt_swapper_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_swapper_shop_random_percent", parent = rslst }
     rslst:AddItem(rspswa)
 
-    local rseswa = xlib.makecheckbox { label = "ttt_shop_random_swa_enabled (def. 0)", repconvar = "rep_ttt_shop_random_swa_enabled", parent = rslst }
+    local rseswa = xlib.makecheckbox { label = "ttt_swapper_shop_random_enabled (def. 0)", repconvar = "rep_ttt_swapper_shop_random_enabled", parent = rslst }
     rslst:AddItem(rseswa)
 
-    local rspclo = xlib.makeslider { label = "ttt_shop_random_clo_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_clo_percent", parent = rslst }
+    local rspclo = xlib.makeslider { label = "ttt_clown_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_clown_shop_random_percent", parent = rslst }
     rslst:AddItem(rspclo)
 
-    local rseclo = xlib.makecheckbox { label = "ttt_shop_random_clo_enabled (def. 0)", repconvar = "rep_ttt_shop_random_clo_enabled", parent = rslst }
+    local rseclo = xlib.makecheckbox { label = "ttt_clown_shop_random_enabled (def. 0)", repconvar = "rep_ttt_clown_shop_random_enabled", parent = rslst }
     rslst:AddItem(rseclo)
 
-    local rscmode = xlib.makeslider { label = "ttt_shop_clo_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_shop_clo_mode", parent = rslst }
+    local rscmode = xlib.makeslider { label = "ttt_clown_shop_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_clown_shop_mode", parent = rslst }
     rslst:AddItem(rscmode)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
     rslst:AddItem(indlbl)
 
-    local rspkil = xlib.makeslider { label = "ttt_shop_random_kil_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_kil_percent", parent = rslst }
+    local rspkil = xlib.makeslider { label = "ttt_killer_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_killer_shop_random_percent", parent = rslst }
     rslst:AddItem(rspkil)
 
-    local rsekil = xlib.makecheckbox { label = "ttt_shop_random_kil_enabled (def. 0)", repconvar = "rep_ttt_shop_random_kil_enabled", parent = rslst }
+    local rsekil = xlib.makecheckbox { label = "ttt_killer_shop_random_enabled (def. 0)", repconvar = "rep_ttt_killer_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsekil)
 
-    local rspzom = xlib.makeslider { label = "ttt_shop_random_zom_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_zom_percent", parent = rslst }
+    local rspzom = xlib.makeslider { label = "ttt_zombie_shop_random_percent (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_zombie_shop_random_percent", parent = rslst }
     rslst:AddItem(rspzom)
 
-    local rsezom = xlib.makecheckbox { label = "ttt_shop_random_zom_enabled (def. 0)", repconvar = "rep_ttt_shop_random_zom_enabled", parent = rslst }
+    local rsezom = xlib.makecheckbox { label = "ttt_zombie_shop_random_enabled (def. 0)", repconvar = "rep_ttt_zombie_shop_random_enabled", parent = rslst }
     rslst:AddItem(rsezom)
 
 end
