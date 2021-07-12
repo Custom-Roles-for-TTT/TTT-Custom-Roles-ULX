@@ -644,13 +644,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 570)
+    jespropclp:SetSize(390, 595)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 570)
+    jesproplst:SetSize(390, 595)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -676,6 +676,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local swahp = xlib.makeslider { label = "ttt_swapper_respawn_health (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_swapper_respawn_health", parent = jesproplst }
     jesproplst:AddItem(swahp)
+
+    local swawm = xlib.makeslider { label = "ttt_swapper_weapon_mode (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_swapper_weapon_mode", parent = jesproplst }
+    jesproplst:AddItem(swawm)
 
     local swanm = xlib.makeslider { label = "ttt_swapper_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_swapper_notify_mode", parent = jesproplst }
     jesproplst:AddItem(swanm)
