@@ -481,6 +481,9 @@ local function AddTraitorProperties(gppnl)
     local imppen = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = traproplst }
     traproplst:AddItem(imppen)
 
+    local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
+    traproplst:AddItem(impudi)
+
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
 
@@ -557,13 +560,13 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 570)
+    innpropclp:SetSize(390, 595)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 570)
+    innproplst:SetSize(390, 595)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -628,6 +631,9 @@ local function AddInnocentProperties(gppnl)
 
     local deppen = xlib.makeslider { label = "ttt_deputy_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_deputy_damage_penalty", parent = innproplst }
     innproplst:AddItem(deppen)
+
+    local depudi = xlib.makecheckbox { label = "ttt_deputy_use_detective_icon (def. 1)", repconvar = "rep_ttt_deputy_use_detective_icon", parent = innproplst }
+    innproplst:AddItem(depudi)
 
     local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
     innproplst:AddItem(vetlbl)
@@ -746,13 +752,13 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 670)
+    indpropclp:SetSize(390, 705)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
     local indproplst = vgui.Create("DPanelList", indpropclp)
     indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, 670)
+    indproplst:SetSize(390, 705)
     indproplst:SetSpacing(5)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
@@ -766,6 +772,12 @@ local function AddIndependentRoleProperties(gppnl)
 
     local druchn = xlib.makeslider { label = "ttt_drunk_innocent_chance (def. 0.7)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_drunk_innocent_chance", parent = indproplst }
     indproplst:AddItem(druchn)
+
+    local oldlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Old Man settings:", parent = indproplst }
+    indproplst:AddItem(oldlbl)
+
+    local olddht = xlib.makeslider { label = "ttt_oldman_drain_health_to (def. 0)", min = 0, max = 200, repconvar = "rep_ttt_oldman_drain_health_to", parent = indproplst }
+    indproplst:AddItem(olddht)
 
     local killbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Killer settings:", parent = indproplst }
     indproplst:AddItem(killbl)
