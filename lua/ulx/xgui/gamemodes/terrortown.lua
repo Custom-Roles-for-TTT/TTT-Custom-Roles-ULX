@@ -463,13 +463,13 @@ end
 
 local function AddTraitorProperties(gppnl)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    trapropclp:SetSize(390, 580)
+    trapropclp:SetSize(390, 605)
     trapropclp:SetExpanded(1)
     trapropclp:SetLabel("Traitor Properties")
 
     local traproplst = vgui.Create("DPanelList", trapropclp)
     traproplst:SetPos(5, 25)
-    traproplst:SetSize(390, 580)
+    traproplst:SetSize(390, 605)
     traproplst:SetSpacing(5)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
@@ -498,6 +498,9 @@ local function AddTraitorProperties(gppnl)
 
     local asnfdp = xlib.makeslider { label = "ttt_assassin_failed_damage_penalty (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_failed_damage_penalty", parent = traproplst }
     traproplst:AddItem(asnfdp)
+
+    local asnsrl = xlib.makecheckbox { label = "ttt_assassin_shop_roles_last (def. 0)", repconvar = "rep_ttt_assassin_shop_roles_last", parent = traproplst }
+    traproplst:AddItem(asnsrl)
 
     local vamlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Vampire settings:", parent = traproplst }
     traproplst:AddItem(vamlbl)
@@ -644,13 +647,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 595)
+    jespropclp:SetSize(390, 620)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 595)
+    jesproplst:SetSize(390, 620)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -706,6 +709,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local closti = xlib.makecheckbox { label = "ttt_clown_show_target_icon (def. 0)", repconvar = "rep_ttt_clown_show_target_icon", parent = jesproplst }
     jesproplst:AddItem(closti)
+
+    local clohoa = xlib.makecheckbox { label = "ttt_clown_heal_on_activate (def. 0)", repconvar = "rep_ttt_clown_heal_on_activate", parent = jesproplst }
+    jesproplst:AddItem(clohoa)
 
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
