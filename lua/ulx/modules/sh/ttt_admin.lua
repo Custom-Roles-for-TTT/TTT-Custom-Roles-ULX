@@ -647,7 +647,7 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
 
 local PlysMarkedForNextRound = {}
 local function MarkedElsewhere(id)
-    if PlysMarkedForNextRound[id] then
+    if PlysMarkedForNextRound[id] and PlysMarkedForNextRound[id] ~= nil then
         return true
     end
     return false
