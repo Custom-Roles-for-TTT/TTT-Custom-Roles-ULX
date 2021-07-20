@@ -734,10 +734,10 @@ local function AddJesterRoleProperties(gppnl)
     local begnm = xlib.makeslider { label = "ttt_beggar_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_beggar_notify_mode", parent = jesproplst }
     jesproplst:AddItem(begnm)
 
-    local begns = xlib.makecheckbox { label = "ttt_beggar_notify_sound (def. 1)", repconvar = "rep_ttt_beggar_notify_sound", parent = jesproplst }
+    local begns = xlib.makecheckbox { label = "ttt_beggar_notify_sound (def. 0)", repconvar = "rep_ttt_beggar_notify_sound", parent = jesproplst }
     jesproplst:AddItem(begns)
 
-    local begnc = xlib.makecheckbox { label = "ttt_beggar_notify_confetti (def. 1)", repconvar = "rep_ttt_beggar_notify_confetti", parent = jesproplst }
+    local begnc = xlib.makecheckbox { label = "ttt_beggar_notify_confetti (def. 0)", repconvar = "rep_ttt_beggar_notify_confetti", parent = jesproplst }
     jesproplst:AddItem(begnc)
 
     local bodlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Bodysnatcher settings:", parent = jesproplst }
