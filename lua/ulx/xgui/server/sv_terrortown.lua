@@ -97,6 +97,9 @@ local function init()
 
         --jester properties
         ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_jesters_visible_to_traitors", "rep_ttt_jesters_visible_to_traitors", GetConVarNumber("ttt_jesters_visible_to_traitors"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_jesters_visible_to_monsters", "rep_ttt_jesters_visible_to_monsters", GetConVarNumber("ttt_jesters_visible_to_monsters"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_jesters_visible_to_independents", "rep_ttt_jesters_visible_to_independents", GetConVarNumber("ttt_jesters_visible_to_independents"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_win_by_traitors", "rep_ttt_jester_win_by_traitors", GetConVarNumber("ttt_jester_win_by_traitors"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_notify_mode", "rep_ttt_jester_notify_mode", GetConVarNumber("ttt_jester_notify_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_jester_notify_sound", "rep_ttt_jester_notify_sound", GetConVarNumber("ttt_jester_notify_sound"), false, false, "xgui_gmsettings")
