@@ -560,13 +560,13 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 595)
+    innpropclp:SetSize(390, 635)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 595)
+    innproplst:SetSize(390, 635)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -643,6 +643,12 @@ local function AddInnocentProperties(gppnl)
 
     local vetheal = xlib.makecheckbox { label = "ttt_veteran_full_heal (def. 1)", repconvar = "rep_ttt_veteran_full_heal", parent = innproplst }
     innproplst:AddItem(vetheal)
+
+    local vethbon = xlib.makeslider { label = "ttt_veteran_heal_bonus (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_veteran_heal_bonus", parent = innproplst }
+    innproplst:AddItem(vethbon)
+
+    local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
+    innproplst:AddItem(vetann)
 
     local doclbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Doctor settings:", parent = innproplst }
     innproplst:AddItem(doclbl)

@@ -93,6 +93,8 @@ local function init()
         ULib.replicatedWritableCvar("ttt_deputy_use_detective_icon", "rep_ttt_deputy_use_detective_icon", GetConVarNumber("ttt_deputy_use_detective_icon"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_damage_bonus", "rep_ttt_veteran_damage_bonus", GetConVarNumber("ttt_veteran_damage_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_full_heal", "rep_ttt_veteran_full_heal", GetConVarNumber("ttt_veteran_full_heal"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_heal_bonus", "rep_ttt_veteran_heal_bonus", GetConVarNumber("ttt_veteran_heal_bonus"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_veteran_announce", "rep_ttt_veteran_announce", GetConVarNumber("ttt_veteran_announce"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_doctor_mode", "rep_ttt_doctor_mode", GetConVarNumber("ttt_doctor_mode"), false, false, "xgui_gmsettings")
 
         --jester properties
