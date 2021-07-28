@@ -71,6 +71,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_parasite_respawn_mode", "rep_ttt_parasite_respawn_mode", GetConVarNumber("ttt_parasite_respawn_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_parasite_respawn_health", "rep_ttt_parasite_respawn_health", GetConVarNumber("ttt_parasite_respawn_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_parasite_announce_infection", "rep_ttt_parasite_announce_infection", GetConVarNumber("ttt_parasite_announce_infection"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_parasite_cure_mode", "rep_ttt_parasite_cure_mode", GetConVarNumber("ttt_parasite_cure_mode"), false, false, "xgui_gmsettings")
 
         --innocent properties
         ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
