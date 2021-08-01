@@ -661,13 +661,13 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 675)
+    jespropclp:SetSize(390, 700)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 675)
+    jesproplst:SetSize(390, 700)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -735,6 +735,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local clohoa = xlib.makecheckbox { label = "ttt_clown_heal_on_activate (def. 0)", repconvar = "rep_ttt_clown_heal_on_activate", parent = jesproplst }
     jesproplst:AddItem(clohoa)
+
+    local closao = xlib.makecheckbox { label = "ttt_clown_shop_active_only (def. 1)", repconvar = "rep_ttt_clown_shop_active_only", parent = jesproplst }
+    jesproplst:AddItem(closao)
 
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
