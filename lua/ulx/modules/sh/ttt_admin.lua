@@ -11,7 +11,7 @@ local function UpdateRoles()
     table.Empty(ulx.target_role)
 
     for wrole = 0, ROLE_MAX or 25 do
-        table.insert(ulx.target_role, ROLE_STRINGS[wrole])
+        table.insert(ulx.target_role, ROLE_STRINGS_RAW[wrole])
     end
 end
 
@@ -269,7 +269,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
         local affected_plys = {}
 
-        local role = table.KeyFromValue(ROLE_STRINGS, target_role)
+        local role = table.KeyFromValue(ROLE_STRINGS_RAW, target_role)
         local role_string = ROLE_STRINGS_EXT[role]
         for i = 1, #target_plys do
             local v = target_plys[i]
@@ -638,7 +638,7 @@ local function updateNextround()
     table.Empty(ulx.next_round) -- Don't reassign so we don't lose our refs
 
     for wrole = 0, ROLE_MAX do
-        table.insert(ulx.next_round, ROLE_STRINGS[wrole])
+        table.insert(ulx.next_round, ROLE_STRINGS_RAW[wrole])
     end
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
@@ -687,7 +687,7 @@ nxtr:help("Forces the target to be a role in the following round.")
 
 local function GetRoleFromString(role_string)
     for wrole = 0, ROLE_MAX do
-        if ROLE_STRINGS[wrole] == role_string then
+        if ROLE_STRINGS_RAW[wrole] == role_string then
             return wrole
         end
     end

@@ -453,10 +453,10 @@ local function AddRoleHealthSettings(gppnl)
         local health = "100"
         if role == ROLE_OLDMAN then health = "1"
         elseif role == ROLE_KILLER then health = "150" end
-        local starthealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS[role] .. "_starting_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_starting_health", parent = rolehealthlst }
+        local starthealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS_RAW[role] .. "_starting_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_starting_health", parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
-        local maxhealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS[role] .. "_max_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_max_health", parent = rolehealthlst }
+        local maxhealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS_RAW[role] .. "_max_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_max_health", parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
     end
 end

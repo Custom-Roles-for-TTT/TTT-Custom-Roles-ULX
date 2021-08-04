@@ -36,7 +36,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_monster_chance", "rep_ttt_monster_chance", GetConVarNumber("ttt_monster_chance"), false, false, "xgui_gmsettings")
 
         for role = 0, ROLE_MAX do
-            local rolestring = ROLE_STRINGS[role]
+            local rolestring = ROLE_STRINGS_RAW[role]
             if not DEFAULT_ROLES[role] then
                 ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_enabled", "rep_ttt_" .. rolestring .. "_enabled", GetConVarNumber("ttt_" .. rolestring .. "_enabled"), false, false, "xgui_gmsettings")
                 ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_spawn_weight", "rep_ttt_" .. rolestring .. "_spawn_weight", GetConVarNumber("ttt_" .. rolestring .. "_spawn_weight"), false, false, "xgui_gmsettings")
@@ -166,7 +166,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_position", "rep_ttt_shop_random_position", GetConVarNumber("ttt_shop_random_position"), false, false, "xgui_gmsettings")
         for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
-            local rolestring = ROLE_STRINGS[role]
+            local rolestring = ROLE_STRINGS_RAW[role]
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
 
@@ -243,7 +243,7 @@ local function init()
         -- other credits
         for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
             if not DEFAULT_ROLES[role] then
-                local rolestring = ROLE_STRINGS[role]
+                local rolestring = ROLE_STRINGS_RAW[role]
                 ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting", "rep_ttt_" .. rolestring .. "_credits_starting", GetConVarNumber("ttt_" .. rolestring .. "_credits_starting"), false, false, "xgui_gmsettings")
             end
         end
