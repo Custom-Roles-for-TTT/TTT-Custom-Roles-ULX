@@ -463,13 +463,13 @@ end
 
 local function AddTraitorProperties(gppnl)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    trapropclp:SetSize(390, 680)
+    trapropclp:SetSize(390, 705)
     trapropclp:SetExpanded(1)
     trapropclp:SetLabel("Traitor Properties")
 
     local traproplst = vgui.Create("DPanelList", trapropclp)
     traproplst:SetPos(5, 25)
-    traproplst:SetSize(390, 680)
+    traproplst:SetSize(390, 705)
     traproplst:SetSpacing(5)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
@@ -552,6 +552,9 @@ local function AddTraitorProperties(gppnl)
 
     local paritr = xlib.makecheckbox { label = "ttt_parasite_infection_transfer_reset (def. 1)", repconvar = "rep_ttt_parasite_infection_transfer_reset", parent = traproplst }
     traproplst:AddItem(paritr)
+
+    local parism = xlib.makeslider { label = "ttt_parasite_infection_suicide_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_parasite_infection_suicide_mode", parent = traproplst }
+    traproplst:AddItem(parism)
 
     local parrmd = xlib.makeslider { label = "ttt_parasite_respawn_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_parasite_respawn_mode", parent = traproplst }
     traproplst:AddItem(parrmd)
