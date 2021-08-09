@@ -297,15 +297,6 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 GiveLoadoutItems(v)
                 GiveLoadoutWeapons(v)
 
-                if target_role == "doctor" then
-                    local mode = GetConVar("ttt_doctor_mode"):GetInt()
-                    if mode == DOCTOR_MODE_STATION then
-                        v:Give("weapon_ttt_health_station")
-                    elseif mode == DOCTOR_MODE_EMT then
-                        v:Give("weapon_doc_defib")
-                    end
-                end
-
                 table.insert(affected_plys, v)
 
                 v:SetMaxHealth(100)

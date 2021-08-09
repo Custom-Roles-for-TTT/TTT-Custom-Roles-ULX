@@ -244,13 +244,13 @@ end
 
 local function AddSpecialistInnocentSettings(gppnl)
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 540)
+    spinnclp:SetSize(390, 680)
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 540)
+    spinnlst:SetSize(390, 680)
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -321,6 +321,24 @@ local function AddSpecialistInnocentSettings(gppnl)
 
     local mindoc = xlib.makeslider { label = "ttt_doctor_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_doctor_min_players", parent = spinnlst }
     spinnlst:AddItem(mindoc)
+
+    local hastri = xlib.makecheckbox { label = "ttt_trickster_enabled (def. 0)", repconvar = "rep_ttt_trickster_enabled", parent = spinnlst }
+    spinnlst:AddItem(hastri)
+
+    local weighttri = xlib.makeslider { label = "ttt_trickster_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_trickster_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weighttri)
+
+    local mintri = xlib.makeslider { label = "ttt_trickster_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_trickster_min_players", parent = spinnlst }
+    spinnlst:AddItem(mintri)
+
+    local hasmed = xlib.makecheckbox { label = "ttt_paramedic_enabled (def. 0)", repconvar = "rep_ttt_paramedic_enabled", parent = spinnlst }
+    spinnlst:AddItem(hasmed)
+
+    local weightmed = xlib.makeslider { label = "ttt_paramedic_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_paramedic_spawn_weight", parent = spinnlst }
+    spinnlst:AddItem(weightmed)
+
+    local minmed = xlib.makeslider { label = "ttt_paramedic_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_paramedic_min_players", parent = spinnlst }
+    spinnlst:AddItem(minmed)
 end
 
 local function AddIndependentRoleSettings(gppnl)
@@ -571,13 +589,13 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 700)
+    innpropclp:SetSize(390, 680)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 700)
+    innproplst:SetSize(390, 680)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -670,11 +688,6 @@ local function AddInnocentProperties(gppnl)
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
 
-    local doclbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Doctor settings:", parent = innproplst }
-    innproplst:AddItem(doclbl)
-
-    local docmode = xlib.makeslider { label = "ttt_doctor_mode (def. 0)", min = 0, max = 1, repconvar = "rep_ttt_doctor_mode", parent = innproplst }
-    innproplst:AddItem(docmode)
 end
 
 local function AddJesterRoleProperties(gppnl)
@@ -901,13 +914,13 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 40)
+    crpropclp:SetSize(390, 80)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 40)
+    crproplst:SetSize(390, 80)
     crproplst:SetSpacing(5)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
@@ -915,6 +928,12 @@ local function AddCustomRoleProperties(gppnl)
 
     local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
     crproplst:AddItem(singdocqua)
+
+    local singmedhyp = xlib.makecheckbox { label = "ttt_single_paramedic_hypnotist (def. 0)", repconvar = "rep_ttt_single_paramedic_hypnotist", parent = crproplst }
+    crproplst:AddItem(singmedhyp)
+
+    local singphapar = xlib.makecheckbox { label = "ttt_single_phantom_parasite (def. 0)", repconvar = "rep_ttt_single_phantom_parasite", parent = crproplst }
+    crproplst:AddItem(singphapar)
 end
 
 local function AddRoleShop(gppnl)
@@ -1374,7 +1393,7 @@ local function AddEquipmentCreditsModule()
     local eczccs = xlib.makeslider { label = "ttt_zombie_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zombie_credits_starting", parent = ecoclst }
     ecoclst:AddItem(eczccs)
 
-    local ecdccs = xlib.makeslider { label = "ttt_doctor_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_doctor_credits_starting", parent = ecoclst }
+    local ecdccs = xlib.makeslider { label = "ttt_doctor_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_doctor_credits_starting", parent = ecoclst }
     ecoclst:AddItem(ecdccs)
 
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)

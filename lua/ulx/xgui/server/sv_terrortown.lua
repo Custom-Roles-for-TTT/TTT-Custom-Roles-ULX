@@ -101,7 +101,6 @@ local function init()
         ULib.replicatedWritableCvar("ttt_veteran_full_heal", "rep_ttt_veteran_full_heal", GetConVarNumber("ttt_veteran_full_heal"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_heal_bonus", "rep_ttt_veteran_heal_bonus", GetConVarNumber("ttt_veteran_heal_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_announce", "rep_ttt_veteran_announce", GetConVarNumber("ttt_veteran_announce"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_doctor_mode", "rep_ttt_doctor_mode", GetConVarNumber("ttt_doctor_mode"), false, false, "xgui_gmsettings")
 
         --jester properties
         ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
@@ -167,6 +166,8 @@ local function init()
         --other custom role properties
         ULib.replicatedWritableCvar("ttt_single_deputy_impersonator", "rep_ttt_single_deputy_impersonator", GetConVarNumber("ttt_single_deputy_impersonator"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_single_doctor_quack", "rep_ttt_single_doctor_quack", GetConVarNumber("ttt_single_doctor_quack"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_single_paramedic_hypnotist", "rep_ttt_single_paramedic_hypnotist", GetConVarNumber("ttt_single_paramedic_hypnotist"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_single_phantom_parasite", "rep_ttt_single_phantom_parasite", GetConVarNumber("ttt_single_phantom_parasite"), false, false, "xgui_gmsettings")
 
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
