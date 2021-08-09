@@ -763,17 +763,17 @@ local function AddJesterRoleProperties(gppnl)
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
 
-    local begrev = xlib.makecheckbox { label = "ttt_beggar_reveal_change (def. 1)", repconvar = "rep_ttt_beggar_reveal_change", parent = jesproplst }
-    jesproplst:AddItem(begrev)
+    local begrevt = xlib.makeslider { label = "ttt_beggar_reveal_traitor (def. 1)", min = 0, max = 3, repconvar = "rep_ttt_beggar_reveal_traitor", parent = jesproplst }
+    jesproplst:AddItem(begrevt)
+
+    local begrevi = xlib.makeslider { label = "ttt_beggar_reveal_innocent (def. 2)", min = 0, max = 3, repconvar = "rep_ttt_beggar_reveal_innocent", parent = jesproplst }
+    jesproplst:AddItem(begrevi)
 
     local begres = xlib.makecheckbox { label = "ttt_beggar_respawn (def. 0)", repconvar = "rep_ttt_beggar_respawn", parent = jesproplst }
     jesproplst:AddItem(begres)
 
     local begresd = xlib.makeslider { label = "ttt_beggar_respawn_delay (def. 3)", min = 0, max = 30, repconvar = "rep_ttt_beggar_respawn_delay", parent = jesproplst }
     jesproplst:AddItem(begresd)
-
-    local begnm = xlib.makeslider { label = "ttt_beggar_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_beggar_notify_mode", parent = jesproplst }
-    jesproplst:AddItem(begnm)
 
     local begns = xlib.makecheckbox { label = "ttt_beggar_notify_sound (def. 0)", repconvar = "rep_ttt_beggar_notify_sound", parent = jesproplst }
     jesproplst:AddItem(begns)
