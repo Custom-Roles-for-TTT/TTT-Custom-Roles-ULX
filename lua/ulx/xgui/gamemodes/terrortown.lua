@@ -562,7 +562,7 @@ local function AddTraitorProperties(gppnl)
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
 
-    local partim = xlib.makeslider { label = "ttt_parasite_infection_time (def. 90)", min = 0, max = 300, repconvar = "rep_ttt_parasite_infection_time", parent = traproplst }
+    local partim = xlib.makeslider { label = "ttt_parasite_infection_time (def. 45)", min = 0, max = 300, repconvar = "rep_ttt_parasite_infection_time", parent = traproplst }
     traproplst:AddItem(partim)
 
     local parit = xlib.makecheckbox { label = "ttt_parasite_infection_transfer (def. 0)", repconvar = "rep_ttt_parasite_infection_transfer", parent = traproplst }
