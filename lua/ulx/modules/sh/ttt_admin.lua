@@ -660,11 +660,11 @@ function ulx.nextround(calling_ply, target_plys, next_round)
             local v = target_plys[i]
             local id = v:SteamID64()
 
-            if MarkedElsewhere(id) then
-                ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
-            elseif next_round == "unmark" then
+            if next_round == "unmark" then
                 PlysMarkedForNextRound[id] = nil
                 table.insert(affected_plys, v)
+            elseif MarkedElsewhere(id) then
+                ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
             else
                 PlysMarkedForNextRound[id] = next_round
                 table.insert(affected_plys, v)
