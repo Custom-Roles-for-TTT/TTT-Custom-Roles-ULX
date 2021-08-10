@@ -1370,13 +1370,13 @@ local function AddEquipmentCreditsModule()
 
     --Jester Credits
     local ecjcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecjcclp:SetSize(390, 50)
+    ecjcclp:SetSize(390, 75)
     ecjcclp:SetExpanded(0)
     ecjcclp:SetLabel("Jester Credits")
 
     local ecjclst = vgui.Create("DPanelList", ecjcclp)
     ecjclst:SetPos(5, 25)
-    ecjclst:SetSize(390, 50)
+    ecjclst:SetSize(390, 75)
     ecjclst:SetSpacing(5)
 
     local ecjccs = xlib.makeslider { label = "ttt_jester_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_jester_credits_starting", parent = ecjclst }
@@ -1384,6 +1384,9 @@ local function AddEquipmentCreditsModule()
 
     local ecsccs = xlib.makeslider { label = "ttt_swapper_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swapper_credits_starting", parent = ecjclst }
     ecjclst:AddItem(ecsccs)
+
+    local eccccs = xlib.makeslider { label = "ttt_clown_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_credits_starting", parent = ecjclst }
+    ecjclst:AddItem(eccccs)
 
     --Other Credits
     local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
