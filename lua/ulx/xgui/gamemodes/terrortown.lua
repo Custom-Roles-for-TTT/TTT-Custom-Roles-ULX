@@ -67,6 +67,16 @@ terrortown_settings.processModules()
 xgui.hookEvent("onProcessModules", nil, terrortown_settings.processModules)
 xgui.addModule("TTT", terrortown_settings, "vgui/ttt/ulx_ttt.png", "xgui_gmsettings")
 
+local function GetTableUnion(first_tbl, second_tbl, excludes)
+    local union = {}
+    for k, v in pairs(first_tbl) do
+        if v and second_tbl[k] and (not excludes or not table.HasValue(excludes, k)) then
+            table.insert(union, k)
+        end
+    end
+    return union
+end
+
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
@@ -1298,40 +1308,53 @@ local function AddMapModule()
     xgui.addSubModule("Map-related", mprpnl, nil, "terrortown_settings")
 end
 
+local function AddRoleCreditsSlider(role_shops, lst)
+    for _, r in ipairs(role_shops) do
+        local role_string = ROLE_STRINGS_RAW[r]
+        local convar = "ttt_" .. role_string .. "_credits_starting"
+        local default = "0"
+        if ConVarExists(convar) then
+            default = GetConVar(convar):GetDefault()
+        end
+        local slider = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 0, max = 10, repconvar = "rep_" .. convar, parent = lst }
+        lst:AddItem(slider)
+    end
+end
+
+local function AddRoleCreditSection(pnl, label, role_list, excludes)
+    local role_shops = GetTableUnion(role_list, SHOP_ROLES, excludes)
+    local cat = vgui.Create("DCollapsibleCategory", pnl)
+    cat:SetSize(390, #role_shops * 25)
+    cat:SetExpanded(0)
+    cat:SetLabel(label .. " Credits")
+
+    local lst = vgui.Create("DPanelList", cat)
+    lst:SetPos(5, 25)
+    lst:SetSize(390, #role_shops * 25)
+    lst:SetSpacing(5)
+
+    AddRoleCreditsSlider(role_shops, lst)
+end
+
 local function AddEquipmentCreditsModule()
     local ecpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     --Traitor Credits
+    local traitor_shops = GetTableUnion(TRAITOR_ROLES, SHOP_ROLES, {ROLE_TRAITOR})
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 290)
+    ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 290)
+    ectclst:SetSize(390, 145 + (25 * #traitor_shops))
     ectclst:SetSpacing(5)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
     ectclst:AddItem(ectccs)
 
-    local ecthcs = xlib.makeslider { label = "ttt_hypnotist_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_hypnotist_credits_starting", parent = ectclst }
-    ectclst:AddItem(ecthcs)
-
-    local ectics = xlib.makeslider { label = "ttt_impersonator_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_credits_starting", parent = ectclst }
-    ectclst:AddItem(ectics)
-
-    local ectacs = xlib.makeslider { label = "ttt_assassin_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_assassin_credits_starting", parent = ectclst }
-    ectclst:AddItem(ectacs)
-
-    local ecvccs = xlib.makeslider { label = "ttt_vampire_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_vampire_credits_starting", parent = ectclst }
-    ectclst:AddItem(ecvccs)
-
-    local ecqacs = xlib.makeslider { label = "ttt_quack_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_quack_credits_starting", parent = ectclst }
-    ectclst:AddItem(ecqacs)
-
-    local ecpccs = xlib.makeslider { label = "ttt_parasite_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_parasite_credits_starting", parent = ectclst }
-    ectclst:AddItem(ecpccs)
+    AddRoleCreditsSlider(traitor_shops, ectclst)
 
     local ectcab = xlib.makecheckbox { label = "ttt_credits_alonebonus (def. 1)", repconvar = "rep_ttt_credits_alonebonus", parent = ectclst }
     ectclst:AddItem(ectcab)
@@ -1368,48 +1391,9 @@ local function AddEquipmentCreditsModule()
     local ecdctd = xlib.makeslider { label = "ttt_det_credits_traitordead (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitordead", parent = ecdclst }
     ecdclst:AddItem(ecdctd)
 
-    --Jester Credits
-    local ecjcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecjcclp:SetSize(390, 75)
-    ecjcclp:SetExpanded(0)
-    ecjcclp:SetLabel("Jester Credits")
-
-    local ecjclst = vgui.Create("DPanelList", ecjcclp)
-    ecjclst:SetPos(5, 25)
-    ecjclst:SetSize(390, 75)
-    ecjclst:SetSpacing(5)
-
-    local ecjccs = xlib.makeslider { label = "ttt_jester_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_jester_credits_starting", parent = ecjclst }
-    ecjclst:AddItem(ecjccs)
-
-    local ecsccs = xlib.makeslider { label = "ttt_swapper_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swapper_credits_starting", parent = ecjclst }
-    ecjclst:AddItem(ecsccs)
-
-    local eccccs = xlib.makeslider { label = "ttt_clown_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_credits_starting", parent = ecjclst }
-    ecjclst:AddItem(eccccs)
-
-    --Other Credits
-    local ecocclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecocclp:SetSize(390, 75)
-    ecocclp:SetExpanded(0)
-    ecocclp:SetLabel("Other Credits")
-
-    local ecoclst = vgui.Create("DPanelList", ecocclp)
-    ecoclst:SetPos(5, 25)
-    ecoclst:SetSize(390, 75)
-    ecoclst:SetSpacing(5)
-
-    local ecmccs = xlib.makeslider { label = "ttt_mercenary_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_credits_starting", parent = ecoclst }
-    ecoclst:AddItem(ecmccs)
-
-    local eckccs = xlib.makeslider { label = "ttt_killer_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_killer_credits_starting", parent = ecoclst }
-    ecoclst:AddItem(eckccs)
-
-    local eczccs = xlib.makeslider { label = "ttt_zombie_credits_starting (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zombie_credits_starting", parent = ecoclst }
-    ecoclst:AddItem(eczccs)
-
-    local ecdccs = xlib.makeslider { label = "ttt_doctor_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_doctor_credits_starting", parent = ecoclst }
-    ecoclst:AddItem(ecdccs)
+    AddRoleCreditSection(ecpnl, "Jester", JESTER_ROLES)
+    AddRoleCreditSection(ecpnl, "Innocent", INNOCENT_ROLES, {ROLE_DETECTIVE})
+    AddRoleCreditSection(ecpnl, "Independent", INDEPENDENT_ROLES)
 
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
     xgui.addSubModule("Equipment Credits", ecpnl, nil, "terrortown_settings")
