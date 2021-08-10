@@ -311,15 +311,103 @@ local function AddRoleHealthSettings(gppnl)
     end
 end
 
+local function GetExternalRolesForTeam(role_list)
+    local team_list = {}
+    if ROLE_MAX >= ROLE_EXTERNAL_START then
+        for role = ROLE_EXTERNAL_START, ROLE_MAX do
+            if role_list[role] then
+                table.insert(team_list, role)
+            end
+        end
+    end
+    return team_list
+end
+
+local function GetExternalRoleConVars(team_list)
+    local role_cvars = {}
+    local num_count, bool_count, text_count = 0, 0, 0
+    for _, r in ipairs(team_list) do
+        if EXTERNAL_ROLE_CONVARS[r] then
+            local role_nums, role_bools, role_texts = {}, {}, {}
+            for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[r]) do
+                if cvar.type == ROLE_CONVAR_TYPE_NUM then
+                    table.insert(role_nums, cvar)
+                elseif cvar.type == ROLE_CONVAR_TYPE_BOOL then
+                    table.insert(role_bools, cvar)
+                elseif cvar.type == ROLE_CONVAR_TYPE_TEXT then
+                    table.insert(role_texts, cvar)
+                else
+                    ErrorNoHalt("WARNING: Role (" .. r .. ") tried to register a convar with an unknown type: " .. tostring(cvar.type))
+                end
+            end
+            num_count = num_count + #role_nums
+            bool_count = bool_count + #role_bools
+            text_count = text_count + #role_texts
+            role_cvars[r] = {
+                nums = role_nums,
+                bools = role_bools,
+                texts = role_texts
+            }
+        end
+    end
+    return role_cvars, num_count, bool_count, text_count
+end
+
+local function AddExternalRoleProperties(role, role_cvars, list)
+    local rolestring = ROLE_STRINGS[role]
+    local label = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = rolestring .. " settings:", parent = list }
+    list:AddItem(label)
+
+    for _, c in ipairs(role_cvars.nums) do
+        local name = c.cvar
+        local cvar = GetConVar(name)
+        local default = cvar:GetDefault()
+        local decimal = c.decimal or 0
+
+        local slider = xlib.makeslider { label = name .. " (def. " .. default .. ")", min = cvar:GetMin(), max = cvar:GetMax(), decimal = decimal, repconvar = "rep_" .. name, parent = list }
+        list:AddItem(slider)
+    end
+
+    for _, c in ipairs(role_cvars.bools) do
+        local name = c.cvar
+        local default = GetConVar(name):GetDefault()
+        local check = xlib.makecheckbox { label = name .. " (def. " .. default .. ")", repconvar = "rep_" .. name, parent = list }
+        list:AddItem(check)
+    end
+
+    for _, c in ipairs(role_cvars.texts) do
+        local name = c.cvar
+        local textlabel = xlib.makelabel { label = name, parent = list }
+        list:AddItem(textlabel)
+        local textbox = xlib.maketextbox { repconvar = "rep_" .. name, enableinput = true, parent = list }
+        list:AddItem(textbox)
+    end
+end
+
+local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local external_roles_with_cvars = #role_cvars
+    -- Labels
+    return (external_roles_with_cvars * 20) +
+            -- Sliders
+            (num_count * 25) +
+            -- Checkboxes
+            (bool_count * 20) +
+            -- Textboxes
+            (text_count * 53)
+end
+
 local function AddTraitorProperties(gppnl)
+    local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
+    local height = 705 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    trapropclp:SetSize(390, 705)
+    trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
     trapropclp:SetLabel("Traitor Properties")
 
     local traproplst = vgui.Create("DPanelList", trapropclp)
     traproplst:SetPos(5, 25)
-    traproplst:SetSize(390, 705)
+    traproplst:SetSize(390, height)
     traproplst:SetSpacing(5)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
@@ -417,17 +505,26 @@ local function AddTraitorProperties(gppnl)
 
     local parcurmo = xlib.makeslider { label = "ttt_parasite_cure_mode (def. 2)", min = 0, max = 2, repconvar = "rep_ttt_parasite_cure_mode", parent = traproplst }
     traproplst:AddItem(parcurmo)
+
+    for _, r in ipairs(external_traitors) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], traproplst)
+        end
+    end
 end
 
 local function AddInnocentProperties(gppnl)
+    local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
+    local height = 660 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    innpropclp:SetSize(390, 680)
+    innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
     innpropclp:SetLabel("Innocent Properties")
 
     local innproplst = vgui.Create("DPanelList", innpropclp)
     innproplst:SetPos(5, 25)
-    innproplst:SetSize(390, 680)
+    innproplst:SetSize(390, height)
     innproplst:SetSpacing(5)
 
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
@@ -520,17 +617,25 @@ local function AddInnocentProperties(gppnl)
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
 
+    for _, r in ipairs(external_innocents) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], innproplst)
+        end
+    end
 end
 
 local function AddJesterRoleProperties(gppnl)
+    local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
+    local height = 750 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    jespropclp:SetSize(390, 750)
+    jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
     jespropclp:SetLabel("Jester Properties")
 
     local jesproplst = vgui.Create("DPanelList", jespropclp)
     jesproplst:SetPos(5, 25)
-    jesproplst:SetSize(390, 750)
+    jesproplst:SetSize(390, height)
     jesproplst:SetSpacing(5)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
@@ -637,17 +742,26 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodrol = xlib.makecheckbox { label = "ttt_bodysnatcher_show_role (def. 1)", repconvar = "rep_ttt_bodysnatcher_show_role", parent = jesproplst }
     jesproplst:AddItem(bodrol)
+
+    for _, r in ipairs(external_jesters) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], jesproplst)
+        end
+    end
 end
 
 local function AddIndependentRoleProperties(gppnl)
+    local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
+    local height = 705 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, 705)
+    indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
     indpropclp:SetLabel("Independent Properties")
 
     local indproplst = vgui.Create("DPanelList", indpropclp)
     indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, 705)
+    indproplst:SetSize(390, height)
     indproplst:SetSpacing(5)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
@@ -745,6 +859,33 @@ local function AddIndependentRoleProperties(gppnl)
 
     local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 0)", repconvar = "rep_ttt_zombie_vision_enable", parent = indproplst }
     indproplst:AddItem(zomve)
+
+    for _, r in ipairs(external_independents) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], indproplst)
+        end
+    end
+end
+
+local function AddMonsterRoleProperties(gppnl)
+    local external_monsters = GetExternalRolesForTeam(MONSTER_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_monsters)
+    local height = GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    indpropclp:SetSize(390, height)
+    indpropclp:SetExpanded(1)
+    indpropclp:SetLabel("Monsters Properties")
+
+    local indproplst = vgui.Create("DPanelList", indpropclp)
+    indproplst:SetPos(5, 25)
+    indproplst:SetSize(390, height)
+    indproplst:SetSpacing(5)
+
+    for _, r in ipairs(external_monsters) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], indproplst)
+        end
+    end
 end
 
 local function AddCustomRoleProperties(gppnl)
@@ -986,6 +1127,7 @@ local function AddGameplayModule()
     AddInnocentProperties(gppnl)
     AddJesterRoleProperties(gppnl)
     AddIndependentRoleProperties(gppnl)
+    AddMonsterRoleProperties(gppnl)
     AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
