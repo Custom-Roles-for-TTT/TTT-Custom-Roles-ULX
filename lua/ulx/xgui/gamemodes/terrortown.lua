@@ -1575,6 +1575,23 @@ local function AddMiscModule()
     local misccp = xlib.makeslider { label = "ttt_crowbar_pushforce (def. 395)", min = 0, max = 10000, repconvar = "rep_ttt_crowbar_pushforce", parent = misclst }
     misclst:AddItem(misccp)
 
+    --Disable Features
+    local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)
+    dfclp:SetSize(390, 50)
+    dfclp:SetExpanded(1)
+    dfclp:SetLabel("Disable Features")
+
+    local dflst = vgui.Create("DPanelList", dfclp)
+    dflst:SetPos(5, 25)
+    dflst:SetSize(390, 50)
+    dflst:SetSpacing(5)
+
+    local dfdh = xlib.makecheckbox { label = "ttt_disable_headshots (def. 0)", repconvar = "rep_ttt_disable_headshots", parent = dflst }
+    dflst:AddItem(dfdh)
+
+    local dfdmw = xlib.makecheckbox { label = "ttt_disable_mapwin (def. 0)", repconvar = "rep_ttt_disable_mapwin", parent = dflst }
+    dflst:AddItem(dfdmw)
+
     xgui.hookEvent("onProcessModules", nil, miscpnl.processModules)
     xgui.addSubModule("Miscellaneous", miscpnl, nil, "terrortown_settings")
 end
