@@ -343,13 +343,13 @@ end
 
 local function AddIndependentRoleSettings(gppnl)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 650)
+    indclp:SetSize(390, 615)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 650)
+    indlst:SetSize(390, 615)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
@@ -435,6 +435,15 @@ local function AddIndependentRoleSettings(gppnl)
 
     local minzom = xlib.makeslider { label = "ttt_zombie_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zombie_min_players", parent = indlst }
     indlst:AddItem(minzom)
+
+    local hasmad = xlib.makecheckbox { label = "ttt_madscientist_enabled (def. 0)", repconvar = "rep_ttt_madscientist_enabled", parent = indlst }
+    indlst:AddItem(hasmad)
+
+    local weightmad = xlib.makeslider { label = "ttt_madscientist_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_madscientist_spawn_weight", parent = indlst }
+    indlst:AddItem(weightmad)
+
+    local minmad = xlib.makeslider { label = "ttt_madscientist_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_madscientist_min_players", parent = indlst }
+    indlst:AddItem(minmad)
 end
 
 local function AddMonsterSettings(gppnl)
