@@ -76,6 +76,15 @@ local function GetTableUnion(first_tbl, second_tbl, excludes)
     end
     return union
 end
+local function GetTableWithExcludes(tbl, excludes)
+    local new_tbl = {}
+    for k, v in pairs(tbl) do
+        if v and (not excludes or not table.HasValue(excludes, k)) then
+            table.insert(new_tbl, k)
+        end
+    end
+    return new_tbl
+end
 
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
@@ -180,15 +189,30 @@ local function AddTraitorAndDetectiveSettings(gppnl)
     gptdlst:AddItem(dkm)
 end
 
+local function AddDefaultRoleSettings(lst, role_list)
+    for _, r in pairs(role_list) do
+        local role_string = ROLE_STRINGS_RAW[r]
+        local enabled = xlib.makecheckbox { label = "ttt_" .. role_string .. "_enabled (def. 0)", repconvar = "rep_ttt_" .. role_string .. "_enabled", parent = lst }
+        lst:AddItem(enabled)
+
+        local spawn_weight = xlib.makeslider { label = "ttt_" .. role_string .. "_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_" .. role_string .. "_spawn_weight", parent = lst }
+        lst:AddItem(spawn_weight)
+
+        local min_players = xlib.makeslider { label = "ttt_" .. role_string .. "_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_" .. role_string .. "_min_players", parent = lst }
+        lst:AddItem(min_players)
+    end
+end
+
 local function AddSpecialistTraitorSettings(gppnl)
+    local traitor_roles = GetTableWithExcludes(TRAITOR_ROLES, {ROLE_TRAITOR})
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
-    sptraclp:SetSize(390, 470)
+    sptraclp:SetSize(390, 50 + (70 * #traitor_roles))
     sptraclp:SetExpanded(1)
     sptraclp:SetLabel("Specialist Traitor Settings")
 
     local sptralst = vgui.Create("DPanelList", sptraclp)
     sptralst:SetPos(5, 25)
-    sptralst:SetSize(390, 470)
+    sptralst:SetSize(390, 50 + (70 * #traitor_roles))
     sptralst:SetSpacing(5)
 
     local stpercet = xlib.makeslider { label = "ttt_special_traitor_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_pct", parent = sptralst }
@@ -197,70 +221,19 @@ local function AddSpecialistTraitorSettings(gppnl)
     local stchance = xlib.makeslider { label = "ttt_special_traitor_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_chance", parent = sptralst }
     sptralst:AddItem(stchance)
 
-    local hashyp = xlib.makecheckbox { label = "ttt_hypnotist_enabled (def. 0)", repconvar = "rep_ttt_hypnotist_enabled", parent = sptralst }
-    sptralst:AddItem(hashyp)
-
-    local weighthyp = xlib.makeslider { label = "ttt_hypnotist_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_hypnotist_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weighthyp)
-
-    local minhyp = xlib.makeslider { label = "ttt_hypnotist_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_hypnotist_min_players", parent = sptralst }
-    sptralst:AddItem(minhyp)
-
-    local hasimp = xlib.makecheckbox { label = "ttt_impersonator_enabled (def. 0)", repconvar = "rep_ttt_impersonator_enabled", parent = sptralst }
-    sptralst:AddItem(hasimp)
-
-    local weightimp = xlib.makeslider { label = "ttt_impersonator_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_impersonator_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weightimp)
-
-    local minimp = xlib.makeslider { label = "ttt_impersonator_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_min_players", parent = sptralst }
-    sptralst:AddItem(minimp)
-
-    local hasasn = xlib.makecheckbox { label = "ttt_assassin_enabled (def. 0)", repconvar = "rep_ttt_assassin_enabled", parent = sptralst }
-    sptralst:AddItem(hasasn)
-
-    local weightasn = xlib.makeslider { label = "ttt_assassin_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_assassin_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weightasn)
-
-    local minasn = xlib.makeslider { label = "ttt_assassin_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_assassin_min_players", parent = sptralst }
-    sptralst:AddItem(minasn)
-
-    local hasvam = xlib.makecheckbox { label = "ttt_vampire_enabled (def. 0)", repconvar = "rep_ttt_vampire_enabled", parent = sptralst }
-    sptralst:AddItem(hasvam)
-
-    local weightvam = xlib.makeslider { label = "ttt_vampire_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_vampire_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weightvam)
-
-    local minvam = xlib.makeslider { label = "ttt_vampire_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_vampire_min_players", parent = sptralst }
-    sptralst:AddItem(minvam)
-
-    local hasqua = xlib.makecheckbox { label = "ttt_quack_enabled (def. 0)", repconvar = "rep_ttt_quack_enabled", parent = sptralst }
-    sptralst:AddItem(hasqua)
-
-    local weightqua = xlib.makeslider { label = "ttt_quack_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_quack_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weightqua)
-
-    local minqua = xlib.makeslider { label = "ttt_quack_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_quack_min_players", parent = sptralst }
-    sptralst:AddItem(minqua)
-
-    local haspar = xlib.makecheckbox { label = "ttt_parasite_enabled (def. 0)", repconvar = "rep_ttt_parasite_enabled", parent = sptralst }
-    sptralst:AddItem(haspar)
-
-    local weightpar = xlib.makeslider { label = "ttt_parasite_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_parasite_spawn_weight", parent = sptralst }
-    sptralst:AddItem(weightpar)
-
-    local minpar = xlib.makeslider { label = "ttt_parasite_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_parasite_min_players", parent = sptralst }
-    sptralst:AddItem(minpar)
+    AddDefaultRoleSettings(sptralst, traitor_roles)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
+    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, {ROLE_DETECTIVE, ROLE_INNOCENT})
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 680)
+    spinnclp:SetSize(390, 50 + (70 * #inno_roles))
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 680)
+    spinnlst:SetSize(390, 50 + (70 * #inno_roles))
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -269,202 +242,39 @@ local function AddSpecialistInnocentSettings(gppnl)
     local sichance = xlib.makeslider { label = "ttt_special_innocent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_chance", parent = spinnlst }
     spinnlst:AddItem(sichance)
 
-    local hasgli = xlib.makecheckbox { label = "ttt_glitch_enabled (def. 0)", repconvar = "rep_ttt_glitch_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasgli)
-
-    local weightgli = xlib.makeslider { label = "ttt_glitch_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_glitch_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightgli)
-
-    local mingli = xlib.makeslider { label = "ttt_glitch_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_glitch_min_players", parent = spinnlst }
-    spinnlst:AddItem(mingli)
-
-    local haspha = xlib.makecheckbox { label = "ttt_phantom_enabled (def. 0)", repconvar = "rep_ttt_phantom_enabled", parent = spinnlst }
-    spinnlst:AddItem(haspha)
-
-    local weightpha = xlib.makeslider { label = "ttt_phantom_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_phantom_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightpha)
-
-    local minpha = xlib.makeslider { label = "ttt_phantom_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_phantom_min_players", parent = spinnlst }
-    spinnlst:AddItem(minpha)
-
-    local hasrev = xlib.makecheckbox { label = "ttt_revenger_enabled (def. 0)", repconvar = "rep_ttt_revenger_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasrev)
-
-    local weightrev = xlib.makeslider { label = "ttt_revenger_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_revenger_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightrev)
-
-    local minrev = xlib.makeslider { label = "ttt_revenger_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_revenger_min_players", parent = spinnlst }
-    spinnlst:AddItem(minrev)
-
-    local hasdep = xlib.makecheckbox { label = "ttt_deputy_enabled (def. 0)", repconvar = "rep_ttt_deputy_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasdep)
-
-    local weightdep = xlib.makeslider { label = "ttt_deputy_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_deputy_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightdep)
-
-    local mindep = xlib.makeslider { label = "ttt_deputy_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_min_players", parent = spinnlst }
-    spinnlst:AddItem(mindep)
-
-    local hasmer = xlib.makecheckbox { label = "ttt_mercenary_enabled (def. 0)", repconvar = "rep_ttt_mercenary_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasmer)
-
-    local weightmer = xlib.makeslider { label = "ttt_mercenary_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_mercenary_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightmer)
-
-    local minmer = xlib.makeslider { label = "ttt_mercenary_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_mercenary_min_players", parent = spinnlst }
-    spinnlst:AddItem(minmer)
-
-    local hasvet = xlib.makecheckbox { label = "ttt_veteran_enabled (def. 0)", repconvar = "rep_ttt_veteran_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasvet)
-
-    local weightvet = xlib.makeslider { label = "ttt_veteran_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_veteran_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightvet)
-
-    local minvet = xlib.makeslider { label = "ttt_veteran_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_min_players", parent = spinnlst }
-    spinnlst:AddItem(minvet)
-
-    local hasdoc = xlib.makecheckbox { label = "ttt_doctor_enabled (def. 0)", repconvar = "rep_ttt_doctor_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasdoc)
-
-    local weightdoc = xlib.makeslider { label = "ttt_doctor_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_doctor_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightdoc)
-
-    local mindoc = xlib.makeslider { label = "ttt_doctor_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_doctor_min_players", parent = spinnlst }
-    spinnlst:AddItem(mindoc)
-
-    local hastri = xlib.makecheckbox { label = "ttt_trickster_enabled (def. 0)", repconvar = "rep_ttt_trickster_enabled", parent = spinnlst }
-    spinnlst:AddItem(hastri)
-
-    local weighttri = xlib.makeslider { label = "ttt_trickster_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_trickster_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weighttri)
-
-    local mintri = xlib.makeslider { label = "ttt_trickster_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_trickster_min_players", parent = spinnlst }
-    spinnlst:AddItem(mintri)
-
-    local hasmed = xlib.makecheckbox { label = "ttt_paramedic_enabled (def. 0)", repconvar = "rep_ttt_paramedic_enabled", parent = spinnlst }
-    spinnlst:AddItem(hasmed)
-
-    local weightmed = xlib.makeslider { label = "ttt_paramedic_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_paramedic_spawn_weight", parent = spinnlst }
-    spinnlst:AddItem(weightmed)
-
-    local minmed = xlib.makeslider { label = "ttt_paramedic_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_paramedic_min_players", parent = spinnlst }
-    spinnlst:AddItem(minmed)
+    AddDefaultRoleSettings(spinnlst, inno_roles)
 end
 
 local function AddIndependentRoleSettings(gppnl)
+    local indep_roles = GetTableWithExcludes(INDEPENDENT_ROLES)
+    local jester_roles = GetTableWithExcludes(JESTER_ROLES)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 615)
+    indclp:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 615)
+    indlst:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
     indlst:AddItem(indchance)
 
-    local hasjes = xlib.makecheckbox { label = "ttt_jester_enabled (def. 0)", repconvar = "rep_ttt_jester_enabled", parent = indlst }
-    indlst:AddItem(hasjes)
-
-    local weightjes = xlib.makeslider { label = "ttt_jester_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_jester_spawn_weight", parent = indlst }
-    indlst:AddItem(weightjes)
-
-    local minjes = xlib.makeslider { label = "ttt_jester_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_jester_min_players", parent = indlst }
-    indlst:AddItem(minjes)
-
-    local hasswa = xlib.makecheckbox { label = "ttt_swapper_enabled (def. 0)", repconvar = "rep_ttt_swapper_enabled", parent = indlst }
-    indlst:AddItem(hasswa)
-
-    local weightswa = xlib.makeslider { label = "ttt_swapper_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_swapper_spawn_weight", parent = indlst }
-    indlst:AddItem(weightswa)
-
-    local minswa = xlib.makeslider { label = "ttt_swapper_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_swapper_min_players", parent = indlst }
-    indlst:AddItem(minswa)
-
-    local hasclo = xlib.makecheckbox { label = "ttt_clown_enabled (def. 0)", repconvar = "rep_ttt_clown_enabled", parent = indlst }
-    indlst:AddItem(hasclo)
-
-    local weightclo = xlib.makeslider { label = "ttt_clown_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_clown_spawn_weight", parent = indlst }
-    indlst:AddItem(weightclo)
-
-    local minclo = xlib.makeslider { label = "ttt_clown_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_clown_min_players", parent = indlst }
-    indlst:AddItem(minclo)
-
-    local hasbeg = xlib.makecheckbox { label = "ttt_beggar_enabled (def. 0)", repconvar = "rep_ttt_beggar_enabled", parent = indlst }
-    indlst:AddItem(hasbeg)
-
-    local weightbeg = xlib.makeslider { label = "ttt_beggar_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_beggar_spawn_weight", parent = indlst }
-    indlst:AddItem(weightbeg)
-
-    local minbeg = xlib.makeslider { label = "ttt_beggar_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_beggar_min_players", parent = indlst }
-    indlst:AddItem(minbeg)
-
-    local hasbod = xlib.makecheckbox { label = "ttt_bodysnatcher_enabled (def. 0)", repconvar = "rep_ttt_bodysnatcher_enabled", parent = indlst }
-    indlst:AddItem(hasbod)
-
-    local weightbod = xlib.makeslider { label = "ttt_bodysnatcher_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_bodysnatcher_spawn_weight", parent = indlst }
-    indlst:AddItem(weightbod)
-
-    local minbod = xlib.makeslider { label = "ttt_bodysnatcher_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_bodysnatcher_min_players", parent = indlst }
-    indlst:AddItem(minbod)
-
-    local hasdru = xlib.makecheckbox { label = "ttt_drunk_enabled (def. 0)", repconvar = "rep_ttt_drunk_enabled", parent = indlst }
-    indlst:AddItem(hasdru)
-
-    local weightdru = xlib.makeslider { label = "ttt_drunk_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_drunk_spawn_weight", parent = indlst }
-    indlst:AddItem(weightdru)
-
-    local mindru = xlib.makeslider { label = "ttt_drunk_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_drunk_min_players", parent = indlst }
-    indlst:AddItem(mindru)
-
-    local hasold = xlib.makecheckbox { label = "ttt_oldman_enabled (def. 0)", repconvar = "rep_ttt_oldman_enabled", parent = indlst }
-    indlst:AddItem(hasold)
-
-    local weightold = xlib.makeslider { label = "ttt_oldman_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_oldman_spawn_weight", parent = indlst }
-    indlst:AddItem(weightold)
-
-    local minold = xlib.makeslider { label = "ttt_oldman_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_oldman_min_players", parent = indlst }
-    indlst:AddItem(minold)
-
-    local haskil = xlib.makecheckbox { label = "ttt_killer_enabled (def. 0)", repconvar = "rep_ttt_killer_enabled", parent = indlst }
-    indlst:AddItem(haskil)
-
-    local weightkil = xlib.makeslider { label = "ttt_killer_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_killer_spawn_weight", parent = indlst }
-    indlst:AddItem(weightkil)
-
-    local minkil = xlib.makeslider { label = "ttt_killer_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_killer_min_players", parent = indlst }
-    indlst:AddItem(minkil)
-
-    local haszom = xlib.makecheckbox { label = "ttt_zombie_enabled (def. 0)", repconvar = "rep_ttt_zombie_enabled", parent = indlst }
-    indlst:AddItem(haszom)
-
-    local weightzom = xlib.makeslider { label = "ttt_zombie_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_zombie_spawn_weight", parent = indlst }
-    indlst:AddItem(weightzom)
-
-    local minzom = xlib.makeslider { label = "ttt_zombie_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_zombie_min_players", parent = indlst }
-    indlst:AddItem(minzom)
-
-    local hasmad = xlib.makecheckbox { label = "ttt_madscientist_enabled (def. 0)", repconvar = "rep_ttt_madscientist_enabled", parent = indlst }
-    indlst:AddItem(hasmad)
-
-    local weightmad = xlib.makeslider { label = "ttt_madscientist_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_madscientist_spawn_weight", parent = indlst }
-    indlst:AddItem(weightmad)
-
-    local minmad = xlib.makeslider { label = "ttt_madscientist_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_madscientist_min_players", parent = indlst }
-    indlst:AddItem(minmad)
+    AddDefaultRoleSettings(indlst, indep_roles)
+    AddDefaultRoleSettings(indlst, jester_roles)
 end
 
 local function AddMonsterSettings(gppnl)
+    local monster_roles = GetTableWithExcludes(MONSTER_ROLES)
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monclp:SetSize(390, 50)
+    monclp:SetSize(390, 50 + (70 * #monster_roles))
     monclp:SetExpanded(1)
     monclp:SetLabel("Monster Settings")
 
     local monlst = vgui.Create("DPanelList", monclp)
     monlst:SetPos(5, 25)
-    monlst:SetSize(390, 50)
+    monlst:SetSize(390, 50 + (70 * #monster_roles))
     monlst:SetSpacing(5)
 
     local monpercet = xlib.makeslider { label = "ttt_monster_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_pct", parent = monlst }
@@ -473,6 +283,7 @@ local function AddMonsterSettings(gppnl)
     local monchance = xlib.makeslider { label = "ttt_monster_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_chance", parent = monlst }
     monlst:AddItem(monchance)
 
+    AddDefaultRoleSettings(monlst, monster_roles)
 end
 
 local function AddRoleHealthSettings(gppnl)
@@ -487,13 +298,15 @@ local function AddRoleHealthSettings(gppnl)
     rolehealthlst:SetSpacing(5)
 
     for role = 0, ROLE_MAX do
-        local health = "100"
-        if role == ROLE_OLDMAN then health = "1"
-        elseif role == ROLE_KILLER then health = "150" end
-        local starthealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS_RAW[role] .. "_starting_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_starting_health", parent = rolehealthlst }
+        local rolestring = ROLE_STRINGS_RAW[role]
+        local convar = "ttt_" .. rolestring .. "_starting_health"
+        local default = GetConVar(convar):GetDefault()
+        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default ..")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
-        local maxhealth = xlib.makeslider { label = "ttt_" .. ROLE_STRINGS_RAW[role] .. "_max_health (def. " .. health ..")", min = 1, max = 200, repconvar = "rep_ttt_" .. ROLE_STRINGS[role] .. "_max_health", parent = rolehealthlst }
+        convar = "ttt_" .. rolestring .. "_max_health"
+        default = GetConVar(convar):GetDefault()
+        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default ..")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
     end
 end
