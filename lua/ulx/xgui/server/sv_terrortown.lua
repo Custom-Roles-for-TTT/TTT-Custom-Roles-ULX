@@ -170,6 +170,25 @@ local function init()
         ULib.replicatedWritableCvar("ttt_single_paramedic_hypnotist", "rep_ttt_single_paramedic_hypnotist", GetConVarNumber("ttt_single_paramedic_hypnotist"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_single_phantom_parasite", "rep_ttt_single_phantom_parasite", GetConVarNumber("ttt_single_phantom_parasite"), false, false, "xgui_gmsettings")
 
+        --external role properties
+        if ROLE_MAX >= ROLE_EXTERNAL_START then
+            for role = ROLE_EXTERNAL_START, ROLE_MAX do
+                if EXTERNAL_ROLE_CONVARS[role] then
+                    for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[role]) do
+                        local name = cvar.cvar
+                        local default
+                        -- Handle text defaults differently
+                        if cvar.type == ROLE_CONVAR_TYPE_TEXT then
+                            default = GetConVarString(name)
+                        else
+                            default = GetConVarNumber(name)
+                        end
+                        ULib.replicatedWritableCvar(name, "rep_" .. name, default, false, false, "xgui_gmsettings")
+                    end
+                end
+            end
+        end
+
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_position", "rep_ttt_shop_random_position", GetConVarNumber("ttt_shop_random_position"), false, false, "xgui_gmsettings")
@@ -294,6 +313,10 @@ local function init()
         ULib.replicatedWritableCvar("ttt_spawn_wave_interval", "rep_ttt_spawn_wave_interval", GetConVarNumber("ttt_spawn_wave_interval"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_crowbar_unlocks", "rep_ttt_crowbar_unlocks", GetConVarNumber("ttt_crowbar_unlocks"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_crowbar_pushforce", "rep_ttt_crowbar_pushforce", GetConVarNumber("ttt_crowbar_pushforce"), false, false, "xgui_gmsettings")
+
+        --disable features
+        ULib.replicatedWritableCvar("ttt_disable_headshots", "rep_ttt_disable_headshots", GetConVarNumber("ttt_disable_headshots"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_disable_mapwin", "rep_ttt_disable_mapwin", GetConVarNumber("ttt_disable_mapwin"), false, false, "xgui_gmsettings")
     end
 end
 
