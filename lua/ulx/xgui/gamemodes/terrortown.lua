@@ -403,7 +403,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 705 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 730 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -431,6 +431,9 @@ local function AddTraitorProperties(gppnl)
 
     local asntgt = xlib.makecheckbox { label = "ttt_assassin_show_target_icon (def. 0)", repconvar = "rep_ttt_assassin_show_target_icon", parent = traproplst }
     traproplst:AddItem(asntgt)
+
+    local asntve = xlib.makecheckbox { label = "ttt_assassin_target_vision_enable (def. 0)", repconvar = "rep_ttt_assassin_target_vision_enable", parent = traproplst }
+    traproplst:AddItem(asntve)
 
     local asntgtdelay = xlib.makeslider { label = "ttt_assassin_next_target_delay (def. 5)", min = 0, max = 10, repconvar = "rep_ttt_assassin_next_target_delay", parent = traproplst }
     traproplst:AddItem(asntgtdelay)
