@@ -67,6 +67,10 @@ terrortown_settings.processModules()
 xgui.hookEvent("onProcessModules", nil, terrortown_settings.processModules)
 xgui.addModule("TTT", terrortown_settings, "vgui/ttt/ulx_ttt.png", "xgui_gmsettings")
 
+local function GetReplicatedConVar(name)
+    return GetConVar("rep_" .. name)
+end
+
 local function GetTableUnion(first_tbl, second_tbl, excludes)
     local union = {}
     for k, v in pairs(first_tbl) do
@@ -300,13 +304,13 @@ local function AddRoleHealthSettings(gppnl)
     for role = 0, ROLE_MAX do
         local rolestring = ROLE_STRINGS_RAW[role]
         local convar = "ttt_" .. rolestring .. "_starting_health"
-        local default = GetConVar(convar):GetDefault()
-        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default ..")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        local default = GetReplicatedConVar(convar):GetDefault()
+        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
         convar = "ttt_" .. rolestring .. "_max_health"
-        default = GetConVar(convar):GetDefault()
-        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default ..")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        default = GetReplicatedConVar(convar):GetDefault()
+        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
     end
 end
@@ -360,7 +364,7 @@ local function AddExternalRoleProperties(role, role_cvars, list)
 
     for _, c in ipairs(role_cvars.nums) do
         local name = c.cvar
-        local cvar = GetConVar(name)
+        local cvar = GetReplicatedConVar(name)
         local default = cvar:GetDefault()
         local decimal = c.decimal or 0
 
@@ -370,7 +374,7 @@ local function AddExternalRoleProperties(role, role_cvars, list)
 
     for _, c in ipairs(role_cvars.bools) do
         local name = c.cvar
-        local default = GetConVar(name):GetDefault()
+        local default = GetReplicatedConVar(name):GetDefault()
         local check = xlib.makecheckbox { label = name .. " (def. " .. default .. ")", repconvar = "rep_" .. name, parent = list }
         list:AddItem(check)
     end
@@ -937,7 +941,7 @@ end
 
 local function AddShopSyncSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetConVar(c):GetDefault()
+        local default = GetReplicatedConVar(c):GetDefault()
         local sync = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
         lst:AddItem(sync)
     end
@@ -957,7 +961,7 @@ end
 
 local function AddShopModeSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetConVar(c):GetDefault()
+        local default = GetReplicatedConVar(c):GetDefault()
         local mode = xlib.makeslider { label = c .. " (def. " .. default .. ")", min = 0, max = 4, repconvar = "rep_".. c, parent = lst }
         lst:AddItem(mode)
     end
@@ -1239,10 +1243,7 @@ local function AddRoleCreditsSlider(role_shops, lst)
     for _, r in ipairs(role_shops) do
         local role_string = ROLE_STRINGS_RAW[r]
         local convar = "ttt_" .. role_string .. "_credits_starting"
-        local default = "0"
-        if ConVarExists(convar) then
-            default = GetConVar(convar):GetDefault()
-        end
+        local default = GetReplicatedConVar(convar):GetDefault()
         local slider = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 0, max = 10, repconvar = "rep_" .. convar, parent = lst }
         lst:AddItem(slider)
     end
@@ -1510,13 +1511,19 @@ local function AddMiscModule()
     xgui.addSubModule("Miscellaneous", miscpnl, nil, "terrortown_settings")
 end
 
-
-AddRoundStructureModule()
-AddGameplayModule()
-AddKarmaModule()
-AddMapModule()
-AddEquipmentCreditsModule()
-AddPlayerMovementModule()
-AddPropPossessionModule()
-AddAdminModule()
-AddMiscModule()
+hook.Add("InitPostEntity", "CustomRolesLocalLoad", function()
+    -- Force a delay to allow the replicated cvars to be created
+    timer.Simple(8, function()
+        AddRoundStructureModule()
+        AddGameplayModule()
+        AddKarmaModule()
+        AddMapModule()
+        AddEquipmentCreditsModule()
+        AddPlayerMovementModule()
+        AddPropPossessionModule()
+        AddAdminModule()
+        AddMiscModule()
+        -- Reload the modules to make sure the ones we just added are shown
+        xgui.processModules()
+    end)
+end)
