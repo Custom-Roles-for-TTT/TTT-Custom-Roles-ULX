@@ -1516,7 +1516,7 @@ end
 
 hook.Add("InitPostEntity", "CustomRolesLocalLoad", function()
     -- Force a delay to allow the replicated cvars to be created
-    timer.Simple(8, function()
+    timer.Simple(10, function()
         AddRoundStructureModule()
         AddGameplayModule()
         AddKarmaModule()
