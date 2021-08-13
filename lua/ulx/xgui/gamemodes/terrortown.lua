@@ -10,30 +10,29 @@ xlib.makelabel { x = 5, y = 230, w = 160, wordwrap = true, label = "Note to seve
 xlib.makelabel { x = 5, y = 275, w = 160, wordwrap = true, label = "All settings listed are explained here: http://ttt.badking.net/config- and-commands/convars", parent = terrortown_settings }
 xlib.makelabel { x = 5, y = 330, w = 160, wordwrap = true, label = "Not all settings echo to chat.", parent = terrortown_settings }
 
-
 terrortown_settings.panel = xlib.makepanel { x = 160, y = 25, w = 420, h = 318, parent = terrortown_settings }
 terrortown_settings.catList = xlib.makelistview { x = 5, y = 25, w = 150, h = 200, parent = terrortown_settings }
 terrortown_settings.catList:AddColumn("Terrorist Town Settings")
 terrortown_settings.catList.Columns[1].DoClick = function() end
 
-terrortown_settings.catList.OnRowSelected = function(self, LineID, Line)
-    local nPanel = xgui.modules.submodule[Line:GetValue(2)].panel
-    if nPanel ~= terrortown_settings.curPanel then
-        nPanel:SetZPos(0)
-        xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true })
+terrortown_settings.catList.OnRowSelected = function(self, lineid, line)
+    local panel = xgui.modules.submodule[line:GetValue(2)].panel
+    if panel ~= terrortown_settings.curPanel then
+        panel:SetZPos(0)
+        xlib.addToAnimQueue("pnlSlide", { panel = panel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true })
         if terrortown_settings.curPanel then
             terrortown_settings.curPanel:SetZPos(-1)
             xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
         end
         xlib.animQueue_start()
-        terrortown_settings.curPanel = nPanel
+        terrortown_settings.curPanel = panel
     else
-        xlib.addToAnimQueue("pnlSlide", { panel = nPanel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false })
+        xlib.addToAnimQueue("pnlSlide", { panel = panel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false })
         self:ClearSelection()
         terrortown_settings.curPanel = nil
         xlib.animQueue_start()
     end
-    if nPanel.onOpen then nPanel.onOpen() end --If the panel has it, call a function when it's opened
+    if panel.onOpen then panel.onOpen() end --If the panel has it, call a function when it's opened
 end
 
 --Process modular settings
@@ -61,7 +60,6 @@ function terrortown_settings.processModules()
     end
     terrortown_settings.catList:SortByColumn(1, false)
 end
-
 terrortown_settings.processModules()
 
 xgui.hookEvent("onProcessModules", nil, terrortown_settings.processModules)
@@ -69,6 +67,30 @@ xgui.addModule("TTT", terrortown_settings, "vgui/ttt/ulx_ttt.png", "xgui_gmsetti
 
 local function GetReplicatedConVar(name)
     return GetConVar("rep_" .. name)
+end
+
+local function GetReplicatedConVarDefault(name, default)
+    local convar = GetReplicatedConVar(name)
+    if not convar then
+        return default
+    end
+    return convar:GetDefault()
+end
+
+local function GetReplicatedConVarMin(name, min)
+    local convar = GetReplicatedConVar(name)
+    if not convar then
+        return min
+    end
+    return convar:GetMin()
+end
+
+local function GetReplicatedConVarMax(name, max)
+    local convar = GetReplicatedConVar(name)
+    if not convar then
+        return max
+    end
+    return convar:GetMax()
 end
 
 local function GetTableUnion(first_tbl, second_tbl, excludes)
@@ -304,12 +326,12 @@ local function AddRoleHealthSettings(gppnl)
     for role = 0, ROLE_MAX do
         local rolestring = ROLE_STRINGS_RAW[role]
         local convar = "ttt_" .. rolestring .. "_starting_health"
-        local default = GetReplicatedConVar(convar):GetDefault()
+        local default = GetReplicatedConVarDefault(convar, "100")
         local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
         convar = "ttt_" .. rolestring .. "_max_health"
-        default = GetReplicatedConVar(convar):GetDefault()
+        default = GetReplicatedConVarDefault(convar, "100")
         local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
     end
@@ -364,17 +386,18 @@ local function AddExternalRoleProperties(role, role_cvars, list)
 
     for _, c in ipairs(role_cvars.nums) do
         local name = c.cvar
-        local cvar = GetReplicatedConVar(name)
-        local default = cvar:GetDefault()
+        local default = GetReplicatedConVarDefault(name, "0")
+        local min = GetReplicatedConVarMin(name, 0)
+        local max = GetReplicatedConVarMax(name, 1)
         local decimal = c.decimal or 0
 
-        local slider = xlib.makeslider { label = name .. " (def. " .. default .. ")", min = cvar:GetMin(), max = cvar:GetMax(), decimal = decimal, repconvar = "rep_" .. name, parent = list }
+        local slider = xlib.makeslider { label = name .. " (def. " .. default .. ")", min = min, max = max, decimal = decimal, repconvar = "rep_" .. name, parent = list }
         list:AddItem(slider)
     end
 
     for _, c in ipairs(role_cvars.bools) do
         local name = c.cvar
-        local default = GetReplicatedConVar(name):GetDefault()
+        local default = GetReplicatedConVarDefault(name, "0")
         local check = xlib.makecheckbox { label = name .. " (def. " .. default .. ")", repconvar = "rep_" .. name, parent = list }
         list:AddItem(check)
     end
@@ -944,7 +967,7 @@ end
 
 local function AddShopSyncSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetReplicatedConVar(c):GetDefault()
+        local default = GetReplicatedConVarDefault(c, "0")
         local sync = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
         lst:AddItem(sync)
     end
@@ -964,7 +987,7 @@ end
 
 local function AddShopModeSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetReplicatedConVar(c):GetDefault()
+        local default = GetReplicatedConVarDefault(c, "0")
         local mode = xlib.makeslider { label = c .. " (def. " .. default .. ")", min = 0, max = 4, repconvar = "rep_".. c, parent = lst }
         lst:AddItem(mode)
     end
@@ -1246,7 +1269,7 @@ local function AddRoleCreditsSlider(role_shops, lst)
     for _, r in ipairs(role_shops) do
         local role_string = ROLE_STRINGS_RAW[r]
         local convar = "ttt_" .. role_string .. "_credits_starting"
-        local default = GetReplicatedConVar(convar):GetDefault()
+        local default = GetReplicatedConVarDefault(convar, "0")
         local slider = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 0, max = 10, repconvar = "rep_" .. convar, parent = lst }
         lst:AddItem(slider)
     end
