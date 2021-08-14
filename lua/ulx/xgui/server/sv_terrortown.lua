@@ -1,4 +1,4 @@
---painful file to create will all ttt cvars
+util.AddNetworkString("ULX_CRCVarRequest")
 
 local function init()
     if GetConVarString("gamemode") == "terrortown" then --Only execute the following code if it's a terrortown gamemode
@@ -322,3 +322,23 @@ local function init()
 end
 
 xgui.addSVModule("terrortown", init)
+
+net.Receive("ULX_CRCVarRequest", function()
+    local ply = net.ReadEntity()
+    local missing_cvars = net.ReadTable()
+    local cvar_data = {}
+    for _, cv in ipairs(missing_cvars) do
+        local convar = GetConVar(cv)
+        if convar then
+            cvar_data[cv] = {
+                d = convar:GetDefault(),
+                m = convar:GetMin(),
+                x = convar:GetMax()
+            }
+        end
+    end
+
+    net.Start("ULX_CRCVarRequest")
+    net.WriteTable(cvar_data)
+    net.Send(ply)
+end)
