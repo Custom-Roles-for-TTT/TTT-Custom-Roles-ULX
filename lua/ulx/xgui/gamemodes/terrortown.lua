@@ -65,6 +65,8 @@ terrortown_settings.processModules()
 xgui.hookEvent("onProcessModules", nil, terrortown_settings.processModules)
 xgui.addModule("TTT", terrortown_settings, "vgui/ttt/ulx_ttt.png", "xgui_gmsettings")
 
+local missing_cvars = {}
+
 local function GetReplicatedConVar(name)
     return GetConVar("rep_" .. name)
 end
@@ -72,6 +74,7 @@ end
 local function GetReplicatedConVarDefault(name, default)
     local convar = GetReplicatedConVar(name)
     if not convar then
+        missing_cvars[name] = true
         return default
     end
     return convar:GetDefault()
@@ -80,6 +83,7 @@ end
 local function GetReplicatedConVarMin(name, min)
     local convar = GetReplicatedConVar(name)
     if not convar then
+        missing_cvars[name] = true
         return min
     end
     return convar:GetMin()
@@ -88,6 +92,7 @@ end
 local function GetReplicatedConVarMax(name, max)
     local convar = GetReplicatedConVar(name)
     if not convar then
+        missing_cvars[name] = true
         return max
     end
     return convar:GetMax()
@@ -330,10 +335,20 @@ local function AddRoleHealthSettings(gppnl)
         local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
+        -- Save the control so it can be updated later
+        if missing_cvars[convar] then
+            missing_cvars[convar] = starthealth
+        end
+
         convar = "ttt_" .. rolestring .. "_max_health"
         default = GetReplicatedConVarDefault(convar, "100")
         local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[convar] then
+            missing_cvars[convar] = maxhealth
+        end
     end
 end
 
@@ -393,6 +408,11 @@ local function AddExternalRoleProperties(role, role_cvars, list)
 
         local slider = xlib.makeslider { label = name .. " (def. " .. default .. ")", min = min, max = max, decimal = decimal, repconvar = "rep_" .. name, parent = list }
         list:AddItem(slider)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[name] then
+            missing_cvars[name] = slider
+        end
     end
 
     for _, c in ipairs(role_cvars.bools) do
@@ -400,6 +420,11 @@ local function AddExternalRoleProperties(role, role_cvars, list)
         local default = GetReplicatedConVarDefault(name, "0")
         local check = xlib.makecheckbox { label = name .. " (def. " .. default .. ")", repconvar = "rep_" .. name, parent = list }
         list:AddItem(check)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[name] then
+            missing_cvars[name] = check
+        end
     end
 
     for _, c in ipairs(role_cvars.texts) do
@@ -970,6 +995,11 @@ local function AddShopSyncSettings(lst, cvar_list)
         local default = GetReplicatedConVarDefault(c, "0")
         local sync = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
         lst:AddItem(sync)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[c] then
+            missing_cvars[c] = sync
+        end
     end
 end
 
@@ -990,6 +1020,11 @@ local function AddShopModeSettings(lst, cvar_list)
         local default = GetReplicatedConVarDefault(c, "0")
         local mode = xlib.makeslider { label = c .. " (def. " .. default .. ")", min = 0, max = 4, repconvar = "rep_".. c, parent = lst }
         lst:AddItem(mode)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[c] then
+            missing_cvars[c] = mode
+        end
     end
 end
 
@@ -1272,6 +1307,11 @@ local function AddRoleCreditsSlider(role_shops, lst)
         local default = GetReplicatedConVarDefault(convar, "0")
         local slider = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 0, max = 10, repconvar = "rep_" .. convar, parent = lst }
         lst:AddItem(slider)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[convar] then
+            missing_cvars[convar] = slider
+        end
     end
 end
 
@@ -1538,18 +1578,56 @@ local function AddMiscModule()
 end
 
 hook.Add("InitPostEntity", "CustomRolesLocalLoad", function()
-    -- Force a delay to allow the replicated cvars to be created
-    timer.Simple(10, function()
-        AddRoundStructureModule()
-        AddGameplayModule()
-        AddKarmaModule()
-        AddMapModule()
-        AddEquipmentCreditsModule()
-        AddPlayerMovementModule()
-        AddPropPossessionModule()
-        AddAdminModule()
-        AddMiscModule()
-        -- Reload the modules to make sure the ones we just added are shown
-        xgui.processModules()
-    end)
+    AddRoundStructureModule()
+    AddGameplayModule()
+    AddKarmaModule()
+    AddMapModule()
+    AddEquipmentCreditsModule()
+    AddPlayerMovementModule()
+    AddPropPossessionModule()
+    AddAdminModule()
+    AddMiscModule()
+
+    -- Request missing cvar data, if we have any
+    if table.Count(missing_cvars) > 0 then
+        net.Receive("ULX_CRCVarRequest", function()
+            local results = net.ReadTable()
+
+            for cv, data in pairs(results) do
+                -- Make sure each of these actually has the control reference
+                local control = missing_cvars[cv]
+                if control and type(control) ~= "boolean" then
+                    -- Update whichever portions were sent back from the server
+                    if data.d then
+                        control:SetText(cv .. " (def. " .. data.d .. ")")
+                    end
+
+                    if data.m and control.SetMin then
+                        control:SetMin(data.m)
+                    end
+
+                    if data.x and control.SetMax then
+                        control:SetMax(data.x)
+                    end
+
+                    -- Make sure everything is the correct size now that we changed things
+                    if control.Label then
+                        control.Label:SizeToContents()
+                    end
+                    control:SizeToContents()
+                end
+            end
+        end)
+
+        -- Convert from a lookup table to an indexed table
+        local net_table = {}
+        for k, _ in pairs(missing_cvars) do
+            table.insert(net_table, k)
+        end
+
+        net.Start("ULX_CRCVarRequest")
+        net.WriteEntity(LocalPlayer())
+        net.WriteTable(net_table)
+        net.SendToServer()
+    end
 end)
