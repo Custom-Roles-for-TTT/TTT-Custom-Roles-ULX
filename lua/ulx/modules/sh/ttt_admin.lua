@@ -33,7 +33,11 @@ function SetRole(ply, role)
     if SERVER then
         net.Start("TTT_RoleChanged")
         net.WriteString(ply:SteamID64())
-        net.WriteUInt(role, 8)
+        if CR_VERSION and CRVersion("1.1.2") then
+            net.WriteInt(role, 8)
+        else
+            net.WriteUInt(role, 8)
+        end
         net.Broadcast()
     end
 end
