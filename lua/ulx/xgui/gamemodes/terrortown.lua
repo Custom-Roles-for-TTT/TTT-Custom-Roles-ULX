@@ -107,6 +107,7 @@ local function GetTableUnion(first_tbl, second_tbl, excludes)
     end
     return union
 end
+
 local function GetTableWithExcludes(tbl, excludes)
     local new_tbl = {}
     for k, v in pairs(tbl) do
@@ -256,7 +257,7 @@ local function AddSpecialistTraitorSettings(gppnl)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
-    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, {ROLE_DETECTIVE, ROLE_INNOCENT})
+    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Merge({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetSize(390, 50 + (70 * #inno_roles))
     spinnclp:SetExpanded(1)
@@ -274,6 +275,27 @@ local function AddSpecialistInnocentSettings(gppnl)
     spinnlst:AddItem(sichance)
 
     AddDefaultRoleSettings(spinnlst, inno_roles)
+end
+
+local function AddSpecialistDetectiveSettings(gppnl)
+    local det_roles = GetTableWithExcludes(DETECTIVE_ROLES, {ROLE_DETECTIVE})
+    local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
+    spdetclp:SetSize(390, 50 + (70 * #det_roles))
+    spdetclp:SetExpanded(1)
+    spdetclp:SetLabel("Specialist Detective Settings")
+
+    local spdetlst = vgui.Create("DPanelList", spdetclp)
+    spdetlst:SetPos(5, 25)
+    spdetlst:SetSize(390, 50 + (70 * #det_roles))
+    spdetlst:SetSpacing(5)
+
+    local sdpercet = xlib.makeslider { label = "ttt_special_detective_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_detective_pct", parent = spdetlst }
+    spdetlst:AddItem(sdpercet)
+
+    local sdchance = xlib.makeslider { label = "ttt_special_detective_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_detective_chance", parent = spdetlst }
+    spdetlst:AddItem(sdchance)
+
+    AddDefaultRoleSettings(spdetlst, det_roles)
 end
 
 local function AddIndependentRoleSettings(gppnl)
@@ -352,11 +374,11 @@ local function AddRoleHealthSettings(gppnl)
     end
 end
 
-local function GetExternalRolesForTeam(role_list)
+local function GetExternalRolesForTeam(role_list, excludes_team)
     local team_list = {}
     if ROLE_MAX >= ROLE_EXTERNAL_START then
         for role = ROLE_EXTERNAL_START, ROLE_MAX do
-            if role_list[role] then
+            if role_list[role] and not (excludes_team and excludes_team[role]) then
                 table.insert(team_list, role)
             end
         end
@@ -571,7 +593,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 660 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 600 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -581,15 +603,6 @@ local function AddInnocentProperties(gppnl)
     innproplst:SetPos(5, 25)
     innproplst:SetSize(390, height)
     innproplst:SetSpacing(5)
-
-    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = innproplst }
-    innproplst:AddItem(detlbl)
-
-    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = innproplst }
-    innproplst:AddItem(detsch)
-
-    local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = innproplst }
-    innproplst:AddItem(prsrch)
 
     local glilbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Glitch settings:", parent = innproplst }
     innproplst:AddItem(glilbl)
@@ -675,6 +688,36 @@ local function AddInnocentProperties(gppnl)
     for _, r in ipairs(external_innocents) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], innproplst)
+        end
+    end
+end
+
+local function AddDetectiveProperties(gppnl)
+    local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
+    local height = 60 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    detpropclp:SetSize(390, height)
+    detpropclp:SetExpanded(1)
+    detpropclp:SetLabel("Detective Properties")
+
+    local detproplst = vgui.Create("DPanelList", detpropclp)
+    detproplst:SetPos(5, 25)
+    detproplst:SetSize(390, height)
+    detproplst:SetSpacing(5)
+
+    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = detproplst }
+    detproplst:AddItem(detlbl)
+
+    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
+    detproplst:AddItem(detsch)
+
+    local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
+    detproplst:AddItem(prsrch)
+
+    for _, r in ipairs(external_detectives) do
+        if role_cvars[r] then
+            AddExternalRoleProperties(r, role_cvars[r], detproplst)
         end
     end
 end
@@ -1185,11 +1228,13 @@ local function AddGameplayModule()
     AddTraitorAndDetectiveSettings(gppnl)
     AddSpecialistTraitorSettings(gppnl)
     AddSpecialistInnocentSettings(gppnl)
+    AddSpecialistDetectiveSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
     AddMonsterSettings(gppnl)
     AddRoleHealthSettings(gppnl)
     AddTraitorProperties(gppnl)
     AddInnocentProperties(gppnl)
+    AddDetectiveProperties(gppnl)
     AddJesterRoleProperties(gppnl)
     AddIndependentRoleProperties(gppnl)
     AddMonsterRoleProperties(gppnl)
