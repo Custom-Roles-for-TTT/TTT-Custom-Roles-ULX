@@ -80,8 +80,6 @@ local function init()
         ULib.replicatedWritableCvar("ttt_parasite_cure_mode", "rep_ttt_parasite_cure_mode", GetConVarNumber("ttt_parasite_cure_mode"), false, false, "xgui_gmsettings")
 
         --innocent properties
-        ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_all_search_postround", "rep_ttt_all_search_postround", GetConVarNumber("ttt_all_search_postround"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_glitch_mode", "rep_ttt_glitch_mode", GetConVarNumber("ttt_glitch_mode"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_respawn_health", "rep_ttt_phantom_respawn_health", GetConVarNumber("ttt_phantom_respawn_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_weaker_each_respawn", "rep_ttt_phantom_weaker_each_respawn", GetConVarNumber("ttt_phantom_weaker_each_respawn"), false, false, "xgui_gmsettings")
@@ -104,6 +102,13 @@ local function init()
         ULib.replicatedWritableCvar("ttt_veteran_full_heal", "rep_ttt_veteran_full_heal", GetConVarNumber("ttt_veteran_full_heal"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_heal_bonus", "rep_ttt_veteran_heal_bonus", GetConVarNumber("ttt_veteran_heal_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_veteran_announce", "rep_ttt_veteran_announce", GetConVarNumber("ttt_veteran_announce"), false, false, "xgui_gmsettings")
+
+        --detective properties
+        ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_all_search_postround", "rep_ttt_all_search_postround", GetConVarNumber("ttt_all_search_postround"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_paladin_aura_radius", "rep_ttt_paladin_aura_radius", GetConVarNumber("ttt_paladin_aura_radius"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_paladin_damage_reduction", "rep_ttt_paladin_damage_reduction", GetConVarNumber("ttt_paladin_damage_reduction"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_paladin_heal_rate", "rep_ttt_paladin_heal_rate", GetConVarNumber("ttt_paladin_heal_rate"), false, false, "xgui_gmsettings")
 
         --jester properties
         ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")
