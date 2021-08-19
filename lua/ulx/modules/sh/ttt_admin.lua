@@ -273,8 +273,9 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
         local affected_plys = {}
 
-        local role = table.KeyFromValue(ROLE_STRINGS_RAW, target_role)
+        local role = table.KeyFromValue(ROLE_STRINGS_RAW, target_role:lower())
         local role_string = ROLE_STRINGS_EXT[role]
+        local role_set = false
         for i = 1, #target_plys do
             local v = target_plys[i]
             local current_role = v:GetRole()
@@ -284,7 +285,7 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
             elseif GetRoundState() == 1 or GetRoundState() == 2 then
                 ULib.tsayError(calling_ply, "The round has not begun!", true)
             elseif role == nil then
-                ULib.tsayError(calling_ply, "Invalid role :\"" .. target_role .. "\" specified", true)
+                ULib.tsayError(calling_ply, "Invalid role: \"" .. target_role .. "\" specified", true)
             elseif not v:Alive() then
                 ULib.tsayError(calling_ply, v:Nick() .. " is dead!", true)
             elseif current_role == role then
@@ -305,10 +306,14 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
 
                 v:SetMaxHealth(100)
                 v:SetHealth(100)
+                role_set = true
             end
         end
-        ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of #s.", affected_plys, role_string)
-        SendMessages(affected_plys, "Your role has been set to " .. role_string .. ".")
+
+        if role_set then
+            ulx.fancyLogAdmin(calling_ply, should_silent, "#A forced #T to become the role of #s.", affected_plys, role_string)
+            SendMessages(affected_plys, "Your role has been set to " .. role_string .. ".")
+        end
     end
 end
 
