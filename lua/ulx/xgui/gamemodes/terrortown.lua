@@ -459,7 +459,7 @@ local function AddExternalRoleProperties(role, role_cvars, list)
 end
 
 local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
-    local external_roles_with_cvars = #role_cvars
+    local external_roles_with_cvars = table.Count(role_cvars)
     -- Labels
     return (external_roles_with_cvars * 20) +
             -- Sliders
