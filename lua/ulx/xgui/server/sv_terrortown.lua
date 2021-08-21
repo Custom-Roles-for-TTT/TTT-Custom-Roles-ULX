@@ -109,6 +109,8 @@ local function init()
         ULib.replicatedWritableCvar("ttt_paladin_aura_radius", "rep_ttt_paladin_aura_radius", GetConVarNumber("ttt_paladin_aura_radius"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_damage_reduction", "rep_ttt_paladin_damage_reduction", GetConVarNumber("ttt_paladin_damage_reduction"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_heal_rate", "rep_ttt_paladin_heal_rate", GetConVarNumber("ttt_paladin_heal_rate"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_tracker_footstep_time", "rep_ttt_tracker_footstep_time", GetConVarNumber("ttt_tracker_footstep_time"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_tracker_footstep_color", "rep_ttt_tracker_footstep_color", GetConVarNumber("ttt_tracker_footstep_color"), false, false, "xgui_gmsettings")
 
         --jester properties
         ULib.replicatedWritableCvar("ttt_jesters_trigger_traitor_testers", "rep_ttt_jesters_trigger_traitor_testers", GetConVarNumber("ttt_jesters_trigger_traitor_testers"), false, false, "xgui_gmsettings")

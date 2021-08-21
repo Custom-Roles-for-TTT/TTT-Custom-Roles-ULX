@@ -695,7 +695,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 155 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -715,17 +715,26 @@ local function AddDetectiveProperties(gppnl)
     local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
     detproplst:AddItem(prsrch)
 
-    local pallbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = detproplst }
+    local pallbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paladin settings:", parent = detproplst }
     detproplst:AddItem(pallbl)
 
     local palrad = xlib.makeslider { label = "ttt_paladin_aura_radius (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_paladin_aura_radius", parent = detproplst }
     detproplst:AddItem(palrad)
 
-    local palred = xlib.makeslider { label = "ttt_paladin_damage_reduction (def. 0.2)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_paladin_damage_reduction", parent = detproplst }
+    local palred = xlib.makeslider { label = "ttt_paladin_damage_reduction (def. 0.3)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_paladin_damage_reduction", parent = detproplst }
     detproplst:AddItem(palred)
 
     local palheal = xlib.makeslider { label = "ttt_paladin_heal_rate (def. 100)", min = 1, max = 10, repconvar = "rep_ttt_paladin_heal_rate", parent = detproplst }
     detproplst:AddItem(palheal)
+
+    local trklbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Tracker settings:", parent = detproplst }
+    detproplst:AddItem(trklbl)
+
+    local trktime = xlib.makeslider { label = "ttt_tracker_footstep_time (def. 15)", min = 1, max = 60, repconvar = "rep_ttt_tracker_footstep_time", parent = detproplst }
+    detproplst:AddItem(trktime)
+
+    local trkcol = xlib.makecheckbox { label = "ttt_tracker_footstep_color (def. 1)", repconvar = "rep_ttt_tracker_footstep_color", parent = detproplst }
+    detproplst:AddItem(trkcol)
 
     for _, r in ipairs(external_detectives) do
         if role_cvars[r] then
