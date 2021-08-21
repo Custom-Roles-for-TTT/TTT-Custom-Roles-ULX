@@ -1045,10 +1045,8 @@ end
 local function GetShopSyncCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        local rolestring = ROLE_STRINGS_RAW[r]
-        local cvar = "ttt_" .. rolestring .. "_shop_sync"
-        if ConVarExists(cvar) then
-            table.insert(cvar_list, cvar)
+        if (TRAITOR_ROLES[r] and r ~= ROLE_TRAITOR) or (DETECTIVE_ROLES[r] and r ~= ROLE_DETECTIVE) or r == ROLE_ZOMBIE then
+            table.insert(cvar_list, "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_sync")
         end
     end
     return cvar_list
@@ -1070,10 +1068,8 @@ end
 local function GetShopModeCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        local rolestring = ROLE_STRINGS_RAW[r]
-        local cvar = "ttt_" .. rolestring .. "_shop_mode"
-        if ConVarExists(cvar) then
-            table.insert(cvar_list, cvar)
+        if (INDEPENDENT_ROLES[r] and r ~= ROLE_ZOMBIE) or r == ROLE_CLOWN or r == ROLE_MERCENARY then
+            table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_mode")
         end
     end
     return cvar_list
