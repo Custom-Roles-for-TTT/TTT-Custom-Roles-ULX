@@ -158,7 +158,7 @@ local function AddRoundStructureModule()
     local hstsm = xlib.makeslider { label = "ttt_haste_starting_minutes (def. 5)", min = 1, max = 60, repconvar = "rep_ttt_haste_starting_minutes", parent = rsrllst }
     rsrllst:AddItem(hstsm)
 
-    local hstmpd = xlib.makeslider { label = "ttt_haste_minutes_per_death (def. 0.5)", min = 0.1, max = 9, decimal = 1, repconvar = "rep_ttt_haste_minutes_per_death", parent = rsrllst }
+    local hstmpd = xlib.makeslider { label = "ttt_haste_minutes_per_death (def. 0.5)", min = 0.1, max = 9, decimal = 2, repconvar = "rep_ttt_haste_minutes_per_death", parent = rsrllst }
     rsrllst:AddItem(hstmpd)
 
     local rtm = xlib.makeslider { label = "ttt_roundtime_minutes (def. 10)", min = 1, max = 60, repconvar = "rep_ttt_roundtime_minutes", parent = rsrllst }
@@ -746,7 +746,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 750 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 770 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -822,6 +822,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local clohoa = xlib.makecheckbox { label = "ttt_clown_heal_on_activate (def. 0)", repconvar = "rep_ttt_clown_heal_on_activate", parent = jesproplst }
     jesproplst:AddItem(clohoa)
+
+    local clohbon = xlib.makeslider { label = "ttt_clown_heal_bonus (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_clown_heal_bonus", parent = jesproplst }
+    jesproplst:AddItem(clohbon)
 
     local closao = xlib.makecheckbox { label = "ttt_clown_shop_active_only (def. 1)", repconvar = "rep_ttt_clown_shop_active_only", parent = jesproplst }
     jesproplst:AddItem(closao)
@@ -1045,10 +1048,8 @@ end
 local function GetShopSyncCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        local rolestring = ROLE_STRINGS_RAW[r]
-        local cvar = "ttt_" .. rolestring .. "_shop_sync"
-        if ConVarExists(cvar) then
-            table.insert(cvar_list, cvar)
+        if (TRAITOR_ROLES[r] and r ~= ROLE_TRAITOR) or (DETECTIVE_ROLES[r] and r ~= ROLE_DETECTIVE) or r == ROLE_ZOMBIE then
+            table.insert(cvar_list, "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_sync")
         end
     end
     return cvar_list
@@ -1070,10 +1071,8 @@ end
 local function GetShopModeCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        local rolestring = ROLE_STRINGS_RAW[r]
-        local cvar = "ttt_" .. rolestring .. "_shop_mode"
-        if ConVarExists(cvar) then
-            table.insert(cvar_list, cvar)
+        if (INDEPENDENT_ROLES[r] and r ~= ROLE_ZOMBIE) or r == ROLE_CLOWN or r == ROLE_MERCENARY then
+            table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_mode")
         end
     end
     return cvar_list
