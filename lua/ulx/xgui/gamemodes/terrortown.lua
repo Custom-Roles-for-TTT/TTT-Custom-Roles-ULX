@@ -257,7 +257,7 @@ local function AddSpecialistTraitorSettings(gppnl)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
-    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Merge({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
+    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetSize(390, 50 + (70 * #inno_roles))
     spinnclp:SetExpanded(1)
