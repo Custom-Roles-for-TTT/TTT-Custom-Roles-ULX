@@ -81,6 +81,7 @@ local function init()
 
         --innocent properties
         ULib.replicatedWritableCvar("ttt_glitch_mode", "rep_ttt_glitch_mode", GetConVarNumber("ttt_glitch_mode"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_glitch_use_traps", "rep_ttt_glitch_use_traps", GetConVarNumber("ttt_glitch_use_traps"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_respawn_health", "rep_ttt_phantom_respawn_health", GetConVarNumber("ttt_phantom_respawn_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_weaker_each_respawn", "rep_ttt_phantom_weaker_each_respawn", GetConVarNumber("ttt_phantom_weaker_each_respawn"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_smoke", "rep_ttt_phantom_killer_smoke", GetConVarNumber("ttt_phantom_killer_smoke"), false, false, "xgui_gmsettings")

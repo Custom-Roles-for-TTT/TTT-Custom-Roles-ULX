@@ -257,7 +257,7 @@ local function AddSpecialistTraitorSettings(gppnl)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
-    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Merge({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
+    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetSize(390, 50 + (70 * #inno_roles))
     spinnclp:SetExpanded(1)
@@ -593,7 +593,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 600 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 625 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -609,6 +609,9 @@ local function AddInnocentProperties(gppnl)
 
     local glimo = xlib.makeslider { label = "ttt_glitch_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_glitch_mode", parent = innproplst }
     innproplst:AddItem(glimo)
+
+    local gliut = xlib.makecheckbox { label = "ttt_glitch_use_traps (def. 0)", repconvar = "rep_ttt_glitch_use_traps", parent = innproplst }
+    innproplst:AddItem(gliut)
 
     local phalbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Phantom settings:", parent = innproplst }
     innproplst:AddItem(phalbl)
