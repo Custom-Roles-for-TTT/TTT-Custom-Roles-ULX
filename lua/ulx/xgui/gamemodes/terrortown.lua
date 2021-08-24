@@ -341,13 +341,14 @@ end
 
 local function AddRoleHealthSettings(gppnl)
     local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
-    rolehealthclp:SetSize(390, ROLE_MAX * 52)
+    local height = math.floor(ROLE_MAX * 51.5)
+    rolehealthclp:SetSize(390, height)
     rolehealthclp:SetExpanded(1)
     rolehealthclp:SetLabel("Role Health Settings")
 
     local rolehealthlst = vgui.Create("DPanelList", rolehealthclp)
     rolehealthlst:SetPos(5, 25)
-    rolehealthlst:SetSize(390, ROLE_MAX * 52)
+    rolehealthlst:SetSize(390, height)
     rolehealthlst:SetSpacing(5)
 
     for role = 0, ROLE_MAX do
@@ -467,13 +468,13 @@ local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_co
             -- Checkboxes
             (bool_count * 20) +
             -- Textboxes
-            (text_count * 53)
+            (text_count * 43)
 end
 
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 730 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 725 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -698,7 +699,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 215 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
