@@ -713,7 +713,7 @@ local function AddDetectiveProperties(gppnl)
     detproplst:SetSize(390, height)
     detproplst:SetSpacing(5)
 
-    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = detproplst }
+    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = detproplst }
     detproplst:AddItem(detlbl)
 
     local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
