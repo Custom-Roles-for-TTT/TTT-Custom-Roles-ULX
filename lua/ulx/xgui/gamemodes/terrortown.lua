@@ -594,7 +594,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 625 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 645 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -623,11 +623,14 @@ local function AddInnocentProperties(gppnl)
     local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = innproplst }
     innproplst:AddItem(phwer)
 
+    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
+    innproplst:AddItem(phad)
+
     local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 0)", repconvar = "rep_ttt_phantom_killer_smoke", parent = innproplst }
     innproplst:AddItem(phks)
 
-    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
-    innproplst:AddItem(phad)
+    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
+    innproplst:AddItem(phkft)
 
     local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = innproplst }
     innproplst:AddItem(phkh)
@@ -650,8 +653,8 @@ local function AddInnocentProperties(gppnl)
     local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = innproplst }
     innproplst:AddItem(phkhac)
 
-    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
-    innproplst:AddItem(phkft)
+    local phkhwb = xlib.makecheckbox { label = "ttt_phantom_killer_haunt_without_body (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt_without_body", parent = innproplst }
+    innproplst:AddItem(phkhwb)
 
     local revlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Revenger settings:", parent = innproplst }
     innproplst:AddItem(revlbl)
