@@ -664,7 +664,7 @@ function ulx.nextround(calling_ply, target_plys, next_round)
                 PlysMarkedForNextRound[id] = nil
                 table.insert(affected_plys, v)
             elseif MarkedElsewhere(id) then
-                ULib.tsayError(calling_ply, "that player is already marked for the next round!", true)
+                ULib.tsayError(calling_ply, "That player is already marked for the next round!", true)
             else
                 PlysMarkedForNextRound[id] = next_round
                 table.insert(affected_plys, v)
@@ -681,7 +681,7 @@ end
 
 local nxtr = ulx.command(CATEGORY_NAME, "ulx forcenr", ulx.nextround, "!nr")
 nxtr:addParam { type = ULib.cmds.PlayersArg }
-nxtr:addParam { type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "invalid role \"%s\" specified", ULib.cmds.restrictToCompletes }
+nxtr:addParam { type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "Invalid role \"%s\" specified", ULib.cmds.restrictToCompletes }
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
 nxtr:help("Forces the target to be a role in the following round.")
 
