@@ -107,6 +107,7 @@ local function init()
 
         --detective properties
         ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_detective_disable_looting", "rep_ttt_detective_disable_looting", GetConVarNumber("ttt_detective_disable_looting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_all_search_postround", "rep_ttt_all_search_postround", GetConVarNumber("ttt_all_search_postround"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_aura_radius", "rep_ttt_paladin_aura_radius", GetConVarNumber("ttt_paladin_aura_radius"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_damage_reduction", "rep_ttt_paladin_damage_reduction", GetConVarNumber("ttt_paladin_damage_reduction"), false, false, "xgui_gmsettings")
