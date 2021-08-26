@@ -84,8 +84,9 @@ local function init()
         ULib.replicatedWritableCvar("ttt_glitch_use_traps", "rep_ttt_glitch_use_traps", GetConVarNumber("ttt_glitch_use_traps"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_respawn_health", "rep_ttt_phantom_respawn_health", GetConVarNumber("ttt_phantom_respawn_health"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_weaker_each_respawn", "rep_ttt_phantom_weaker_each_respawn", GetConVarNumber("ttt_phantom_weaker_each_respawn"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_phantom_killer_smoke", "rep_ttt_phantom_killer_smoke", GetConVarNumber("ttt_phantom_killer_smoke"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_announce_death", "rep_ttt_phantom_announce_death", GetConVarNumber("ttt_phantom_announce_death"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_phantom_killer_smoke", "rep_ttt_phantom_killer_smoke", GetConVarNumber("ttt_phantom_killer_smoke"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_phantom_killer_footstep_time", "rep_ttt_phantom_killer_footstep_time", GetConVarNumber("ttt_phantom_killer_footstep_time"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt", "rep_ttt_phantom_killer_haunt", GetConVarNumber("ttt_phantom_killer_haunt"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_power_max", "rep_ttt_phantom_killer_haunt_power_max", GetConVarNumber("ttt_phantom_killer_haunt_power_max"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_power_rate", "rep_ttt_phantom_killer_haunt_power_rate", GetConVarNumber("ttt_phantom_killer_haunt_power_rate"), false, false, "xgui_gmsettings")
@@ -93,7 +94,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_attack_cost", "rep_ttt_phantom_killer_haunt_attack_cost", GetConVarNumber("ttt_phantom_killer_haunt_attack_cost"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_jump_cost", "rep_ttt_phantom_killer_haunt_jump_cost", GetConVarNumber("ttt_phantom_killer_haunt_jump_cost"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_drop_cost", "rep_ttt_phantom_killer_haunt_drop_cost", GetConVarNumber("ttt_phantom_killer_haunt_drop_cost"), false, false, "xgui_gmsettings")
-        ULib.replicatedWritableCvar("ttt_phantom_killer_footstep_time", "rep_ttt_phantom_killer_footstep_time", GetConVarNumber("ttt_phantom_killer_footstep_time"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_phantom_killer_haunt_without_body", "rep_ttt_phantom_killer_haunt_without_body", GetConVarNumber("ttt_phantom_killer_haunt_without_body"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_revenger_radar_timer", "rep_ttt_revenger_radar_timer", GetConVarNumber("ttt_revenger_radar_timer"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_revenger_damage_bonus", "rep_ttt_revenger_damage_bonus", GetConVarNumber("ttt_revenger_damage_bonus"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_revenger_drain_health_to", "rep_ttt_revenger_drain_health_to", GetConVarNumber("ttt_revenger_drain_health_to"), false, false, "xgui_gmsettings")
@@ -106,6 +107,7 @@ local function init()
 
         --detective properties
         ULib.replicatedWritableCvar("ttt_detective_search_only", "rep_ttt_detective_search_only", GetConVarNumber("ttt_detective_search_only"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_detective_disable_looting", "rep_ttt_detective_disable_looting", GetConVarNumber("ttt_detective_disable_looting"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_all_search_postround", "rep_ttt_all_search_postround", GetConVarNumber("ttt_all_search_postround"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_aura_radius", "rep_ttt_paladin_aura_radius", GetConVarNumber("ttt_paladin_aura_radius"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_paladin_damage_reduction", "rep_ttt_paladin_damage_reduction", GetConVarNumber("ttt_paladin_damage_reduction"), false, false, "xgui_gmsettings")
@@ -204,7 +206,7 @@ local function init()
         --shop configs
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_position", "rep_ttt_shop_random_position", GetConVarNumber("ttt_shop_random_position"), false, false, "xgui_gmsettings")
-        for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
+        for _, role in ipairs(GetTeamRoles(SHOP_ROLES)) do
             local rolestring = ROLE_STRINGS_RAW[role]
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
@@ -280,7 +282,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVarNumber("ttt_det_credits_traitordead"), false, false, "xgui_gmsettings")
 
         -- other credits
-        for _, role in ipairs(table.GetKeys(SHOP_ROLES)) do
+        for _, role in ipairs(GetTeamRoles(SHOP_ROLES)) do
             if not DEFAULT_ROLES[role] then
                 local rolestring = ROLE_STRINGS_RAW[role]
                 ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting", "rep_ttt_" .. rolestring .. "_credits_starting", GetConVarNumber("ttt_" .. rolestring .. "_credits_starting"), false, false, "xgui_gmsettings")

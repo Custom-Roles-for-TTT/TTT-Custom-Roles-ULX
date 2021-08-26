@@ -341,13 +341,14 @@ end
 
 local function AddRoleHealthSettings(gppnl)
     local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
-    rolehealthclp:SetSize(390, ROLE_MAX * 52)
+    local height = math.floor(ROLE_MAX * 51.5)
+    rolehealthclp:SetSize(390, height)
     rolehealthclp:SetExpanded(1)
     rolehealthclp:SetLabel("Role Health Settings")
 
     local rolehealthlst = vgui.Create("DPanelList", rolehealthclp)
     rolehealthlst:SetPos(5, 25)
-    rolehealthlst:SetSize(390, ROLE_MAX * 52)
+    rolehealthlst:SetSize(390, height)
     rolehealthlst:SetSpacing(5)
 
     for role = 0, ROLE_MAX do
@@ -467,13 +468,13 @@ local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_co
             -- Checkboxes
             (bool_count * 20) +
             -- Textboxes
-            (text_count * 53)
+            (text_count * 43)
 end
 
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 730 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 725 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -593,7 +594,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 625 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 645 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -622,11 +623,14 @@ local function AddInnocentProperties(gppnl)
     local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = innproplst }
     innproplst:AddItem(phwer)
 
+    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
+    innproplst:AddItem(phad)
+
     local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 0)", repconvar = "rep_ttt_phantom_killer_smoke", parent = innproplst }
     innproplst:AddItem(phks)
 
-    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
-    innproplst:AddItem(phad)
+    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
+    innproplst:AddItem(phkft)
 
     local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = innproplst }
     innproplst:AddItem(phkh)
@@ -649,8 +653,8 @@ local function AddInnocentProperties(gppnl)
     local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = innproplst }
     innproplst:AddItem(phkhac)
 
-    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
-    innproplst:AddItem(phkft)
+    local phkhwb = xlib.makecheckbox { label = "ttt_phantom_killer_haunt_without_body (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt_without_body", parent = innproplst }
+    innproplst:AddItem(phkhwb)
 
     local revlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Revenger settings:", parent = innproplst }
     innproplst:AddItem(revlbl)
@@ -698,7 +702,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 235 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -709,11 +713,14 @@ local function AddDetectiveProperties(gppnl)
     detproplst:SetSize(390, height)
     detproplst:SetSpacing(5)
 
-    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Detective settings:", parent = detproplst }
+    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = detproplst }
     detproplst:AddItem(detlbl)
 
     local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
     detproplst:AddItem(detsch)
+
+    local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
+    detproplst:AddItem(detdlo)
 
     local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
     detproplst:AddItem(prsrch)
