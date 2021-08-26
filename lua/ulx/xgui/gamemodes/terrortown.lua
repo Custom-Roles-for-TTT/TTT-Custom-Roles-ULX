@@ -702,7 +702,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 235 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 280 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -745,6 +745,12 @@ local function AddDetectiveProperties(gppnl)
 
     local trkcol = xlib.makecheckbox { label = "ttt_tracker_footstep_color (def. 1)", repconvar = "rep_ttt_tracker_footstep_color", parent = detproplst }
     detproplst:AddItem(trkcol)
+
+    local mdmlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Medium settings:", parent = detproplst }
+    detproplst:AddItem(mdmlbl)
+
+    local mdmcol = xlib.makecheckbox { label = "ttt_medium_spirit_color (def. 1)", repconvar = "rep_ttt_medium_spirit_color", parent = detproplst }
+    detproplst:AddItem(mdmcol)
 
     for _, r in ipairs(external_detectives) do
         if role_cvars[r] then
