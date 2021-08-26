@@ -47,7 +47,7 @@ local function init()
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_starting_health", "rep_ttt_" .. rolestring .. "_starting_health", GetConVarNumber("ttt_" .. rolestring .. "_starting_health"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_max_health", "rep_ttt_" .. rolestring .. "_max_health", GetConVarNumber("ttt_" .. rolestring .. "_max_health"), false, false, "xgui_gmsettings")
 
-            if role ~= ROLE_DRUNK then
+            if role ~= ROLE_DRUNK and role ~= ROLE_GLITCH then
                 ULib.replicatedWritableCvar("ttt_drunk_can_be_" .. rolestring, "rep_ttt_drunk_can_be_" .. rolestring, GetConVarNumber("ttt_drunk_can_be_" .. rolestring), false, false, "xgui_gmsettings")
             end
         end

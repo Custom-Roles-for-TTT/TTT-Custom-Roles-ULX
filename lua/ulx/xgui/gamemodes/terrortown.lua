@@ -918,7 +918,7 @@ local function AddIndependentRoleProperties(gppnl)
     indproplst:AddItem(druar)
 
     for r = 0, ROLE_MAX do
-        if r ~= ROLE_DRUNK then
+        if r ~= ROLE_DRUNK and r ~= ROLE_GLITCH then
             local rolestring = ROLE_STRINGS_RAW[r]
             local drucb = xlib.makecheckbox { label = "ttt_drunk_can_be_" .. rolestring .. " (def. 1)", repconvar = "rep_ttt_drunk_can_be_" .. rolestring, parent = indproplst }
             indproplst:AddItem(drucb)
