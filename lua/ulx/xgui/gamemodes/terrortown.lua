@@ -474,7 +474,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 770 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 795 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -535,6 +535,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
+
+    local vamfdt = xlib.makeslider { label = "ttt_vampire_fang_dead_timer (def. 0)", min = 0, max = 30, repconvar = "rep_ttt_vampire_fang_dead_timer", parent = traproplst }
+    traproplst:AddItem(vamfdt)
 
     local vamfh = xlib.makeslider { label = "ttt_vampire_fang_heal (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_heal", parent = traproplst }
     traproplst:AddItem(vamfh)
