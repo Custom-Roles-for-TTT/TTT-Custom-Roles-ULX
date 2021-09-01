@@ -341,7 +341,7 @@ end
 
 local function AddRoleHealthSettings(gppnl)
     local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
-    local height = math.floor(ROLE_MAX * 51.5)
+    local height = (ROLE_MAX + 1) * 50
     rolehealthclp:SetSize(390, height)
     rolehealthclp:SetExpanded(1)
     rolehealthclp:SetLabel("Role Health Settings")
@@ -891,7 +891,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 705 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 725 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -913,6 +913,17 @@ local function AddIndependentRoleProperties(gppnl)
 
     local druchn = xlib.makeslider { label = "ttt_drunk_innocent_chance (def. 0.7)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_drunk_innocent_chance", parent = indproplst }
     indproplst:AddItem(druchn)
+
+    local druar = xlib.makecheckbox { label = "ttt_drunk_any_role (def. 0)", repconvar = "rep_ttt_drunk_any_role", parent = indproplst }
+    indproplst:AddItem(druar)
+
+    for r = 0, ROLE_MAX do
+        if r ~= ROLE_DRUNK and r ~= ROLE_GLITCH then
+            local rolestring = ROLE_STRINGS_RAW[r]
+            local drucb = xlib.makecheckbox { label = "ttt_drunk_can_be_" .. rolestring .. " (def. 1)", repconvar = "rep_ttt_drunk_can_be_" .. rolestring, parent = indproplst }
+            indproplst:AddItem(drucb)
+        end
+    end
 
     local oldlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Old Man settings:", parent = indproplst }
     indproplst:AddItem(oldlbl)

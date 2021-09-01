@@ -46,6 +46,10 @@ local function init()
             end
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_starting_health", "rep_ttt_" .. rolestring .. "_starting_health", GetConVarNumber("ttt_" .. rolestring .. "_starting_health"), false, false, "xgui_gmsettings")
             ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_max_health", "rep_ttt_" .. rolestring .. "_max_health", GetConVarNumber("ttt_" .. rolestring .. "_max_health"), false, false, "xgui_gmsettings")
+
+            if role ~= ROLE_DRUNK and role ~= ROLE_GLITCH then
+                ULib.replicatedWritableCvar("ttt_drunk_can_be_" .. rolestring, "rep_ttt_drunk_can_be_" .. rolestring, GetConVarNumber("ttt_drunk_can_be_" .. rolestring), false, false, "xgui_gmsettings")
+            end
         end
 
         --traitor properties
@@ -153,6 +157,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_independents_trigger_traitor_testers", "rep_ttt_independents_trigger_traitor_testers", GetConVarNumber("ttt_independents_trigger_traitor_testers"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_drunk_sober_time", "rep_ttt_drunk_sober_time", GetConVarNumber("ttt_drunk_sober_time"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_drunk_innocent_chance", "rep_ttt_drunk_innocent_chance", GetConVarNumber("ttt_drunk_innocent_chance"), false, false, "xgui_gmsettings")
+        ULib.replicatedWritableCvar("ttt_drunk_any_role", "rep_ttt_drunk_any_role", GetConVarNumber("ttt_drunk_any_role"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_oldman_drain_health_to", "rep_ttt_oldman_drain_health_to", GetConVarNumber("ttt_oldman_drain_health_to"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_knife_enabled", "rep_ttt_killer_knife_enabled", GetConVarNumber("ttt_killer_knife_enabled"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_killer_smoke_enabled", "rep_ttt_killer_smoke_enabled", GetConVarNumber("ttt_killer_smoke_enabled"), false, false, "xgui_gmsettings")
