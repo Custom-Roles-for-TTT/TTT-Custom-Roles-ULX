@@ -702,7 +702,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 280 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 320 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -736,6 +736,12 @@ local function AddDetectiveProperties(gppnl)
 
     local palheal = xlib.makeslider { label = "ttt_paladin_heal_rate (def. 100)", min = 1, max = 10, repconvar = "rep_ttt_paladin_heal_rate", parent = detproplst }
     detproplst:AddItem(palheal)
+
+    local palslfp = xlib.makecheckbox { label = "ttt_paladin_protect_self (def. 0)", repconvar = "rep_ttt_paladin_protect_self", parent = detproplst }
+    detproplst:AddItem(palslfp)
+
+    local palslfh = xlib.makecheckbox { label = "ttt_paladin_heal_self (def. 1)", repconvar = "rep_ttt_paladin_heal_self", parent = detproplst }
+    detproplst:AddItem(palslfh)
 
     local trklbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Tracker settings:", parent = detproplst }
     detproplst:AddItem(trklbl)
