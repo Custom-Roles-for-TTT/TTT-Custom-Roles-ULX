@@ -897,7 +897,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 725 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 745 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -922,6 +922,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local druar = xlib.makecheckbox { label = "ttt_drunk_any_role (def. 0)", repconvar = "rep_ttt_drunk_any_role", parent = indproplst }
     indproplst:AddItem(druar)
+
+    local druclo = xlib.makecheckbox { label = "ttt_drunk_become_clown (def. 0)", repconvar = "rep_ttt_drunk_become_clown", parent = indproplst }
+    indproplst:AddItem(drdruclouar)
 
     for r = 0, ROLE_MAX do
         if r ~= ROLE_DRUNK and r ~= ROLE_GLITCH then
