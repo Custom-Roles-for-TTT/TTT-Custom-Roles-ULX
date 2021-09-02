@@ -1,5 +1,26 @@
 util.AddNetworkString("ULX_CRCVarRequest")
 
+local function AddRoleShopConVars(role)
+    local rolestring = ROLE_STRINGS_RAW[role]
+    ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
+    ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
+
+    -- Add explicit ROLE_INNOCENT exclusion here in case shop-for-all is enabled
+    if not DEFAULT_ROLES[role] or role == ROLE_INNOCENT then
+        ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting", "rep_ttt_" .. rolestring .. "_credits_starting", GetConVarNumber("ttt_" .. rolestring .. "_credits_starting"), false, false, "xgui_gmsettings")
+    end
+
+    local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
+    if ConVarExists(sync_cvar) then
+        ULib.replicatedWritableCvar(sync_cvar, "rep_" .. sync_cvar, GetConVarNumber(sync_cvar), false, false, "xgui_gmsettings")
+    end
+
+    local mode_cvar = "ttt_" .. rolestring .. "_shop_mode"
+    if ConVarExists(mode_cvar) then
+        ULib.replicatedWritableCvar(mode_cvar, "rep_" .. mode_cvar, GetConVarNumber(mode_cvar), false, false, "xgui_gmsettings")
+    end
+end
+
 local function init()
     if GetConVarString("gamemode") == "terrortown" then --Only execute the following code if it's a terrortown gamemode
         --Preparation and post-round
@@ -216,23 +237,23 @@ local function init()
         end
 
         --shop configs
+        ULib.replicatedWritableCvar("ttt_shop_for_all", "rep_ttt_shop_for_all", GetConVarNumber("ttt_shop_for_all"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_percent", "rep_ttt_shop_random_percent", GetConVarNumber("ttt_shop_random_percent"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_shop_random_position", "rep_ttt_shop_random_position", GetConVarNumber("ttt_shop_random_position"), false, false, "xgui_gmsettings")
-        for _, role in ipairs(GetTeamRoles(SHOP_ROLES)) do
-            local rolestring = ROLE_STRINGS_RAW[role]
-            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent", "rep_ttt_" .. rolestring .. "_shop_random_percent", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_percent"), false, false, "xgui_gmsettings")
-            ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled", "rep_ttt_" .. rolestring .. "_shop_random_enabled", GetConVarNumber("ttt_" .. rolestring .. "_shop_random_enabled"), false, false, "xgui_gmsettings")
-
-            local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
-            if ConVarExists(sync_cvar) then
-                ULib.replicatedWritableCvar(sync_cvar, "rep_" .. sync_cvar, GetConVarNumber(sync_cvar), false, false, "xgui_gmsettings")
-            end
-
-            local mode_cvar = "ttt_" .. rolestring .. "_shop_mode"
-            if ConVarExists(mode_cvar) then
-                ULib.replicatedWritableCvar(mode_cvar, "rep_" .. mode_cvar, GetConVarNumber(mode_cvar), false, false, "xgui_gmsettings")
-            end
+        local shop_roles = GetTeamRoles(SHOP_ROLES)
+        for _, role in ipairs(shop_roles) do
+            AddRoleShopConVars(role)
         end
+        --add any convar replications that are missing once shop-for-all is enabled
+        cvars.AddChangeCallback("ttt_shop_for_all", function(convar, oldValue, newValue)
+            if tobool(newValue) then
+                for role = 0, ROLE_MAX do
+                    if not table.HasValue(shop_roles, role) then
+                        AddRoleShopConVars(role)
+                    end
+                end
+            end
+        end)
 
         --dna
         ULib.replicatedWritableCvar("ttt_killer_dna_range", "rep_ttt_killer_dna_range", GetConVarNumber("ttt_killer_dna_range"), false, false, "xgui_gmsettings")
@@ -293,13 +314,7 @@ local function init()
         ULib.replicatedWritableCvar("ttt_det_credits_traitorkill", "rep_ttt_det_credits_traitorkill", GetConVarNumber("ttt_det_credits_traitorkill"), false, false, "xgui_gmsettings")
         ULib.replicatedWritableCvar("ttt_det_credits_traitordead", "rep_ttt_det_credits_traitordead", GetConVarNumber("ttt_det_credits_traitordead"), false, false, "xgui_gmsettings")
 
-        -- other credits
-        for _, role in ipairs(GetTeamRoles(SHOP_ROLES)) do
-            if not DEFAULT_ROLES[role] then
-                local rolestring = ROLE_STRINGS_RAW[role]
-                ULib.replicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting", "rep_ttt_" .. rolestring .. "_credits_starting", GetConVarNumber("ttt_" .. rolestring .. "_credits_starting"), false, false, "xgui_gmsettings")
-            end
-        end
+        --other role credits are handled in the shop convar section so they can be dynamically created if shop-for-all is enabled
 
         --sprint
         ULib.replicatedWritableCvar("ttt_sprint_bonus_rel", "rep_ttt_sprint_bonus_rel", GetConVarNumber("ttt_sprint_bonus_rel"), false, false, "xgui_gmsettings")
