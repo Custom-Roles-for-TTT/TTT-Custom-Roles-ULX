@@ -118,6 +118,18 @@ local function GetTableWithExcludes(tbl, excludes)
     return new_tbl
 end
 
+local function GetShopRoles()
+    if not GetGlobalBool("ttt_shop_for_all", false) then
+        return SHOP_ROLES
+    end
+
+    local shop_roles = {}
+    for role = 0, ROLE_MAX do
+        shop_roles[role] = true
+    end
+    return shop_roles
+end
+
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
@@ -474,7 +486,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 770 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 795 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -535,6 +547,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
+
+    local vamfdt = xlib.makeslider { label = "ttt_vampire_fang_dead_timer (def. 0)", min = 0, max = 30, repconvar = "rep_ttt_vampire_fang_dead_timer", parent = traproplst }
+    traproplst:AddItem(vamfdt)
 
     local vamfh = xlib.makeslider { label = "ttt_vampire_fang_heal (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_heal", parent = traproplst }
     traproplst:AddItem(vamfh)
@@ -1137,22 +1152,23 @@ local function AddShopModeSettings(lst, cvar_list)
 end
 
 local function AddRoleShop(gppnl)
-    local traitor_shops = GetTableUnion(TRAITOR_ROLES, SHOP_ROLES)
+    local shop_roles = GetShopRoles()
+    local traitor_shops = GetTableUnion(TRAITOR_ROLES, shop_roles)
     local traitor_syncs = GetShopSyncCvars(traitor_shops)
     local traitor_modes = GetShopModeCvars(traitor_shops)
-    local inno_shops = GetTableUnion(INNOCENT_ROLES, SHOP_ROLES)
+    local inno_shops = GetTableUnion(INNOCENT_ROLES, shop_roles)
     local inno_syncs = GetShopSyncCvars(inno_shops)
     local inno_modes = GetShopModeCvars(inno_shops)
-    local indep_shops = GetTableUnion(INDEPENDENT_ROLES, SHOP_ROLES)
+    local indep_shops = GetTableUnion(INDEPENDENT_ROLES, shop_roles)
     local indep_syncs = GetShopSyncCvars(indep_shops)
     local indep_modes = GetShopModeCvars(indep_shops)
-    local jester_shops = GetTableUnion(JESTER_ROLES, SHOP_ROLES)
+    local jester_shops = GetTableUnion(JESTER_ROLES, shop_roles)
     local jester_syncs = GetShopSyncCvars(jester_shops)
     local jester_modes = GetShopModeCvars(jester_shops)
-    local monster_shops = GetTableUnion(MONSTER_ROLES, SHOP_ROLES)
+    local monster_shops = GetTableUnion(MONSTER_ROLES, shop_roles)
     local monster_syncs = GetShopSyncCvars(monster_shops)
     local monster_modes = GetShopModeCvars(monster_shops)
-    local height = 115 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) +
+    local height = 140 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) +
                         (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) +
                         (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) +
                         (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) +
@@ -1166,6 +1182,9 @@ local function AddRoleShop(gppnl)
     rslst:SetPos(5, 25)
     rslst:SetSize(390, height)
     rslst:SetSpacing(5)
+
+    local rsfa = xlib.makecheckbox { label = "ttt_shop_for_all (def. 0)", repconvar = "rep_ttt_shop_for_all", parent = rslst }
+    rslst:AddItem(rsfa)
 
     local rsp = xlib.makeslider { label = "ttt_shop_random_percent (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_shop_random_percent", parent = rslst }
     rslst:AddItem(rsp)
@@ -1426,7 +1445,7 @@ local function AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddRoleCreditSection(pnl, label, role_list, excludes)
-    local role_shops = GetTableUnion(role_list, SHOP_ROLES, excludes)
+    local role_shops = GetTableUnion(role_list, GetShopRoles(), excludes)
     local cat = vgui.Create("DCollapsibleCategory", pnl)
     cat:SetSize(390, #role_shops * 25)
     cat:SetExpanded(0)
@@ -1444,7 +1463,7 @@ local function AddEquipmentCreditsModule()
     local ecpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     --Traitor Credits
-    local traitor_shops = GetTableUnion(TRAITOR_ROLES, SHOP_ROLES, {ROLE_TRAITOR})
+    local traitor_shops = GetTableUnion(TRAITOR_ROLES, GetShopRoles(), {ROLE_TRAITOR})
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
     ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
     ectcclp:SetExpanded(1)
