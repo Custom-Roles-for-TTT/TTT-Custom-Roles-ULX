@@ -19,6 +19,16 @@ local function AddRoleShopConVars(role)
     if ConVarExists(mode_cvar) then
         ULib.replicatedWritableCvar(mode_cvar, "rep_" .. mode_cvar, GetConVarNumber(mode_cvar), false, false, "xgui_gmsettings")
     end
+
+    local active_cvar = "ttt_" .. rolestring .. "_shop_active_only"
+    if ConVarExists(active_cvar) then
+        ULib.replicatedWritableCvar(active_cvar, "rep_" .. active_cvar, GetConVarNumber(active_cvar), false, false, "xgui_gmsettings")
+    end
+
+    local delay_cvar = "ttt_" .. rolestring .. "_shop_delay"
+    if ConVarExists(delay_cvar) then
+        ULib.replicatedWritableCvar(delay_cvar, "rep_" .. delay_cvar, GetConVarNumber(delay_cvar), false, false, "xgui_gmsettings")
+    end
 end
 
 local function init()
