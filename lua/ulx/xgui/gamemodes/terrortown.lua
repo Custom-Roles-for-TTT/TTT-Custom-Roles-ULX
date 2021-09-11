@@ -178,13 +178,13 @@ local function AddRoundStructureModule()
 
     --Map Switching and Voting
     local msavclp = vgui.Create("DCollapsibleCategory", rspnl)
-    msavclp:SetSize(390, 95)
+    msavclp:SetSize(390, 50)
     msavclp:SetExpanded(0)
     msavclp:SetLabel("Map Switching and Voting")
 
     local msavlst = vgui.Create("DPanelList", msavclp)
     msavlst:SetPos(5, 25)
-    msavlst:SetSize(390, 95)
+    msavlst:SetSize(390, 50)
     msavlst:SetSpacing(5)
 
     local rndl = xlib.makeslider { label = "ttt_round_limit (def. 6)", min = 1, max = 100, repconvar = "rep_ttt_round_limit", parent = msavlst }
@@ -192,12 +192,6 @@ local function AddRoundStructureModule()
 
     local rndtlm = xlib.makeslider { label = "ttt_time_limit_minutes (def. 75)", min = 1, max = 150, repconvar = "rep_ttt_time_limit_minutes", parent = msavlst }
     msavlst:AddItem(rndtlm)
-
-    local rndawm = xlib.makecheckbox { label = "ttt_always_use_mapcycle (def. 0)", repconvar = "rep_ttt_always_use_mapcycle", parent = msavlst }
-    msavlst:AddItem(rndawm)
-
-    local rndawmtxt = xlib.makelabel { wordwrap = true, label = "This does nothing but since its included in TTT it's here.", parent = msavlst }
-    msavlst:AddItem(rndawmtxt)
 
     xgui.hookEvent("onProcessModules", nil, rspnl.processModules)
     xgui.addSubModule("Round Structure", rspnl, nil, "terrortown_settings")
@@ -486,7 +480,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 795 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -544,6 +538,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamden = xlib.makecheckbox { label = "ttt_vampire_drain_enable (def. 1)", repconvar = "rep_ttt_vampire_drain_enable", parent = traproplst }
     traproplst:AddItem(vamden)
+
+    local vamdfi = xlib.makecheckbox { label = "ttt_vampire_drain_first (def. 0)", repconvar = "rep_ttt_vampire_drain_first", parent = traproplst }
+    traproplst:AddItem(vamdfi)
 
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
@@ -1824,7 +1821,6 @@ hook.Add("InitPostEntity", "CustomRolesLocalLoad", function()
         end
 
         net.Start("ULX_CRCVarRequest")
-        net.WriteEntity(LocalPlayer())
         net.WriteTable(net_table)
         net.SendToServer()
     end
