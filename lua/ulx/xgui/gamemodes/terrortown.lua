@@ -178,13 +178,13 @@ local function AddRoundStructureModule()
 
     --Map Switching and Voting
     local msavclp = vgui.Create("DCollapsibleCategory", rspnl)
-    msavclp:SetSize(390, 95)
+    msavclp:SetSize(390, 50)
     msavclp:SetExpanded(0)
     msavclp:SetLabel("Map Switching and Voting")
 
     local msavlst = vgui.Create("DPanelList", msavclp)
     msavlst:SetPos(5, 25)
-    msavlst:SetSize(390, 95)
+    msavlst:SetSize(390, 50)
     msavlst:SetSpacing(5)
 
     local rndl = xlib.makeslider { label = "ttt_round_limit (def. 6)", min = 1, max = 100, repconvar = "rep_ttt_round_limit", parent = msavlst }
@@ -192,12 +192,6 @@ local function AddRoundStructureModule()
 
     local rndtlm = xlib.makeslider { label = "ttt_time_limit_minutes (def. 75)", min = 1, max = 150, repconvar = "rep_ttt_time_limit_minutes", parent = msavlst }
     msavlst:AddItem(rndtlm)
-
-    local rndawm = xlib.makecheckbox { label = "ttt_always_use_mapcycle (def. 0)", repconvar = "rep_ttt_always_use_mapcycle", parent = msavlst }
-    msavlst:AddItem(rndawm)
-
-    local rndawmtxt = xlib.makelabel { wordwrap = true, label = "This does nothing but since its included in TTT it's here.", parent = msavlst }
-    msavlst:AddItem(rndawmtxt)
 
     xgui.hookEvent("onProcessModules", nil, rspnl.processModules)
     xgui.addSubModule("Round Structure", rspnl, nil, "terrortown_settings")
@@ -486,7 +480,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 795 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -544,6 +538,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamden = xlib.makecheckbox { label = "ttt_vampire_drain_enable (def. 1)", repconvar = "rep_ttt_vampire_drain_enable", parent = traproplst }
     traproplst:AddItem(vamden)
+
+    local vamdfi = xlib.makecheckbox { label = "ttt_vampire_drain_first (def. 0)", repconvar = "rep_ttt_vampire_drain_first", parent = traproplst }
+    traproplst:AddItem(vamdfi)
 
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
@@ -723,7 +720,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 320 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 345 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -745,6 +742,9 @@ local function AddDetectiveProperties(gppnl)
 
     local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
     detproplst:AddItem(prsrch)
+
+    local bnsrch = xlib.makecheckbox { label = "ttt_all_search_binoc (def. 0)", repconvar = "rep_ttt_all_search_binoc", parent = detproplst }
+    detproplst:AddItem(bnsrch)
 
     local pallbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paladin settings:", parent = detproplst }
     detproplst:AddItem(pallbl)
@@ -1131,7 +1131,7 @@ end
 local function GetShopModeCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        if (INDEPENDENT_ROLES[r] and r ~= ROLE_ZOMBIE) or r == ROLE_CLOWN or r == ROLE_MERCENARY then
+        if (INDEPENDENT_ROLES[r] and r ~= ROLE_ZOMBIE) or DELAYED_SHOP_ROLES[r] or r == ROLE_MERCENARY then
             table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_mode")
         end
     end
@@ -1151,28 +1151,84 @@ local function AddShopModeSettings(lst, cvar_list)
     end
 end
 
+local function GetShopActiveCvars(role_list)
+    local cvar_list = {}
+    for _, r in pairs(role_list) do
+        if DELAYED_SHOP_ROLES[r] then
+            table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_active_only")
+        end
+    end
+    return cvar_list
+end
+
+local function AddShopActiveSettings(lst, cvar_list)
+    for _, c in pairs(cvar_list) do
+        local default = GetReplicatedConVarDefault(c, "0")
+        local active = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
+        lst:AddItem(active)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[c] then
+            missing_cvars[c] = active
+        end
+    end
+end
+
+local function GetShopDelayCvars(role_list)
+    local cvar_list = {}
+    for _, r in pairs(role_list) do
+        if DELAYED_SHOP_ROLES[r] then
+            table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_delay")
+        end
+    end
+    return cvar_list
+end
+
+local function AddShopDelaySettings(lst, cvar_list)
+    for _, c in pairs(cvar_list) do
+        local default = GetReplicatedConVarDefault(c, "0")
+        local delay = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
+        lst:AddItem(delay)
+
+        -- Save the control so it can be updated later
+        if missing_cvars[c] then
+            missing_cvars[c] = delay
+        end
+    end
+end
+
 local function AddRoleShop(gppnl)
     local shop_roles = GetShopRoles()
     local traitor_shops = GetTableUnion(TRAITOR_ROLES, shop_roles)
     local traitor_syncs = GetShopSyncCvars(traitor_shops)
     local traitor_modes = GetShopModeCvars(traitor_shops)
+    local traitor_actives = GetShopActiveCvars(traitor_shops)
+    local traitor_delays = GetShopDelayCvars(traitor_shops)
     local inno_shops = GetTableUnion(INNOCENT_ROLES, shop_roles)
     local inno_syncs = GetShopSyncCvars(inno_shops)
     local inno_modes = GetShopModeCvars(inno_shops)
+    local inno_actives = GetShopActiveCvars(inno_shops)
+    local inno_delays = GetShopDelayCvars(inno_shops)
     local indep_shops = GetTableUnion(INDEPENDENT_ROLES, shop_roles)
     local indep_syncs = GetShopSyncCvars(indep_shops)
     local indep_modes = GetShopModeCvars(indep_shops)
+    local indep_actives = GetShopActiveCvars(indep_shops)
+    local indep_delays = GetShopDelayCvars(indep_shops)
     local jester_shops = GetTableUnion(JESTER_ROLES, shop_roles)
     local jester_syncs = GetShopSyncCvars(jester_shops)
     local jester_modes = GetShopModeCvars(jester_shops)
+    local jester_actives = GetShopActiveCvars(jester_shops)
+    local jester_delays = GetShopDelayCvars(jester_shops)
     local monster_shops = GetTableUnion(MONSTER_ROLES, shop_roles)
     local monster_syncs = GetShopSyncCvars(monster_shops)
     local monster_modes = GetShopModeCvars(monster_shops)
-    local height = 140 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) +
-                        (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) +
-                        (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) +
-                        (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) +
-                        (45 * #monster_shops) + (20 * #monster_syncs) + (25 * #monster_modes)
+    local monster_actives = GetShopActiveCvars(monster_shops)
+    local monster_delays = GetShopDelayCvars(monster_shops)
+    local height = 140 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+                        (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
+                        (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
+                        (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
+                        (45 * #monster_shops) + (20 * #monster_syncs) + (25 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetSize(390, height)
     rspnl:SetExpanded(0)
@@ -1198,6 +1254,8 @@ local function AddRoleShop(gppnl)
     AddShopRandomizationSettings(rslst, traitor_shops)
     AddShopSyncSettings(rslst, traitor_syncs)
     AddShopModeSettings(rslst, traitor_modes)
+    AddShopActiveSettings(rslst, traitor_actives)
+    AddShopDelaySettings(rslst, traitor_delays)
 
     local innlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Innocents:", parent = rslst }
     rslst:AddItem(innlbl)
@@ -1205,6 +1263,8 @@ local function AddRoleShop(gppnl)
     AddShopRandomizationSettings(rslst, inno_shops)
     AddShopSyncSettings(rslst, inno_syncs)
     AddShopModeSettings(rslst, inno_modes)
+    AddShopActiveSettings(rslst, inno_actives)
+    AddShopDelaySettings(rslst, inno_delays)
 
     local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jesters:", parent = rslst }
     rslst:AddItem(jeslbl)
@@ -1212,6 +1272,8 @@ local function AddRoleShop(gppnl)
     AddShopRandomizationSettings(rslst, jester_shops)
     AddShopSyncSettings(rslst, jester_syncs)
     AddShopModeSettings(rslst, jester_modes)
+    AddShopActiveSettings(rslst, jester_actives)
+    AddShopDelaySettings(rslst, jester_delays)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independents:", parent = rslst }
     rslst:AddItem(indlbl)
@@ -1219,9 +1281,13 @@ local function AddRoleShop(gppnl)
     AddShopRandomizationSettings(rslst, indep_shops)
     AddShopSyncSettings(rslst, indep_syncs)
     AddShopModeSettings(rslst, indep_modes)
+    AddShopActiveSettings(rslst, indep_actives)
+    AddShopDelaySettings(rslst, indep_delays)
     AddShopRandomizationSettings(rslst, monster_shops)
     AddShopSyncSettings(rslst, monster_syncs)
     AddShopModeSettings(rslst, monster_modes)
+    AddShopActiveSettings(rslst, monster_actives)
+    AddShopDelaySettings(rslst, monster_delays)
 end
 
 local function AddDna(gppnl)
@@ -1755,7 +1821,6 @@ hook.Add("InitPostEntity", "CustomRolesLocalLoad", function()
         end
 
         net.Start("ULX_CRCVarRequest")
-        net.WriteEntity(LocalPlayer())
         net.WriteTable(net_table)
         net.SendToServer()
     end
