@@ -237,7 +237,7 @@ local function init()
             for role = ROLE_EXTERNAL_START, ROLE_MAX do
                 if EXTERNAL_ROLE_CONVARS[role] then
                     for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[role]) do
-                        CreateReplicatedWritableCvar(name)
+                        CreateReplicatedWritableCvar(cvar.cvar)
                     end
                 end
             end
