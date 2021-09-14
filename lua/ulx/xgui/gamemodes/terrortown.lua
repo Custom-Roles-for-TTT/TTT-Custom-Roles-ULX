@@ -480,7 +480,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 835 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -530,8 +530,11 @@ local function AddTraitorProperties(gppnl)
     local vamlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Vampire settings:", parent = traproplst }
     traproplst:AddItem(vamlbl)
 
-    local vamatra = xlib.makecheckbox { label = "ttt_vampires_are_monsters (def. 0)", repconvar = "rep_ttt_vampires_are_monsters", parent = traproplst }
-    traproplst:AddItem(vamatra)
+    local vamamon = xlib.makecheckbox { label = "ttt_vampires_are_monsters (def. 0)", repconvar = "rep_ttt_vampires_are_monsters", parent = traproplst }
+    traproplst:AddItem(vamamon)
+
+    local vamain = xlib.makecheckbox { label = "ttt_vampires_are_independent (def. 0)", repconvar = "rep_ttt_vampires_are_independent", parent = traproplst }
+    traproplst:AddItem(vamain)
 
     local vamcen = xlib.makecheckbox { label = "ttt_vampire_convert_enable (def. 0)", repconvar = "rep_ttt_vampire_convert_enable", parent = traproplst }
     traproplst:AddItem(vamcen)
@@ -789,7 +792,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 770 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 790 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -901,6 +904,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Bodysnatcher settings:", parent = jesproplst }
     jesproplst:AddItem(bodlbl)
+
+    local bodain = xlib.makecheckbox { label = "ttt_bodysnatchers_are_independent (def. 0)", repconvar = "rep_ttt_bodysnatchers_are_independent", parent = jesproplst }
+    jesproplst:AddItem(bodain)
 
     local boddes = xlib.makecheckbox { label = "ttt_bodysnatcher_destroy_body (def. 0)", repconvar = "rep_ttt_bodysnatcher_destroy_body", parent = jesproplst }
     jesproplst:AddItem(boddes)
