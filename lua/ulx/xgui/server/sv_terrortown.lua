@@ -4,15 +4,20 @@ local function CreateReplicatedWritableCvar(convar)
     ULib.replicatedWritableCvar(convar, "rep_" .. convar, GetConVar(convar):GetString(), false, false, "xgui_gmsettings")
 end
 
+local function AddRoleCreditConVar(role)
+    -- Add explicit ROLE_INNOCENT exclusion here in case shop-for-all is enabled
+    if not DEFAULT_ROLES[role] or role == ROLE_INNOCENT then
+        local rolestring = ROLE_STRINGS_RAW[role]
+        CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting")
+    end
+end
+
 local function AddRoleShopConVars(role)
     local rolestring = ROLE_STRINGS_RAW[role]
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent")
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled")
 
-    -- Add explicit ROLE_INNOCENT exclusion here in case shop-for-all is enabled
-    if not DEFAULT_ROLES[role] or role == ROLE_INNOCENT then
-        CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting")
-    end
+    AddRoleCreditConVar(role)
 
     local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
     if ConVarExists(sync_cvar) then
@@ -98,6 +103,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_assassin_failed_damage_penalty")
         CreateReplicatedWritableCvar("ttt_assassin_shop_roles_last")
         CreateReplicatedWritableCvar("ttt_vampires_are_monsters")
+        CreateReplicatedWritableCvar("ttt_vampires_are_independent")
         CreateReplicatedWritableCvar("ttt_vampire_show_target_icon")
         CreateReplicatedWritableCvar("ttt_vampire_damage_reduction")
         CreateReplicatedWritableCvar("ttt_vampire_convert_enable")
@@ -190,6 +196,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_beggar_notify_mode")
         CreateReplicatedWritableCvar("ttt_beggar_notify_sound")
         CreateReplicatedWritableCvar("ttt_beggar_notify_confetti")
+        CreateReplicatedWritableCvar("ttt_bodysnatchers_are_independent")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_destroy_body")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_show_role")
 
@@ -237,7 +244,7 @@ local function init()
             for role = ROLE_EXTERNAL_START, ROLE_MAX do
                 if EXTERNAL_ROLE_CONVARS[role] then
                     for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[role]) do
-                        CreateReplicatedWritableCvar(name)
+                        CreateReplicatedWritableCvar(cvar.cvar)
                     end
                 end
             end
@@ -261,6 +268,12 @@ local function init()
                 end
             end
         end)
+
+        --replicate the starting credit convar for all roles that have credits but don't have a shop
+        local shopless_credit_roles = table.ExcludedKeys(EXTERNAL_ROLE_STARTING_CREDITS, shop_roles)
+        for _, role in ipairs(shopless_credit_roles) do
+            AddRoleCreditConVar(role)
+        end
 
         --dna
         CreateReplicatedWritableCvar("ttt_killer_dna_range")

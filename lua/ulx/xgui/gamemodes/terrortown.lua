@@ -98,26 +98,6 @@ local function GetReplicatedConVarMax(name, max)
     return convar:GetMax()
 end
 
-local function GetTableUnion(first_tbl, second_tbl, excludes)
-    local union = {}
-    for k, v in pairs(first_tbl) do
-        if v and second_tbl[k] and (not excludes or not table.HasValue(excludes, k)) then
-            table.insert(union, k)
-        end
-    end
-    return union
-end
-
-local function GetTableWithExcludes(tbl, excludes)
-    local new_tbl = {}
-    for k, v in pairs(tbl) do
-        if v and (not excludes or not table.HasValue(excludes, k)) then
-            table.insert(new_tbl, k)
-        end
-    end
-    return new_tbl
-end
-
 local function GetShopRoles()
     if not GetGlobalBool("ttt_shop_for_all", false) then
         return SHOP_ROLES
@@ -242,7 +222,7 @@ local function AddDefaultRoleSettings(lst, role_list)
 end
 
 local function AddSpecialistTraitorSettings(gppnl)
-    local traitor_roles = GetTableWithExcludes(TRAITOR_ROLES, {ROLE_TRAITOR})
+    local traitor_roles = table.ExcludedKeys(TRAITOR_ROLES, {ROLE_TRAITOR})
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
     sptraclp:SetSize(390, 50 + (70 * #traitor_roles))
     sptraclp:SetExpanded(1)
@@ -263,7 +243,7 @@ local function AddSpecialistTraitorSettings(gppnl)
 end
 
 local function AddSpecialistInnocentSettings(gppnl)
-    local inno_roles = GetTableWithExcludes(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
+    local inno_roles = table.ExcludedKeys(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetSize(390, 50 + (70 * #inno_roles))
     spinnclp:SetExpanded(1)
@@ -284,7 +264,7 @@ local function AddSpecialistInnocentSettings(gppnl)
 end
 
 local function AddSpecialistDetectiveSettings(gppnl)
-    local det_roles = GetTableWithExcludes(DETECTIVE_ROLES, {ROLE_DETECTIVE})
+    local det_roles = table.ExcludedKeys(DETECTIVE_ROLES, {ROLE_DETECTIVE})
     local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
     spdetclp:SetSize(390, 50 + (70 * #det_roles))
     spdetclp:SetExpanded(1)
@@ -305,8 +285,8 @@ local function AddSpecialistDetectiveSettings(gppnl)
 end
 
 local function AddIndependentRoleSettings(gppnl)
-    local indep_roles = GetTableWithExcludes(INDEPENDENT_ROLES)
-    local jester_roles = GetTableWithExcludes(JESTER_ROLES)
+    local indep_roles = GetTeamRoles(INDEPENDENT_ROLES)
+    local jester_roles = GetTeamRoles(JESTER_ROLES)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
     indclp:SetExpanded(1)
@@ -325,7 +305,7 @@ local function AddIndependentRoleSettings(gppnl)
 end
 
 local function AddMonsterSettings(gppnl)
-    local monster_roles = GetTableWithExcludes(MONSTER_ROLES)
+    local monster_roles = GetTeamRoles(MONSTER_ROLES)
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
     monclp:SetSize(390, 50 + (70 * #monster_roles))
     monclp:SetExpanded(1)
@@ -480,7 +460,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 835 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -530,8 +510,11 @@ local function AddTraitorProperties(gppnl)
     local vamlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Vampire settings:", parent = traproplst }
     traproplst:AddItem(vamlbl)
 
-    local vamatra = xlib.makecheckbox { label = "ttt_vampires_are_monsters (def. 0)", repconvar = "rep_ttt_vampires_are_monsters", parent = traproplst }
-    traproplst:AddItem(vamatra)
+    local vamamon = xlib.makecheckbox { label = "ttt_vampires_are_monsters (def. 0)", repconvar = "rep_ttt_vampires_are_monsters", parent = traproplst }
+    traproplst:AddItem(vamamon)
+
+    local vamain = xlib.makecheckbox { label = "ttt_vampires_are_independent (def. 0)", repconvar = "rep_ttt_vampires_are_independent", parent = traproplst }
+    traproplst:AddItem(vamain)
 
     local vamcen = xlib.makecheckbox { label = "ttt_vampire_convert_enable (def. 0)", repconvar = "rep_ttt_vampire_convert_enable", parent = traproplst }
     traproplst:AddItem(vamcen)
@@ -789,7 +772,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 770 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 790 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -901,6 +884,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Bodysnatcher settings:", parent = jesproplst }
     jesproplst:AddItem(bodlbl)
+
+    local bodain = xlib.makecheckbox { label = "ttt_bodysnatchers_are_independent (def. 0)", repconvar = "rep_ttt_bodysnatchers_are_independent", parent = jesproplst }
+    jesproplst:AddItem(bodain)
 
     local boddes = xlib.makecheckbox { label = "ttt_bodysnatcher_destroy_body (def. 0)", repconvar = "rep_ttt_bodysnatcher_destroy_body", parent = jesproplst }
     jesproplst:AddItem(boddes)
@@ -1199,27 +1185,27 @@ end
 
 local function AddRoleShop(gppnl)
     local shop_roles = GetShopRoles()
-    local traitor_shops = GetTableUnion(TRAITOR_ROLES, shop_roles)
+    local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, shop_roles)
     local traitor_syncs = GetShopSyncCvars(traitor_shops)
     local traitor_modes = GetShopModeCvars(traitor_shops)
     local traitor_actives = GetShopActiveCvars(traitor_shops)
     local traitor_delays = GetShopDelayCvars(traitor_shops)
-    local inno_shops = GetTableUnion(INNOCENT_ROLES, shop_roles)
+    local inno_shops = table.IntersectedKeys(INNOCENT_ROLES, shop_roles)
     local inno_syncs = GetShopSyncCvars(inno_shops)
     local inno_modes = GetShopModeCvars(inno_shops)
     local inno_actives = GetShopActiveCvars(inno_shops)
     local inno_delays = GetShopDelayCvars(inno_shops)
-    local indep_shops = GetTableUnion(INDEPENDENT_ROLES, shop_roles)
+    local indep_shops = table.IntersectedKeys(INDEPENDENT_ROLES, shop_roles)
     local indep_syncs = GetShopSyncCvars(indep_shops)
     local indep_modes = GetShopModeCvars(indep_shops)
     local indep_actives = GetShopActiveCvars(indep_shops)
     local indep_delays = GetShopDelayCvars(indep_shops)
-    local jester_shops = GetTableUnion(JESTER_ROLES, shop_roles)
+    local jester_shops = table.IntersectedKeys(JESTER_ROLES, shop_roles)
     local jester_syncs = GetShopSyncCvars(jester_shops)
     local jester_modes = GetShopModeCvars(jester_shops)
     local jester_actives = GetShopActiveCvars(jester_shops)
     local jester_delays = GetShopDelayCvars(jester_shops)
-    local monster_shops = GetTableUnion(MONSTER_ROLES, shop_roles)
+    local monster_shops = table.IntersectedKeys(MONSTER_ROLES, shop_roles)
     local monster_syncs = GetShopSyncCvars(monster_shops)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
@@ -1511,7 +1497,9 @@ local function AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddRoleCreditSection(pnl, label, role_list, excludes)
-    local role_shops = GetTableUnion(role_list, GetShopRoles(), excludes)
+    -- Add any roles that have credits but don't have a shop to the full list
+    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local role_shops = table.IntersectedKeys(role_list, credit_roles, excludes)
     local cat = vgui.Create("DCollapsibleCategory", pnl)
     cat:SetSize(390, #role_shops * 25)
     cat:SetExpanded(0)
@@ -1529,7 +1517,8 @@ local function AddEquipmentCreditsModule()
     local ecpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     --Traitor Credits
-    local traitor_shops = GetTableUnion(TRAITOR_ROLES, GetShopRoles(), {ROLE_TRAITOR})
+    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
     ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
     ectcclp:SetExpanded(1)
@@ -1561,18 +1550,21 @@ local function AddEquipmentCreditsModule()
     ectclst:AddItem(ectcdk)
 
     --Detective Credits
+    local detective_shops = table.IntersectedKeys(DETECTIVE_ROLES, credit_roles, {ROLE_DETECTIVE})
     local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecdcclp:SetSize(390, 75)
+    ecdcclp:SetSize(390, 75 + (25 * #detective_shops))
     ecdcclp:SetExpanded(0)
     ecdcclp:SetLabel("Detective Credits")
 
     local ecdclst = vgui.Create("DPanelList", ecdcclp)
     ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 75)
+    ecdclst:SetSize(390, 75 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
     ecdclst:AddItem(ecdccs)
+
+    AddRoleCreditsSlider(detective_shops, ecdclst)
 
     local ecdctk = xlib.makeslider { label = "ttt_det_credits_traitorkill (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_traitorkill", parent = ecdclst }
     ecdclst:AddItem(ecdctk)
@@ -1581,7 +1573,7 @@ local function AddEquipmentCreditsModule()
     ecdclst:AddItem(ecdctd)
 
     AddRoleCreditSection(ecpnl, "Jester", JESTER_ROLES)
-    AddRoleCreditSection(ecpnl, "Innocent", INNOCENT_ROLES, {ROLE_DETECTIVE})
+    AddRoleCreditSection(ecpnl, "Innocent", INNOCENT_ROLES, GetTeamRoles(DETECTIVE_ROLES))
     AddRoleCreditSection(ecpnl, "Independent", INDEPENDENT_ROLES)
 
     xgui.hookEvent("onProcessModules", nil, ecpnl.processModules)
