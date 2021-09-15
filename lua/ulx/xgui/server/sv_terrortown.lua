@@ -4,15 +4,20 @@ local function CreateReplicatedWritableCvar(convar)
     ULib.replicatedWritableCvar(convar, "rep_" .. convar, GetConVar(convar):GetString(), false, false, "xgui_gmsettings")
 end
 
+local function AddRoleCreditConVar(role)
+    -- Add explicit ROLE_INNOCENT exclusion here in case shop-for-all is enabled
+    if not DEFAULT_ROLES[role] or role == ROLE_INNOCENT then
+        local rolestring = ROLE_STRINGS_RAW[role]
+        CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting")
+    end
+end
+
 local function AddRoleShopConVars(role)
     local rolestring = ROLE_STRINGS_RAW[role]
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent")
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled")
 
-    -- Add explicit ROLE_INNOCENT exclusion here in case shop-for-all is enabled
-    if not DEFAULT_ROLES[role] or role == ROLE_INNOCENT then
-        CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_credits_starting")
-    end
+    AddRoleCreditConVar(role)
 
     local sync_cvar = "ttt_" .. rolestring .. "_shop_sync"
     if ConVarExists(sync_cvar) then
@@ -263,6 +268,12 @@ local function init()
                 end
             end
         end)
+
+        --replicate the starting credit convar for all roles that have credits but don't have a shop
+        local shopless_credit_roles = table.ExcludedKeys(EXTERNAL_ROLE_STARTING_CREDITS, shop_roles)
+        for _, role in ipairs(shopless_credit_roles) do
+            AddRoleCreditConVar(role)
+        end
 
         --dna
         CreateReplicatedWritableCvar("ttt_killer_dna_range")
