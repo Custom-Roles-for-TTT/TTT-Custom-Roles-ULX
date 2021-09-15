@@ -151,6 +151,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_veteran_full_heal")
         CreateReplicatedWritableCvar("ttt_veteran_heal_bonus")
         CreateReplicatedWritableCvar("ttt_veteran_announce")
+        CreateReplicatedWritableCvar("ttt_paramedic_defib_as_innocent")
 
         --detective properties
         CreateReplicatedWritableCvar("ttt_detective_search_only")
