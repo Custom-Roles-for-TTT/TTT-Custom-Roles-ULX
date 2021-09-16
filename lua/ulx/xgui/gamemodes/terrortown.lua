@@ -460,7 +460,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 835 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 855 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -482,6 +482,9 @@ local function AddTraitorProperties(gppnl)
 
     local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
     traproplst:AddItem(impudi)
+
+    local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
+    traproplst:AddItem(impwd)
 
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
@@ -595,7 +598,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 645 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 665 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -677,6 +680,9 @@ local function AddInnocentProperties(gppnl)
 
     local depudi = xlib.makecheckbox { label = "ttt_deputy_use_detective_icon (def. 1)", repconvar = "rep_ttt_deputy_use_detective_icon", parent = innproplst }
     innproplst:AddItem(depudi)
+
+    local depwd = xlib.makecheckbox { label = "ttt_deputy_without_detective (def. 0)", repconvar = "rep_ttt_deputy_without_detective", parent = innproplst }
+    innproplst:AddItem(depwd)
 
     local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
     innproplst:AddItem(vetlbl)
