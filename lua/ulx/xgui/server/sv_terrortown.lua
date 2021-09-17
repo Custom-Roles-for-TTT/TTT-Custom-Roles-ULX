@@ -240,6 +240,7 @@ local function init()
 
         --other custom role properties
         CreateReplicatedWritableCvar("ttt_single_deputy_impersonator")
+        CreateReplicatedWritableCvar("ttt_deputy_impersonator_promote_any_death")
         CreateReplicatedWritableCvar("ttt_single_doctor_quack")
         CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist")
         CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
