@@ -230,9 +230,11 @@ local function init()
         CreateReplicatedWritableCvar("ttt_zombie_prime_attack_damage")
         CreateReplicatedWritableCvar("ttt_zombie_prime_attack_delay")
         CreateReplicatedWritableCvar("ttt_zombie_prime_speed_bonus")
+        CreateReplicatedWritableCvar("ttt_zombie_prime_convert_chance")
         CreateReplicatedWritableCvar("ttt_zombie_thrall_attack_damage")
         CreateReplicatedWritableCvar("ttt_zombie_thrall_attack_delay")
         CreateReplicatedWritableCvar("ttt_zombie_thrall_speed_bonus")
+        CreateReplicatedWritableCvar("ttt_zombie_thrall_convert_chance")
         CreateReplicatedWritableCvar("ttt_zombie_vision_enable")
 
         --other custom role properties
