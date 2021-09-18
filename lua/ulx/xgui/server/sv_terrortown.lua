@@ -73,6 +73,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_special_detective_pct")
         CreateReplicatedWritableCvar("ttt_special_detective_chance")
         CreateReplicatedWritableCvar("ttt_independent_chance")
+        CreateReplicatedWritableCvar("ttt_jester_chance")
         CreateReplicatedWritableCvar("ttt_monster_pct")
         CreateReplicatedWritableCvar("ttt_monster_chance")
 
@@ -240,6 +241,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_single_doctor_quack")
         CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist")
         CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
+        CreateReplicatedWritableCvar("ttt_single_jester_independent")
 
         --external role properties
         if ROLE_MAX >= ROLE_EXTERNAL_START then

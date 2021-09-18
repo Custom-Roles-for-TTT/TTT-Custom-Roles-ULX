@@ -287,18 +287,25 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetTeamRoles(JESTER_ROLES)
+    local height = 70 + (70 * #indep_roles) + (70 * #jester_roles)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
+    indclp:SetSize(390, height)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
+    indlst:SetSize(390, height)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
     indlst:AddItem(indchance)
+
+    local jeschance = xlib.makeslider { label = "ttt_jester_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_jester_chance", parent = indlst }
+    indlst:AddItem(jeschance)
+
+    local singlejind = xlib.makecheckbox { label = "ttt_single_jester_independent (def. 1)", repconvar = "rep_ttt_single_jester_independent", parent = indlst }
+    indlst:AddItem(singlejind)
 
     AddDefaultRoleSettings(indlst, indep_roles)
     AddDefaultRoleSettings(indlst, jester_roles)
