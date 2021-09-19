@@ -938,7 +938,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 865 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1056,6 +1056,9 @@ local function AddIndependentRoleProperties(gppnl)
     local zompsb = xlib.makeslider { label = "ttt_zombie_prime_speed_bonus (def. 0.35)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_prime_speed_bonus", parent = indproplst }
     indproplst:AddItem(zompsb)
 
+    local zompcc = xlib.makeslider { label = "ttt_zombie_prime_convert_chance (def. 1.0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_prime_convert_chance", parent = indproplst }
+    indproplst:AddItem(zompcc)
+
     local zomtadmg = xlib.makeslider { label = "ttt_zombie_thrall_attack_damage (def. 45)", min = 1, max = 100, repconvar = "rep_ttt_zombie_thrall_attack_damage", parent = indproplst }
     indproplst:AddItem(zomtadmg)
 
@@ -1064,6 +1067,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local zomtsb = xlib.makeslider { label = "ttt_zombie_thrall_speed_bonus (def. 0.15)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_thrall_speed_bonus", parent = indproplst }
     indproplst:AddItem(zomtsb)
+
+    local zomtcc = xlib.makeslider { label = "ttt_zombie_thrall_convert_chance (def. 1.0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_thrall_convert_chance", parent = indproplst }
+    indproplst:AddItem(zomtcc)
 
     local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 0)", repconvar = "rep_ttt_zombie_vision_enable", parent = indproplst }
     indproplst:AddItem(zomve)
