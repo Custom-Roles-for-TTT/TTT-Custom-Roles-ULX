@@ -727,6 +727,9 @@ local function AddInnocentProperties(gppnl)
     local medds = xlib.makecheckbox { label = "ttt_paramedic_device_shop (def. 0)", repconvar = "rep_ttt_paramedic_device_shop", parent = innproplst }
     innproplst:AddItem(medds)
 
+    local meddai = xlib.makecheckbox { label = "ttt_paramedic_defib_as_innocent (def. 0)", repconvar = "rep_ttt_paramedic_defib_as_innocent", parent = innproplst }
+    innproplst:AddItem(meddai)
+
     for _, r in ipairs(external_innocents) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], innproplst)
