@@ -110,6 +110,13 @@ local function GetShopRoles()
     return shop_roles
 end
 
+local function GetCreditRoles()
+    local shop_roles = GetShopRoles()
+    -- Add any roles that have credits but don't have a shop to the full list
+    local shopless_credit_roles = table.ToLookup(table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, EXTERNAL_ROLE_STARTING_CREDITS))
+    return table.ToLookup(table.UnionedKeys(shop_roles, shopless_credit_roles))
+end
+
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
@@ -1549,8 +1556,7 @@ local function AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddRoleCreditSection(pnl, label, role_list, excludes)
-    -- Add any roles that have credits but don't have a shop to the full list
-    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local credit_roles = GetCreditRoles()
     local role_shops = table.IntersectedKeys(role_list, credit_roles, excludes)
     local cat = vgui.Create("DCollapsibleCategory", pnl)
     cat:SetSize(390, #role_shops * 25)
@@ -1569,7 +1575,7 @@ local function AddEquipmentCreditsModule()
     local ecpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     --Traitor Credits
-    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local credit_roles =  GetCreditRoles()
     local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
     ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
