@@ -467,7 +467,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 925 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -490,6 +490,9 @@ local function AddTraitorProperties(gppnl)
     local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
     traproplst:AddItem(impudi)
 
+    local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
+    traproplst:AddItem(impwd)
+
     local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
     traproplst:AddItem(hyplbl)
 
@@ -498,6 +501,9 @@ local function AddTraitorProperties(gppnl)
 
     local hypds = xlib.makecheckbox { label = "ttt_hypnotist_device_shop (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop", parent = traproplst }
     traproplst:AddItem(hypds)
+
+    local hypcd = xlib.makecheckbox { label = "ttt_hypnotist_convert_detectives (def. 0)", repconvar = "rep_ttt_hypnotist_convert_detectives", parent = traproplst }
+    traproplst:AddItem(hypcd)
 
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
@@ -693,6 +699,9 @@ local function AddInnocentProperties(gppnl)
 
     local depudi = xlib.makecheckbox { label = "ttt_deputy_use_detective_icon (def. 1)", repconvar = "rep_ttt_deputy_use_detective_icon", parent = innproplst }
     innproplst:AddItem(depudi)
+
+    local depwd = xlib.makecheckbox { label = "ttt_deputy_without_detective (def. 0)", repconvar = "rep_ttt_deputy_without_detective", parent = innproplst }
+    innproplst:AddItem(depwd)
 
     local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
     innproplst:AddItem(vetlbl)
@@ -1089,17 +1098,20 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 80)
+    crpropclp:SetSize(390, 100)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 80)
+    crproplst:SetSize(390, 100)
     crproplst:SetSpacing(5)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
+
+    local depimppadd = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
+    crproplst:AddItem(depimppadd)
 
     local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
     crproplst:AddItem(singdocqua)
