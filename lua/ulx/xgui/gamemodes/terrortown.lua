@@ -467,7 +467,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 835 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -489,6 +489,15 @@ local function AddTraitorProperties(gppnl)
 
     local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
     traproplst:AddItem(impudi)
+
+    local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
+    traproplst:AddItem(hyplbl)
+
+    local hypdl = xlib.makecheckbox { label = "ttt_hypnotist_device_loadout (def. 1)", repconvar = "rep_ttt_hypnotist_device_loadout", parent = traproplst }
+    traproplst:AddItem(hypdl)
+
+    local hypds = xlib.makecheckbox { label = "ttt_hypnotist_device_shop (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop", parent = traproplst }
+    traproplst:AddItem(hypds)
 
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
@@ -602,7 +611,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 645 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 700 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -699,6 +708,15 @@ local function AddInnocentProperties(gppnl)
 
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
+
+    local medlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paramedic settings:", parent = innproplst }
+    innproplst:AddItem(medlbl)
+
+    local meddl = xlib.makecheckbox { label = "ttt_paramedic_device_loadout (def. 1)", repconvar = "rep_ttt_paramedic_device_loadout", parent = innproplst }
+    innproplst:AddItem(meddl)
+
+    local medds = xlib.makecheckbox { label = "ttt_paramedic_device_shop (def. 0)", repconvar = "rep_ttt_paramedic_device_shop", parent = innproplst }
+    innproplst:AddItem(medds)
 
     for _, r in ipairs(external_innocents) do
         if role_cvars[r] then
