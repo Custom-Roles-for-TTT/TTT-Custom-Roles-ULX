@@ -474,7 +474,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 930 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 970 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -487,6 +487,9 @@ local function AddTraitorProperties(gppnl)
 
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
     traproplst:AddItem(travis)
+
+    local trapd = xlib.makecheckbox { label = "ttt_traitor_phantom_cure (def. 0)", repconvar = "rep_ttt_traitor_phantom_cure", parent = traproplst }
+    traproplst:AddItem(trapd)
 
     local implbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Impersonator settings:", parent = traproplst }
     traproplst:AddItem(implbl)
@@ -586,6 +589,9 @@ local function AddTraitorProperties(gppnl)
 
     local quacurmo = xlib.makeslider { label = "ttt_quack_fake_cure_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_quack_fake_cure_mode", parent = traproplst }
     traproplst:AddItem(quacurmo)
+
+    local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
+    traproplst:AddItem(quapd)
 
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
