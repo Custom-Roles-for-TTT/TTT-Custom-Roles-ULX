@@ -474,7 +474,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 970 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 990 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -529,6 +529,9 @@ local function AddTraitorProperties(gppnl)
 
     local asntdb = xlib.makeslider { label = "ttt_assassin_target_damage_bonus (def. 1)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_target_damage_bonus", parent = traproplst }
     traproplst:AddItem(asntdb)
+
+    local asntbb = xlib.makecheckbox { label = "ttt_assassin_target_bonus_bought (def. 1)", repconvar = "rep_ttt_assassin_target_bonus_bought", parent = traproplst }
+    traproplst:AddItem(asntbb)
 
     local asnwdp = xlib.makeslider { label = "ttt_assassin_wrong_damage_penalty (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_wrong_damage_penalty", parent = traproplst }
     traproplst:AddItem(asnwdp)
