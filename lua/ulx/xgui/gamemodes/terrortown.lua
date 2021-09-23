@@ -825,7 +825,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 790 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -946,6 +946,18 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodrol = xlib.makecheckbox { label = "ttt_bodysnatcher_show_role (def. 1)", repconvar = "rep_ttt_bodysnatcher_show_role", parent = jesproplst }
     jesproplst:AddItem(bodrol)
+
+    local bodrevt = xlib.makeslider { label = "ttt_bodysnatcher_reveal_traitor (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_traitor", parent = jesproplst }
+    jesproplst:AddItem(bodrevt)
+
+    local bodrevinn = xlib.makeslider { label = "ttt_bodysnatcher_reveal_innocent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_innocent", parent = jesproplst }
+    jesproplst:AddItem(bodrevinn)
+
+    local bodrevmon = xlib.makeslider { label = "ttt_bodysnatcher_reveal_monster (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_monster", parent = jesproplst }
+    jesproplst:AddItem(bodrevmon)
+
+    local bodrevind = xlib.makeslider { label = "ttt_bodysnatcher_reveal_independent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_independent", parent = jesproplst }
+    jesproplst:AddItem(bodrevind)
 
     for _, r in ipairs(external_jesters) do
         if role_cvars[r] then

@@ -211,6 +211,10 @@ local function init()
         CreateReplicatedWritableCvar("ttt_bodysnatchers_are_independent")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_destroy_body")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_show_role")
+        CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_traitor")
+        CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_innocent")
+        CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_monster")
+        CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_independent")
 
         --independent properties
         CreateReplicatedWritableCvar("ttt_independents_trigger_traitor_testers")
