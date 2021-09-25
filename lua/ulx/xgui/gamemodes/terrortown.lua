@@ -110,6 +110,13 @@ local function GetShopRoles()
     return shop_roles
 end
 
+local function GetCreditRoles()
+    local shop_roles = GetShopRoles()
+    -- Add any roles that have credits but don't have a shop to the full list
+    local shopless_credit_roles = table.ToLookup(table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, EXTERNAL_ROLE_STARTING_CREDITS))
+    return table.ToLookup(table.UnionedKeys(shop_roles, shopless_credit_roles))
+end
+
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
@@ -287,18 +294,25 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetTeamRoles(JESTER_ROLES)
+    local height = 70 + (70 * #indep_roles) + (70 * #jester_roles)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indclp:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
+    indclp:SetSize(390, height)
     indclp:SetExpanded(1)
     indclp:SetLabel("Independent Role Settings")
 
     local indlst = vgui.Create("DPanelList", indclp)
     indlst:SetPos(5, 25)
-    indlst:SetSize(390, 25 + (70 * #indep_roles) + (70 * #jester_roles))
+    indlst:SetSize(390, height)
     indlst:SetSpacing(5)
 
     local indchance = xlib.makeslider { label = "ttt_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_independent_chance", parent = indlst }
     indlst:AddItem(indchance)
+
+    local jeschance = xlib.makeslider { label = "ttt_jester_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_jester_chance", parent = indlst }
+    indlst:AddItem(jeschance)
+
+    local singlejind = xlib.makecheckbox { label = "ttt_single_jester_independent (def. 1)", repconvar = "rep_ttt_single_jester_independent", parent = indlst }
+    indlst:AddItem(singlejind)
 
     AddDefaultRoleSettings(indlst, indep_roles)
     AddDefaultRoleSettings(indlst, jester_roles)
@@ -460,7 +474,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 835 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 990 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -474,6 +488,9 @@ local function AddTraitorProperties(gppnl)
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
     traproplst:AddItem(travis)
 
+    local trapd = xlib.makecheckbox { label = "ttt_traitor_phantom_cure (def. 0)", repconvar = "rep_ttt_traitor_phantom_cure", parent = traproplst }
+    traproplst:AddItem(trapd)
+
     local implbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Impersonator settings:", parent = traproplst }
     traproplst:AddItem(implbl)
 
@@ -482,6 +499,21 @@ local function AddTraitorProperties(gppnl)
 
     local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
     traproplst:AddItem(impudi)
+
+    local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
+    traproplst:AddItem(impwd)
+
+    local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
+    traproplst:AddItem(hyplbl)
+
+    local hypdl = xlib.makecheckbox { label = "ttt_hypnotist_device_loadout (def. 1)", repconvar = "rep_ttt_hypnotist_device_loadout", parent = traproplst }
+    traproplst:AddItem(hypdl)
+
+    local hypds = xlib.makecheckbox { label = "ttt_hypnotist_device_shop (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop", parent = traproplst }
+    traproplst:AddItem(hypds)
+
+    local hypcd = xlib.makecheckbox { label = "ttt_hypnotist_convert_detectives (def. 0)", repconvar = "rep_ttt_hypnotist_convert_detectives", parent = traproplst }
+    traproplst:AddItem(hypcd)
 
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
@@ -497,6 +529,9 @@ local function AddTraitorProperties(gppnl)
 
     local asntdb = xlib.makeslider { label = "ttt_assassin_target_damage_bonus (def. 1)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_target_damage_bonus", parent = traproplst }
     traproplst:AddItem(asntdb)
+
+    local asntbb = xlib.makecheckbox { label = "ttt_assassin_target_bonus_bought (def. 1)", repconvar = "rep_ttt_assassin_target_bonus_bought", parent = traproplst }
+    traproplst:AddItem(asntbb)
 
     local asnwdp = xlib.makeslider { label = "ttt_assassin_wrong_damage_penalty (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_wrong_damage_penalty", parent = traproplst }
     traproplst:AddItem(asnwdp)
@@ -558,6 +593,9 @@ local function AddTraitorProperties(gppnl)
     local quacurmo = xlib.makeslider { label = "ttt_quack_fake_cure_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_quack_fake_cure_mode", parent = traproplst }
     traproplst:AddItem(quacurmo)
 
+    local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
+    traproplst:AddItem(quapd)
+
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
 
@@ -595,7 +633,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 645 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 740 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -678,6 +716,9 @@ local function AddInnocentProperties(gppnl)
     local depudi = xlib.makecheckbox { label = "ttt_deputy_use_detective_icon (def. 1)", repconvar = "rep_ttt_deputy_use_detective_icon", parent = innproplst }
     innproplst:AddItem(depudi)
 
+    local depwd = xlib.makecheckbox { label = "ttt_deputy_without_detective (def. 0)", repconvar = "rep_ttt_deputy_without_detective", parent = innproplst }
+    innproplst:AddItem(depwd)
+
     local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
     innproplst:AddItem(vetlbl)
 
@@ -693,6 +734,18 @@ local function AddInnocentProperties(gppnl)
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
 
+    local medlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paramedic settings:", parent = innproplst }
+    innproplst:AddItem(medlbl)
+
+    local meddl = xlib.makecheckbox { label = "ttt_paramedic_device_loadout (def. 1)", repconvar = "rep_ttt_paramedic_device_loadout", parent = innproplst }
+    innproplst:AddItem(meddl)
+
+    local medds = xlib.makecheckbox { label = "ttt_paramedic_device_shop (def. 0)", repconvar = "rep_ttt_paramedic_device_shop", parent = innproplst }
+    innproplst:AddItem(medds)
+
+    local meddai = xlib.makecheckbox { label = "ttt_paramedic_defib_as_innocent (def. 0)", repconvar = "rep_ttt_paramedic_defib_as_innocent", parent = innproplst }
+    innproplst:AddItem(meddai)
+
     for _, r in ipairs(external_innocents) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], innproplst)
@@ -703,7 +756,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 345 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 330 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -772,7 +825,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 790 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -894,6 +947,18 @@ local function AddJesterRoleProperties(gppnl)
     local bodrol = xlib.makecheckbox { label = "ttt_bodysnatcher_show_role (def. 1)", repconvar = "rep_ttt_bodysnatcher_show_role", parent = jesproplst }
     jesproplst:AddItem(bodrol)
 
+    local bodrevt = xlib.makeslider { label = "ttt_bodysnatcher_reveal_traitor (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_traitor", parent = jesproplst }
+    jesproplst:AddItem(bodrevt)
+
+    local bodrevinn = xlib.makeslider { label = "ttt_bodysnatcher_reveal_innocent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_innocent", parent = jesproplst }
+    jesproplst:AddItem(bodrevinn)
+
+    local bodrevmon = xlib.makeslider { label = "ttt_bodysnatcher_reveal_monster (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_monster", parent = jesproplst }
+    jesproplst:AddItem(bodrevmon)
+
+    local bodrevind = xlib.makeslider { label = "ttt_bodysnatcher_reveal_independent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_independent", parent = jesproplst }
+    jesproplst:AddItem(bodrevind)
+
     for _, r in ipairs(external_jesters) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], jesproplst)
@@ -904,7 +969,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 815 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 865 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1022,6 +1087,9 @@ local function AddIndependentRoleProperties(gppnl)
     local zompsb = xlib.makeslider { label = "ttt_zombie_prime_speed_bonus (def. 0.35)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_prime_speed_bonus", parent = indproplst }
     indproplst:AddItem(zompsb)
 
+    local zompcc = xlib.makeslider { label = "ttt_zombie_prime_convert_chance (def. 1.0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_prime_convert_chance", parent = indproplst }
+    indproplst:AddItem(zompcc)
+
     local zomtadmg = xlib.makeslider { label = "ttt_zombie_thrall_attack_damage (def. 45)", min = 1, max = 100, repconvar = "rep_ttt_zombie_thrall_attack_damage", parent = indproplst }
     indproplst:AddItem(zomtadmg)
 
@@ -1030,6 +1098,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local zomtsb = xlib.makeslider { label = "ttt_zombie_thrall_speed_bonus (def. 0.15)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_thrall_speed_bonus", parent = indproplst }
     indproplst:AddItem(zomtsb)
+
+    local zomtcc = xlib.makeslider { label = "ttt_zombie_thrall_convert_chance (def. 1.0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_zombie_thrall_convert_chance", parent = indproplst }
+    indproplst:AddItem(zomtcc)
 
     local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 0)", repconvar = "rep_ttt_zombie_vision_enable", parent = indproplst }
     indproplst:AddItem(zomve)
@@ -1064,17 +1135,20 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 80)
+    crpropclp:SetSize(390, 100)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 80)
+    crproplst:SetSize(390, 100)
     crproplst:SetSpacing(5)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
+
+    local depimppadd = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
+    crproplst:AddItem(depimppadd)
 
     local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
     crproplst:AddItem(singdocqua)
@@ -1503,8 +1577,7 @@ local function AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddRoleCreditSection(pnl, label, role_list, excludes)
-    -- Add any roles that have credits but don't have a shop to the full list
-    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local credit_roles = GetCreditRoles()
     local role_shops = table.IntersectedKeys(role_list, credit_roles, excludes)
     local cat = vgui.Create("DCollapsibleCategory", pnl)
     cat:SetSize(390, #role_shops * 25)
@@ -1523,7 +1596,7 @@ local function AddEquipmentCreditsModule()
     local ecpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     --Traitor Credits
-    local credit_roles = table.ToLookup(table.UnionedKeys(GetShopRoles(), EXTERNAL_ROLE_STARTING_CREDITS))
+    local credit_roles =  GetCreditRoles()
     local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
     ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
