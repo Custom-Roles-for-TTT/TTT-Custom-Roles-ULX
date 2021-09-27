@@ -264,8 +264,8 @@ local function init()
         --external role properties
         if ROLE_MAX >= ROLE_EXTERNAL_START then
             for role = ROLE_EXTERNAL_START, ROLE_MAX do
-                if EXTERNAL_ROLE_CONVARS[role] then
-                    for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[role]) do
+                if ROLE_CONVARS[role] then
+                    for _, cvar in ipairs(ROLE_CONVARS[role]) do
                         CreateReplicatedWritableCvar(cvar.cvar)
                     end
                 end
@@ -292,7 +292,7 @@ local function init()
         end)
 
         --replicate the starting credit convar for all roles that have credits but don't have a shop
-        local shopless_credit_roles = table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, EXTERNAL_ROLE_STARTING_CREDITS, shop_roles)
+        local shopless_credit_roles = table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, ROLE_STARTING_CREDITS, shop_roles)
         for _, role in ipairs(shopless_credit_roles) do
             AddRoleCreditConVar(role)
         end
