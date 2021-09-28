@@ -113,7 +113,7 @@ end
 local function GetCreditRoles()
     local shop_roles = GetShopRoles()
     -- Add any roles that have credits but don't have a shop to the full list
-    local shopless_credit_roles = table.ToLookup(table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, EXTERNAL_ROLE_STARTING_CREDITS))
+    local shopless_credit_roles = table.ToLookup(table.UnionedKeys(CAN_LOOT_CREDITS_ROLES, ROLE_STARTING_CREDITS))
     return table.ToLookup(table.UnionedKeys(shop_roles, shopless_credit_roles))
 end
 
@@ -391,9 +391,9 @@ local function GetExternalRoleConVars(team_list)
     local role_cvars = {}
     local num_count, bool_count, text_count = 0, 0, 0
     for _, r in ipairs(team_list) do
-        if EXTERNAL_ROLE_CONVARS[r] then
+        if ROLE_CONVARS[r] then
             local role_nums, role_bools, role_texts = {}, {}, {}
-            for _, cvar in ipairs(EXTERNAL_ROLE_CONVARS[r]) do
+            for _, cvar in ipairs(ROLE_CONVARS[r]) do
                 if cvar.type == ROLE_CONVAR_TYPE_NUM then
                     table.insert(role_nums, cvar)
                 elseif cvar.type == ROLE_CONVAR_TYPE_BOOL then
