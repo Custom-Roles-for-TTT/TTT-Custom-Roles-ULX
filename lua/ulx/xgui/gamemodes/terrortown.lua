@@ -642,7 +642,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 740 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 765 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -742,6 +742,9 @@ local function AddInnocentProperties(gppnl)
 
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
+
+    local vetac = xlib.makeslider { label = "ttt_veteran_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_activation_credits", parent = innproplst }
+    innproplst:AddItem(vetac)
 
     local medlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paramedic settings:", parent = innproplst }
     innproplst:AddItem(medlbl)
