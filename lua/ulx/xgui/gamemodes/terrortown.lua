@@ -294,7 +294,7 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetTeamRoles(JESTER_ROLES)
-    local height = 70 + (70 * #indep_roles) + (70 * #jester_roles)
+    local height = 95 + (70 * #indep_roles) + (70 * #jester_roles)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetSize(390, height)
     indclp:SetExpanded(1)
@@ -313,6 +313,9 @@ local function AddIndependentRoleSettings(gppnl)
 
     local singlejind = xlib.makecheckbox { label = "ttt_single_jester_independent (def. 1)", repconvar = "rep_ttt_single_jester_independent", parent = indlst }
     indlst:AddItem(singlejind)
+
+    local singlejindmp = xlib.makeslider { label = "ttt_single_jester_independent_max_players (def. 0)", min = 0, max = 32, repconvar = "rep_ttt_single_jester_independent_max_players", parent = indlst }
+    indlst:AddItem(singlejindmp)
 
     AddDefaultRoleSettings(indlst, indep_roles)
     AddDefaultRoleSettings(indlst, jester_roles)
