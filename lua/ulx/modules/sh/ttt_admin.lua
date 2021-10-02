@@ -107,7 +107,7 @@ end
 @param  {[Boolean]}      should_slaynr [If the number of rounds should be added or removed from the total.]
 --]]
 function ulx.slaynr(calling_ply, target_ply, num_slay, should_slaynr)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         if ulx.getExclusive(target_ply, calling_ply) then
             ULib.tsayError(calling_ply, ulx.getExclusive(target_ply, calling_ply), true)
         elseif num_slay < 0 then
@@ -139,13 +139,13 @@ function ulx.slaynr(calling_ply, target_ply, num_slay, should_slaynr)
 
             local chat_message = nil
             if slays_removed == 0 then
-                chat_message = ("#T will not be slain next round.")
+                chat_message = "#T will not be slain next round."
             elseif slays_removed > 0 then
-                chat_message = ("#A removed " .. slays_removed .. " round(s) of slaying from #T.")
+                chat_message = "#A removed " .. slays_removed .. " round(s) of slaying from #T."
             elseif slays_left == 1 then
-                chat_message = ("#A will slay #T next round.")
+                chat_message = "#A will slay #T next round."
             elseif slays_left > 1 then
-                chat_message = ("#A will slay #T for the next " .. tostring(slays_left) .. " rounds.")
+                chat_message = "#A will slay #T for the next " .. tostring(slays_left) .. " rounds."
             end
 
             if chat_message ~= nil then
@@ -202,7 +202,7 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
                 end
 
                 v:SetTeam(TEAM_SPEC)
-                if v:IsSpec() then timer.Destroy("check" .. v:SteamID()) return end
+                if v:IsSpec() then timer.Remove("check" .. v:SteamID()) return end
             end)
 
             timer.Create("traitorcheck" .. v:SteamID(), 1, 0, function() --have to wait for gamemode before doing this
@@ -269,7 +269,7 @@ end)
 @param  {[Boolean]}      should_silent [Hidden, determines weather the output will be silent or not.]
 --]]
 function ulx.force(calling_ply, target_plys, target_role, should_silent)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
 
         local affected_plys = {}
 
@@ -428,7 +428,7 @@ end
 @param  {[Boolean]}      should_silent [Hidden, determines weather the output will be silent or not.]
 --]]
 function ulx.respawn(calling_ply, target_plys, should_silent)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local affected_plys = {}
 
         for i = 1, #target_plys do
@@ -440,7 +440,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
                 ULib.tsayError(calling_ply, "Waiting for players!", true)
 
             elseif v:Alive() and v:IsSpec() then -- players arent really dead when they are spectating, we need to handle that correctly
-                timer.Destroy("traitorcheck" .. v:SteamID())
+                timer.Remove("traitorcheck" .. v:SteamID())
                 v:ConCommand("ttt_spectator_mode 0") -- just incase they are in spectator mode take them out of it
                 timer.Create("respawndelay", 0.1, 0, function() --seems to be a slight delay from when you leave spec and when you can spawn this should get us around that
                     local corpse = CorpseFind(v) -- run the normal respawn code now
@@ -454,13 +454,13 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
                     ulx.fancyLogAdmin(calling_ply, should_silent, "#A respawned #T!", affected_plys)
                     SendMessages(affected_plys, "You have been respawned.")
 
-                    if v:Alive() then timer.Destroy("respawndelay") return end
+                    if v:Alive() then timer.Remove("respawndelay") return end
                 end)
 
             elseif v:Alive() then
                 ULib.tsayError(calling_ply, v:Nick() .. " is already alive!", true)
             else
-                timer.Destroy("traitorcheck" .. v:SteamID())
+                timer.Remove("traitorcheck" .. v:SteamID())
                 local corpse = CorpseFind(v)
                 if corpse then CorpseRemove(corpse) end
 
@@ -491,7 +491,7 @@ respawn:help("Respawns <target(s)>.")
 @param  {[Boolean]}      should_silent [Hidden, determines weather the output will be silent or not.]
 --]]
 function ulx.respawntp(calling_ply, target_ply, should_silent)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
 
         local affected_ply = {}
         if not calling_ply:IsValid() then
@@ -503,7 +503,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
             ULib.tsayError(calling_ply, "Waiting for players!", true)
 
         elseif target_ply:Alive() and target_ply:IsSpec() then
-            timer.Destroy("traitorcheck" .. target_ply:SteamID())
+            timer.Remove("traitorcheck" .. target_ply:SteamID())
             target_ply:ConCommand("ttt_spectator_mode 0")
             timer.Create("respawntpdelay", 0.1, 0, function() --have to wait for gamemode before doing this
                 local t = {}
@@ -529,13 +529,13 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
                 ulx.fancyLogAdmin(calling_ply, should_silent, "#A respawned and teleported #T!", affected_ply)
                 SendMessages(target_ply, "You have been respawned and teleported.")
 
-                if target_ply:Alive() then timer.Destroy("respawntpdelay") return end
+                if target_ply:Alive() then timer.Remove("respawntpdelay") return end
             end)
 
         elseif target_ply:Alive() then
             ULib.tsayError(calling_ply, target_ply:Nick() .. " is already alive!", true)
         else
-            timer.Destroy("traitorcheck" .. target_ply:SteamID())
+            timer.Remove("traitorcheck" .. target_ply:SteamID())
             local t = {}
             t.start = calling_ply:GetPos() + Vector(0, 0, 32) -- Move them up a bit so they can travel across the ground
             t.endpos = calling_ply:GetPos() + calling_ply:EyeAngles():Forward() * 16384
@@ -578,7 +578,7 @@ respawntp:help("Respawns <target> to a specific location.")
 @param  {[Number]}       amount      [The number the target's karma will be set to.]
 --]]
 function ulx.karma(calling_ply, target_plys, amount)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         for i = 1, #target_plys do
             target_plys[i]:SetBaseKarma(amount)
             target_plys[i]:SetLiveKarma(amount)
@@ -601,7 +601,7 @@ karma:help("Changes the <target(s)> Karma.")
 @param  {[PlayerObject]} target_plys   [The player(s) who will have the effects of the command applied to them.]
 --]]
 function ulx.tttspec(calling_ply, target_plys, should_unspec)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
 
         for i = 1, #target_plys do
             local v = target_plys[i]
@@ -654,7 +654,7 @@ local function MarkedElsewhere(id)
 end
 
 function ulx.nextround(calling_ply, target_plys, next_round)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local affected_plys = {}
         for i = 1, #target_plys do
             local v = target_plys[i]
@@ -708,7 +708,7 @@ hook.Add("TTTSelectRoles", "Admin_Round_Select", RoleMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local body = CorpseFind(target_ply)
         if not body then ULib.tsayError(calling_ply, "This player's corpse does not exist!", true) return end
 
@@ -741,7 +741,7 @@ identify:help("Identifies a target's body.")
 
 --- [Remove Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.removebody(calling_ply, target_ply)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local body = CorpseFind(target_ply)
         if not body then ULib.tsayError(calling_ply, "This player's corpse does not exist!", true) return end
         ulx.fancyLogAdmin(calling_ply, "#A removed #T's body!", target_ply)
@@ -761,7 +761,7 @@ removebody:help("Removes a target's body.")
 --- [Impair Next Round - Concpet and some code from Decicus next round slap]----------------------------------------------------------------------------
 function ulx.inr(calling_ply, target_ply, amount)
 	local chat_message = nil
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local impairBy = target_ply:GetPData("ImpairNR", 0)
         if amount == 0 then
             target_ply:RemovePData("ImpairNR")
@@ -819,7 +819,7 @@ hook.Add("TTTBeginRound", "ImpairPlayers", ImpairPlayers)
 
 --- [Round Restart]-------------------------------------------------------------------------
 function ulx.roundrestart(calling_ply)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         ULib.consoleCommand("ttt_roundrestart" .. "\n")
         ulx.fancyLogAdmin(calling_ply, "#A has restarted the round.")
     end
@@ -831,7 +831,7 @@ restartround:help("Restarts the round.")
 
 --- [Credits]-------------------------------------------------------------------------
 function ulx.credits(calling_ply, target_plys, amount, should_silent)
-    if not GetConVarString("gamemode") == "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
+    if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         for i = 1, #target_plys do
             target_plys[i]:AddCredits(amount)
         end

@@ -294,7 +294,7 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetTeamRoles(JESTER_ROLES)
-    local height = 70 + (70 * #indep_roles) + (70 * #jester_roles)
+    local height = 95 + (70 * #indep_roles) + (70 * #jester_roles)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetSize(390, height)
     indclp:SetExpanded(1)
@@ -313,6 +313,9 @@ local function AddIndependentRoleSettings(gppnl)
 
     local singlejind = xlib.makecheckbox { label = "ttt_single_jester_independent (def. 1)", repconvar = "rep_ttt_single_jester_independent", parent = indlst }
     indlst:AddItem(singlejind)
+
+    local singlejindmp = xlib.makeslider { label = "ttt_single_jester_independent_max_players (def. 0)", min = 0, max = 32, repconvar = "rep_ttt_single_jester_independent_max_players", parent = indlst }
+    indlst:AddItem(singlejindmp)
 
     AddDefaultRoleSettings(indlst, indep_roles)
     AddDefaultRoleSettings(indlst, jester_roles)
@@ -474,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 990 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1060 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -560,6 +563,12 @@ local function AddTraitorProperties(gppnl)
     local vamdfi = xlib.makecheckbox { label = "ttt_vampire_drain_first (def. 0)", repconvar = "rep_ttt_vampire_drain_first", parent = traproplst }
     traproplst:AddItem(vamdfi)
 
+    local vamdc = xlib.makeslider { label = "ttt_vampire_drain_credits (def. 0)", min = 0, max = 5, repconvar = "rep_ttt_vampire_drain_credits", parent = traproplst }
+    traproplst:AddItem(vamdc)
+
+    local vamkc = xlib.makecheckbox { label = "ttt_vampire_kill_credits (def. 1)", repconvar = "rep_ttt_vampire_kill_credits", parent = traproplst }
+    traproplst:AddItem(vamkc)
+
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
 
@@ -571,6 +580,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamfoh = xlib.makeslider { label = "ttt_vampire_fang_overheal (def. 25)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_overheal", parent = traproplst }
     traproplst:AddItem(vamfoh)
+
+    local vamfohl = xlib.makeslider { label = "ttt_vampire_fang_overheal_living (def. -1)", min = -1, max = 100, repconvar = "rep_ttt_vampire_fang_overheal_living", parent = traproplst }
+    traproplst:AddItem(vamfohl)
 
     local vamdre = xlib.makeslider { label = "ttt_vampire_damage_reduction (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_vampire_damage_reduction", parent = traproplst }
     traproplst:AddItem(vamdre)
@@ -633,7 +645,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 740 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 765 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -733,6 +745,9 @@ local function AddInnocentProperties(gppnl)
 
     local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
     innproplst:AddItem(vetann)
+
+    local vetac = xlib.makeslider { label = "ttt_veteran_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_activation_credits", parent = innproplst }
+    innproplst:AddItem(vetac)
 
     local medlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paramedic settings:", parent = innproplst }
     innproplst:AddItem(medlbl)
@@ -1290,7 +1305,7 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 140 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
                         (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
                         (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
                         (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
@@ -1304,6 +1319,11 @@ local function AddRoleShop(gppnl)
     rslst:SetPos(5, 25)
     rslst:SetSize(390, height)
     rslst:SetSpacing(5)
+
+    local openButton = xlib.makebutton{w=150, label="Open Role Weapons Config", parent=rslst}
+    openButton.DoClick=function()
+        RunConsoleCommand("ttt_roleweapons")
+    end
 
     local rsfa = xlib.makecheckbox { label = "ttt_shop_for_all (def. 0)", repconvar = "rep_ttt_shop_for_all", parent = rslst }
     rslst:AddItem(rsfa)
@@ -1349,6 +1369,10 @@ local function AddRoleShop(gppnl)
     AddShopModeSettings(rslst, indep_modes)
     AddShopActiveSettings(rslst, indep_actives)
     AddShopDelaySettings(rslst, indep_delays)
+
+    local monlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Monsters:", parent = rslst }
+    rslst:AddItem(monlbl)
+
     AddShopRandomizationSettings(rslst, monster_shops)
     AddShopSyncSettings(rslst, monster_syncs)
     AddShopModeSettings(rslst, monster_modes)
