@@ -1305,7 +1305,7 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 140 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
                         (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
                         (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
                         (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
@@ -1319,6 +1319,11 @@ local function AddRoleShop(gppnl)
     rslst:SetPos(5, 25)
     rslst:SetSize(390, height)
     rslst:SetSpacing(5)
+
+    local openButton = xlib.makebutton{w=150, label="Open Role Weapons Config", parent=rslst}
+    openButton.DoClick=function()
+        RunConsoleCommand("ttt_roleweapons")
+    end
 
     local rsfa = xlib.makecheckbox { label = "ttt_shop_for_all (def. 0)", repconvar = "rep_ttt_shop_for_all", parent = rslst }
     rslst:AddItem(rsfa)
@@ -1364,6 +1369,10 @@ local function AddRoleShop(gppnl)
     AddShopModeSettings(rslst, indep_modes)
     AddShopActiveSettings(rslst, indep_actives)
     AddShopDelaySettings(rslst, indep_delays)
+
+    local monlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Monsters:", parent = rslst }
+    rslst:AddItem(monlbl)
+
     AddShopRandomizationSettings(rslst, monster_shops)
     AddShopSyncSettings(rslst, monster_syncs)
     AddShopModeSettings(rslst, monster_modes)
