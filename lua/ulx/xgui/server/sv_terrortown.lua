@@ -172,6 +172,7 @@ local function init()
         --detective properties
         CreateReplicatedWritableCvar("ttt_detective_search_only")
         CreateReplicatedWritableCvar("ttt_detective_disable_looting")
+        CreateReplicatedWritableCvar("ttt_special_detectives_armor_loadout")
         CreateReplicatedWritableCvar("ttt_all_search_postround")
         CreateReplicatedWritableCvar("ttt_all_search_binoc")
         CreateReplicatedWritableCvar("ttt_paladin_aura_radius")
