@@ -990,7 +990,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 865 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 905 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1003,6 +1003,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
     indproplst:AddItem(indtes)
+
+    local indmia = xlib.makecheckbox { label = "ttt_independents_update_scoreboard (def. 0)", repconvar = "rep_ttt_independents_update_scoreboard", parent = indproplst }
+    indproplst:AddItem(indmia)
 
     local drulbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Drunk settings:", parent = indproplst }
     indproplst:AddItem(drulbl)
@@ -1068,6 +1071,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local kilven = xlib.makecheckbox { label = "ttt_killer_vision_enable (def. 1)", repconvar = "rep_ttt_killer_vision_enable", parent = indproplst }
     indproplst:AddItem(kilven)
+
+    local kilmia = xlib.makecheckbox { label = "ttt_killer_update_scoreboard (def. 1)", repconvar = "rep_ttt_killer_update_scoreboard", parent = indproplst }
+    indproplst:AddItem(kilmia)
 
     local zomlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Zombie settings:", parent = indproplst }
     indproplst:AddItem(zomlbl)
