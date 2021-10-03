@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1060 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1080 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -568,6 +568,9 @@ local function AddTraitorProperties(gppnl)
 
     local vamkc = xlib.makecheckbox { label = "ttt_vampire_kill_credits (def. 1)", repconvar = "rep_ttt_vampire_kill_credits", parent = traproplst }
     traproplst:AddItem(vamkc)
+
+    local vamlc = xlib.makecheckbox { label = "ttt_vampire_loot_credits (def. 1)", repconvar = "rep_ttt_vampire_loot_credits", parent = traproplst }
+    traproplst:AddItem(vamlc)
 
     local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
     traproplst:AddItem(vamft)
@@ -771,7 +774,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 330 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 350 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -790,6 +793,9 @@ local function AddDetectiveProperties(gppnl)
 
     local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
+
+    local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
+    detproplst:AddItem(detsdal)
 
     local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
     detproplst:AddItem(prsrch)
