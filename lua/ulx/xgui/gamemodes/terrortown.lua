@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1080 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1155 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -517,6 +517,9 @@ local function AddTraitorProperties(gppnl)
 
     local hypcd = xlib.makecheckbox { label = "ttt_hypnotist_convert_detectives (def. 0)", repconvar = "rep_ttt_hypnotist_convert_detectives", parent = traproplst }
     traproplst:AddItem(hypcd)
+
+    local hypdt = xlib.makeslider { label = "ttt_hypnotist_device_time (def. 8)", min = 0, max = 60, repconvar = "rep_ttt_hypnotist_device_time", parent = traproplst }
+    traproplst:AddItem(hypdt)
 
     local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
     traproplst:AddItem(asnlbl)
@@ -611,6 +614,9 @@ local function AddTraitorProperties(gppnl)
     local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
     traproplst:AddItem(quapd)
 
+    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
+    traproplst:AddItem(quapt)
+
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
 
@@ -638,6 +644,9 @@ local function AddTraitorProperties(gppnl)
     local parcurmo = xlib.makeslider { label = "ttt_parasite_cure_mode (def. 2)", min = 0, max = 2, repconvar = "rep_ttt_parasite_cure_mode", parent = traproplst }
     traproplst:AddItem(parcurmo)
 
+    local parcurt = xlib.makeslider { label = "ttt_parasite_cure_time (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_parasite_cure_time", parent = traproplst }
+    traproplst:AddItem(parcurt)
+
     for _, r in ipairs(external_traitors) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], traproplst)
@@ -648,7 +657,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 765 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 820 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -710,6 +719,9 @@ local function AddInnocentProperties(gppnl)
     local phkhwb = xlib.makecheckbox { label = "ttt_phantom_killer_haunt_without_body (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt_without_body", parent = innproplst }
     innproplst:AddItem(phkhwb)
 
+    local phcurt = xlib.makeslider { label = "ttt_phantom_cure_time (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_phantom_cure_time", parent = innproplst }
+    innproplst:AddItem(phcurt)
+
     local revlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Revenger settings:", parent = innproplst }
     innproplst:AddItem(revlbl)
 
@@ -763,6 +775,9 @@ local function AddInnocentProperties(gppnl)
 
     local meddai = xlib.makecheckbox { label = "ttt_paramedic_defib_as_innocent (def. 0)", repconvar = "rep_ttt_paramedic_defib_as_innocent", parent = innproplst }
     innproplst:AddItem(meddai)
+
+    local meddt = xlib.makeslider { label = "ttt_paramedic_defib_time (def. 8)", min = 0, max = 60, repconvar = "rep_ttt_paramedic_defib_time", parent = innproplst }
+    innproplst:AddItem(meddt)
 
     for _, r in ipairs(external_innocents) do
         if role_cvars[r] then
@@ -846,7 +861,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 910 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -980,6 +995,9 @@ local function AddJesterRoleProperties(gppnl)
     local bodrevind = xlib.makeslider { label = "ttt_bodysnatcher_reveal_independent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_independent", parent = jesproplst }
     jesproplst:AddItem(bodrevind)
 
+    local boddt = xlib.makeslider { label = "ttt_bodysnatcher_device_time (def. 5)", min = 0, max = 60, repconvar = "rep_ttt_bodysnatcher_device_time", parent = jesproplst }
+    jesproplst:AddItem(boddt)
+
     for _, r in ipairs(external_jesters) do
         if role_cvars[r] then
             AddExternalRoleProperties(r, role_cvars[r], jesproplst)
@@ -990,7 +1008,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 905 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 950 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1131,6 +1149,12 @@ local function AddIndependentRoleProperties(gppnl)
 
     local zomve = xlib.makecheckbox { label = "ttt_zombie_vision_enable (def. 0)", repconvar = "rep_ttt_zombie_vision_enable", parent = indproplst }
     indproplst:AddItem(zomve)
+
+    local mslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Mad Scientist settings:", parent = indproplst }
+    indproplst:AddItem(mslbl)
+
+    local msdt = xlib.makeslider { label = "ttt_madscientist_device_time (def. 4)", min = 0, max = 60, repconvar = "rep_ttt_madscientist_device_time", parent = indproplst }
+    indproplst:AddItem(msdt)
 
     for _, r in ipairs(external_independents) do
         if role_cvars[r] then
