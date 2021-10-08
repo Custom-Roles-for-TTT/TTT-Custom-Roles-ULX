@@ -269,6 +269,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
         CreateReplicatedWritableCvar("ttt_single_jester_independent")
         CreateReplicatedWritableCvar("ttt_single_jester_independent_max_players")
+        CreateReplicatedWritableCvar("ttt_single_drunk_clown")
 
         --external role properties
         if ROLE_MAX >= ROLE_EXTERNAL_START then

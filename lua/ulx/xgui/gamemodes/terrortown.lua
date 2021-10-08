@@ -1162,13 +1162,13 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 100)
+    crpropclp:SetSize(390, 120)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 100)
+    crproplst:SetSize(390, 120)
     crproplst:SetSpacing(5)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
@@ -1185,6 +1185,9 @@ local function AddCustomRoleProperties(gppnl)
 
     local singphapar = xlib.makecheckbox { label = "ttt_single_phantom_parasite (def. 0)", repconvar = "rep_ttt_single_phantom_parasite", parent = crproplst }
     crproplst:AddItem(singphapar)
+
+    local singdruclo = xlib.makecheckbox { label = "ttt_single_drunk_clown (def. 0)", repconvar = "rep_ttt_single_drunk_clown", parent = crproplst }
+    crproplst:AddItem(singdruclo)
 end
 
 local function AddShopRandomizationSettings(lst, role_list)
