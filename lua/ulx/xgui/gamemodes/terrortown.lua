@@ -657,7 +657,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 820 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 840 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -745,6 +745,9 @@ local function AddInnocentProperties(gppnl)
 
     local depwd = xlib.makecheckbox { label = "ttt_deputy_without_detective (def. 0)", repconvar = "rep_ttt_deputy_without_detective", parent = innproplst }
     innproplst:AddItem(depwd)
+
+    local depac = xlib.makeslider { label = "ttt_deputy_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_deputy_activation_credits", parent = innproplst }
+    innproplst:AddItem(depac)
 
     local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
     innproplst:AddItem(vetlbl)
@@ -861,7 +864,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 910 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 860 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -940,12 +943,6 @@ local function AddJesterRoleProperties(gppnl)
 
     local clohbon = xlib.makeslider { label = "ttt_clown_heal_bonus (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_clown_heal_bonus", parent = jesproplst }
     jesproplst:AddItem(clohbon)
-
-    local closao = xlib.makecheckbox { label = "ttt_clown_shop_active_only (def. 1)", repconvar = "rep_ttt_clown_shop_active_only", parent = jesproplst }
-    jesproplst:AddItem(closao)
-
-    local closd = xlib.makecheckbox { label = "ttt_clown_shop_delay (def. 0)", repconvar = "rep_ttt_clown_shop_delay", parent = jesproplst }
-    jesproplst:AddItem(closd)
 
     local beglbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Beggar settings:", parent = jesproplst }
     jesproplst:AddItem(beglbl)
