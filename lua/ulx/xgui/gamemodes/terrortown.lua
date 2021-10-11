@@ -935,6 +935,9 @@ local function AddJesterRoleProperties(gppnl)
     local clohwa = xlib.makecheckbox { label = "ttt_clown_hide_when_active (def. 0)", repconvar = "rep_ttt_clown_hide_when_active", parent = jesproplst }
     jesproplst:AddItem(clohwa)
 
+    local cloutwa = xlib.makecheckbox { label = "ttt_clown_use_traps_when_active (def. 0)", repconvar = "rep_ttt_clown_use_traps_when_active", parent = jesproplst }
+    jesproplst:AddItem(cloutwa)
+
     local closti = xlib.makecheckbox { label = "ttt_clown_show_target_icon (def. 0)", repconvar = "rep_ttt_clown_show_target_icon", parent = jesproplst }
     jesproplst:AddItem(closti)
 
