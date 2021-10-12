@@ -1008,7 +1008,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 950 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 1020 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1068,6 +1068,15 @@ local function AddIndependentRoleProperties(gppnl)
 
     local kilken = xlib.makecheckbox { label = "ttt_killer_knife_enabled (def. 1)", repconvar = "rep_ttt_killer_knife_enabled", parent = indproplst }
     indproplst:AddItem(kilken)
+
+    local kilcen = xlib.makecheckbox { label = "ttt_killer_crowbar_enabled (def. 1)", repconvar = "rep_ttt_killer_crowbar_enabled", parent = indproplst }
+    indproplst:AddItem(kilcen)
+
+    local kilcd = xlib.makeslider { label = "ttt_killer_crowbar_damage (def. 20)", min = 1, max = 100, repconvar = "rep_ttt_killer_crowbar_damage", parent = indproplst }
+    indproplst:AddItem(kilcd)
+
+    local kilctd = xlib.makeslider { label = "ttt_killer_crowbar_thrown_damage (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_killer_crowbar_thrown_damage", parent = indproplst }
+    indproplst:AddItem(kilctd)
 
     local kilsen = xlib.makecheckbox { label = "ttt_killer_smoke_enabled (def. 1)", repconvar = "rep_ttt_killer_smoke_enabled", parent = indproplst }
     indproplst:AddItem(kilsen)
