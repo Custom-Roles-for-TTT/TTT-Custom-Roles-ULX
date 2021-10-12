@@ -1008,7 +1008,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 1020 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 1045 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1062,6 +1062,9 @@ local function AddIndependentRoleProperties(gppnl)
 
     local oldsho = xlib.makecheckbox { label = "ttt_oldman_adrenaline_shotgun (def. 1)", repconvar = "rep_ttt_oldman_adrenaline_shotgun", parent = indproplst }
     indproplst:AddItem(oldsho)
+
+    local oldshod = xlib.makeslider { label = "ttt_oldman_adrenaline_shotgun_damage (def. 10)", min = 0, max = 100, repconvar = "rep_ttt_oldman_adrenaline_shotgun_damage", parent = indproplst }
+    indproplst:AddItem(oldshod)
 
     local killbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Killer settings:", parent = indproplst }
     indproplst:AddItem(killbl)
