@@ -864,7 +864,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 860 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 915 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -959,7 +959,10 @@ local function AddJesterRoleProperties(gppnl)
     local begres = xlib.makecheckbox { label = "ttt_beggar_respawn (def. 0)", repconvar = "rep_ttt_beggar_respawn", parent = jesproplst }
     jesproplst:AddItem(begres)
 
-    local begresd = xlib.makeslider { label = "ttt_beggar_respawn_delay (def. 3)", min = 0, max = 30, repconvar = "rep_ttt_beggar_respawn_delay", parent = jesproplst }
+    local begresl = xlib.makeslider { label = "ttt_beggar_respawn_limit (def. 0)", min = 0, max = 30, repconvar = "rep_ttt_beggar_respawn_limit", parent = jesproplst }
+    jesproplst:AddItem(begresl)
+
+    local begresd = xlib.makeslider { label = "ttt_beggar_respawn_delay (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_beggar_respawn_delay", parent = jesproplst }
     jesproplst:AddItem(begresd)
 
     local begnm = xlib.makeslider { label = "ttt_beggar_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_beggar_notify_mode", parent = jesproplst }
