@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1155 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1175 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -514,6 +514,9 @@ local function AddTraitorProperties(gppnl)
 
     local hypds = xlib.makecheckbox { label = "ttt_hypnotist_device_shop (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop", parent = traproplst }
     traproplst:AddItem(hypds)
+
+    local hypdr = xlib.makecheckbox { label = "ttt_hypnotist_device_shop_rebuyable (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop_rebuyable", parent = traproplst }
+    traproplst:AddItem(hypdr)
 
     local hypcd = xlib.makecheckbox { label = "ttt_hypnotist_convert_detectives (def. 0)", repconvar = "rep_ttt_hypnotist_convert_detectives", parent = traproplst }
     traproplst:AddItem(hypcd)
@@ -657,7 +660,7 @@ end
 local function AddInnocentProperties(gppnl)
     local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 840 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 860 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -776,6 +779,9 @@ local function AddInnocentProperties(gppnl)
     local medds = xlib.makecheckbox { label = "ttt_paramedic_device_shop (def. 0)", repconvar = "rep_ttt_paramedic_device_shop", parent = innproplst }
     innproplst:AddItem(medds)
 
+    local meddsr = xlib.makecheckbox { label = "ttt_paramedic_device_shop_rebuyable (def. 0)", repconvar = "rep_ttt_paramedic_device_shop_rebuyable", parent = innproplst }
+    innproplst:AddItem(meddsr)
+
     local meddai = xlib.makecheckbox { label = "ttt_paramedic_defib_as_innocent (def. 0)", repconvar = "rep_ttt_paramedic_defib_as_innocent", parent = innproplst }
     innproplst:AddItem(meddai)
 
@@ -864,7 +870,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 915 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1050 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -997,6 +1003,24 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodrevind = xlib.makeslider { label = "ttt_bodysnatcher_reveal_independent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_independent", parent = jesproplst }
     jesproplst:AddItem(bodrevind)
+
+    local bodres = xlib.makecheckbox { label = "ttt_bodysnatcher_respawn (def. 0)", repconvar = "rep_ttt_bodysnatcher_respawn", parent = jesproplst }
+    jesproplst:AddItem(bodres)
+
+    local bodresl = xlib.makeslider { label = "ttt_bodysnatcher_respawn_limit (def. 0)", min = 0, max = 30, repconvar = "rep_ttt_bodysnatcher_respawn_limit", parent = jesproplst }
+    jesproplst:AddItem(bodresl)
+
+    local bodresd = xlib.makeslider { label = "ttt_bodysnatcher_respawn_delay (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_bodysnatcher_respawn_delay", parent = jesproplst }
+    jesproplst:AddItem(bodresd)
+
+    local bodnm = xlib.makeslider { label = "ttt_bodysnatcher_notify_mode (def. 0)", min = 0, max = 4, repconvar = "rep_ttt_bodysnatcher_notify_mode", parent = jesproplst }
+    jesproplst:AddItem(bodnm)
+
+    local bodns = xlib.makecheckbox { label = "ttt_bodysnatcher_notify_sound (def. 0)", repconvar = "rep_ttt_bodysnatcher_notify_sound", parent = jesproplst }
+    jesproplst:AddItem(bodns)
+
+    local bodnc = xlib.makecheckbox { label = "ttt_bodysnatcher_notify_confetti (def. 0)", repconvar = "rep_ttt_bodysnatcher_notify_confetti", parent = jesproplst }
+    jesproplst:AddItem(bodnc)
 
     local boddt = xlib.makeslider { label = "ttt_bodysnatcher_device_time (def. 5)", min = 0, max = 60, repconvar = "rep_ttt_bodysnatcher_device_time", parent = jesproplst }
     jesproplst:AddItem(boddt)
