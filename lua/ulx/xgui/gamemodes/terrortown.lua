@@ -846,7 +846,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 890 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1125 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -979,6 +979,36 @@ local function AddJesterRoleProperties(gppnl)
 
     local bodrevind = xlib.makeslider { label = "ttt_bodysnatcher_reveal_independent (def. 1)", min = 0, max = 2, repconvar = "rep_ttt_bodysnatcher_reveal_independent", parent = jesproplst }
     jesproplst:AddItem(bodrevind)
+
+    local goblbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Loot goblin settings:", parent = jesproplst }
+    jesproplst:AddItem(goblbl)
+
+    local gobtmr = xlib.makeslider { label = "ttt_lootgoblin_activation_timer (def. 30)", min = 0, max = 120, repconvar = "rep_ttt_lootgoblin_activation_timer", parent = jesproplst }
+    jesproplst:AddItem(gobtmr)
+
+    local gobann = xlib.makeslider { label = "ttt_lootgoblin_announce (def. 4)", min = 0, max = 4, repconvar = "rep_ttt_lootgoblin_announce", parent = jesproplst }
+    jesproplst:AddItem(gobann)
+
+    local gobsize = xlib.makeslider { label = "ttt_lootgoblin_size (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_lootgoblin_size", parent = jesproplst }
+    jesproplst:AddItem(gobsize)
+
+    local gobcmin = xlib.makeslider { label = "ttt_lootgoblin_cackle_timer_min (def. 4)", min = 0, max = 30, repconvar = "rep_ttt_lootgoblin_cackle_timer_min", parent = jesproplst }
+    jesproplst:AddItem(gobcmin)
+
+    local gobcmax = xlib.makeslider { label = "ttt_lootgoblin_cackle_timer_max (def. 12)", min = 0, max = 30, repconvar = "rep_ttt_lootgoblin_cackle_timer_max", parent = jesproplst }
+    jesproplst:AddItem(gobcmax)
+
+    local gobwep = xlib.makeslider { label = "ttt_lootgoblin_weapons_dropped (def. 8)", min = 0, max = 10, repconvar = "rep_ttt_lootgoblin_weapons_dropped", parent = jesproplst }
+    jesproplst:AddItem(gobwep)
+    
+    local gobnm = xlib.makeslider { label = "ttt_lootgoblin_notify_mode (def. 4)", min = 0, max = 4, repconvar = "rep_ttt_lootgoblin_notify_mode", parent = jesproplst }
+    jesproplst:AddItem(gobnm)
+
+    local gobns = xlib.makecheckbox { label = "ttt_lootgoblin_notify_sound (def. 1)", repconvar = "rep_ttt_lootgoblin_notify_sound", parent = jesproplst }
+    jesproplst:AddItem(gobns)
+
+    local gobnc = xlib.makecheckbox { label = "ttt_lootgoblin_notify_confetti (def. 1)", repconvar = "rep_ttt_lootgoblin_notify_confetti", parent = jesproplst }
+    jesproplst:AddItem(gobnc)
 
     for _, r in ipairs(external_jesters) do
         if role_cvars[r] then
