@@ -1,6 +1,10 @@
 util.AddNetworkString("ULX_CRCVarRequest")
 
 local function CreateReplicatedWritableCvar(convar)
+    if not ConVarExists(convar) then
+        ErrorNoHalt("ConVar not found: " .. convar)
+    end
+
     ULib.replicatedWritableCvar(convar, "rep_" .. convar, GetConVar(convar):GetString(), false, false, "xgui_gmsettings")
 end
 
