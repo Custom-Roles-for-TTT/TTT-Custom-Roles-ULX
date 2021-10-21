@@ -1,6 +1,10 @@
 util.AddNetworkString("ULX_CRCVarRequest")
 
 local function CreateReplicatedWritableCvar(convar)
+    if not ConVarExists(convar) then
+        ErrorNoHalt("ConVar not found: " .. convar)
+    end
+
     ULib.replicatedWritableCvar(convar, "rep_" .. convar, GetConVar(convar):GetString(), false, false, "xgui_gmsettings")
 end
 
@@ -231,6 +235,17 @@ local function init()
         CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_innocent")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_monster")
         CreateReplicatedWritableCvar("ttt_bodysnatcher_reveal_independent")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_activation_timer")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_announce")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_size")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_cackle_enabled")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_cackle_timer_min")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_cackle_timer_max")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_weapons_dropped")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_jingle_enabled")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_notify_mode")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_notify_sound")
+        CreateReplicatedWritableCvar("ttt_lootgoblin_notify_confetti")
 
         --independent properties
         CreateReplicatedWritableCvar("ttt_independents_trigger_traitor_testers")
@@ -244,6 +259,8 @@ local function init()
         CreateReplicatedWritableCvar("ttt_oldman_adrenaline_rush")
         CreateReplicatedWritableCvar("ttt_oldman_adrenaline_shotgun")
         CreateReplicatedWritableCvar("ttt_oldman_adrenaline_shotgun_damage")
+        CreateReplicatedWritableCvar("ttt_oldman_adrenaline_ramble")
+        CreateReplicatedWritableCvar("ttt_oldman_hide_when_active")
         CreateReplicatedWritableCvar("ttt_killer_knife_enabled")
         CreateReplicatedWritableCvar("ttt_killer_crowbar_enabled")
         CreateReplicatedWritableCvar("ttt_killer_crowbar_damage")

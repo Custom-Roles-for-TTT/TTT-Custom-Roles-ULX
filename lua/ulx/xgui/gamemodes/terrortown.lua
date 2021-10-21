@@ -870,7 +870,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 1285 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1325 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -1037,6 +1037,9 @@ local function AddJesterRoleProperties(gppnl)
     local gobsize = xlib.makeslider { label = "ttt_lootgoblin_size (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_lootgoblin_size", parent = jesproplst }
     jesproplst:AddItem(gobsize)
 
+    local gobce = xlib.makecheckbox { label = "ttt_lootgoblin_cackle_enabled (def. 1)", repconvar = "rep_ttt_lootgoblin_cackle_enabled", parent = jesproplst }
+    jesproplst:AddItem(gobce)
+
     local gobcmin = xlib.makeslider { label = "ttt_lootgoblin_cackle_timer_min (def. 4)", min = 0, max = 30, repconvar = "rep_ttt_lootgoblin_cackle_timer_min", parent = jesproplst }
     jesproplst:AddItem(gobcmin)
 
@@ -1045,6 +1048,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local gobwep = xlib.makeslider { label = "ttt_lootgoblin_weapons_dropped (def. 8)", min = 0, max = 10, repconvar = "rep_ttt_lootgoblin_weapons_dropped", parent = jesproplst }
     jesproplst:AddItem(gobwep)
+
+    local gobje = xlib.makecheckbox { label = "ttt_lootgoblin_jingle_enabled (def. 1)", repconvar = "rep_ttt_lootgoblin_jingle_enabled", parent = jesproplst }
+    jesproplst:AddItem(gobje)
 
     local gobnm = xlib.makeslider { label = "ttt_lootgoblin_notify_mode (def. 4)", min = 0, max = 4, repconvar = "rep_ttt_lootgoblin_notify_mode", parent = jesproplst }
     jesproplst:AddItem(gobnm)
@@ -1065,7 +1071,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 1045 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 1085 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1122,6 +1128,12 @@ local function AddIndependentRoleProperties(gppnl)
 
     local oldshod = xlib.makeslider { label = "ttt_oldman_adrenaline_shotgun_damage (def. 10)", min = 0, max = 100, repconvar = "rep_ttt_oldman_adrenaline_shotgun_damage", parent = indproplst }
     indproplst:AddItem(oldshod)
+
+    local oldram = xlib.makecheckbox { label = "ttt_oldman_adrenaline_ramble (def. 1)", repconvar = "rep_ttt_oldman_adrenaline_ramble", parent = indproplst }
+    indproplst:AddItem(oldram)
+
+    local oldsti = xlib.makecheckbox { label = "ttt_oldman_hide_when_active (def. 0)", repconvar = "rep_ttt_oldman_hide_when_active", parent = indproplst }
+    indproplst:AddItem(oldsti)
 
     local killbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Killer settings:", parent = indproplst }
     indproplst:AddItem(killbl)
