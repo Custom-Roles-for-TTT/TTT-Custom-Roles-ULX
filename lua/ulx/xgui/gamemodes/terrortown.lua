@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1175 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -614,11 +614,17 @@ local function AddTraitorProperties(gppnl)
     local quacurmo = xlib.makeslider { label = "ttt_quack_fake_cure_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_quack_fake_cure_mode", parent = traproplst }
     traproplst:AddItem(quacurmo)
 
+    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
+    traproplst:AddItem(quapt)
+
     local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
     traproplst:AddItem(quapd)
 
-    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
-    traproplst:AddItem(quapt)
+    local quasb = xlib.makecheckbox { label = "ttt_quack_station_bomb (def. 0)", repconvar = "rep_ttt_quack_station_bomb", parent = traproplst }
+    traproplst:AddItem(quasb)
+
+    local quasbt = xlib.makeslider { label = "ttt_quack_station_bomb_time (def. 4)", min = 0, max = 60, repconvar = "rep_ttt_quack_station_bomb_time", parent = traproplst }
+    traproplst:AddItem(quasbt)
 
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
