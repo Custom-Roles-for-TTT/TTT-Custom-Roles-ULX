@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1175 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -614,11 +614,17 @@ local function AddTraitorProperties(gppnl)
     local quacurmo = xlib.makeslider { label = "ttt_quack_fake_cure_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_quack_fake_cure_mode", parent = traproplst }
     traproplst:AddItem(quacurmo)
 
+    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
+    traproplst:AddItem(quapt)
+
     local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
     traproplst:AddItem(quapd)
 
-    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
-    traproplst:AddItem(quapt)
+    local quasb = xlib.makecheckbox { label = "ttt_quack_station_bomb (def. 0)", repconvar = "rep_ttt_quack_station_bomb", parent = traproplst }
+    traproplst:AddItem(quasb)
+
+    local quasbt = xlib.makeslider { label = "ttt_quack_station_bomb_time (def. 4)", min = 0, max = 60, repconvar = "rep_ttt_quack_station_bomb_time", parent = traproplst }
+    traproplst:AddItem(quasbt)
 
     local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
     traproplst:AddItem(parlbl)
@@ -870,7 +876,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 1325 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1375 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -1052,6 +1058,12 @@ local function AddJesterRoleProperties(gppnl)
     local gobje = xlib.makecheckbox { label = "ttt_lootgoblin_jingle_enabled (def. 1)", repconvar = "rep_ttt_lootgoblin_jingle_enabled", parent = jesproplst }
     jesproplst:AddItem(gobje)
 
+    local gobsmul = xlib.makeslider { label = "ttt_lootgoblin_speed_mult (def. 1.2)", min = 1, max = 2, decimal = 1, repconvar = "rep_ttt_lootgoblin_speed_mult", parent = jesproplst }
+    jesproplst:AddItem(gobsmul)
+
+    local gobsrec = xlib.makeslider { label = "ttt_lootgoblin_sprint_recovery (def. 0.12)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_lootgoblin_sprint_recovery", parent = jesproplst }
+    jesproplst:AddItem(gobsrec)
+
     local gobnm = xlib.makeslider { label = "ttt_lootgoblin_notify_mode (def. 4)", min = 0, max = 4, repconvar = "rep_ttt_lootgoblin_notify_mode", parent = jesproplst }
     jesproplst:AddItem(gobnm)
 
@@ -1071,7 +1083,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 1085 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local height = 1135 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1140,6 +1152,12 @@ local function AddIndependentRoleProperties(gppnl)
 
     local kilken = xlib.makecheckbox { label = "ttt_killer_knife_enabled (def. 1)", repconvar = "rep_ttt_killer_knife_enabled", parent = indproplst }
     indproplst:AddItem(kilken)
+
+    local kilkd = xlib.makeslider { label = "ttt_killer_knife_damage (def. 65)", min = 1, max = 100, repconvar = "rep_ttt_killer_knife_damage", parent = indproplst }
+    indproplst:AddItem(kilkd)
+
+    local kilkdel = xlib.makeslider { label = "ttt_killer_knife_delay (def. 0.8)", min = 0.1, max = 3, decimal = 2, repconvar = "rep_ttt_killer_knife_delay", parent = indproplst }
+    indproplst:AddItem(kilkdel)
 
     local kilcen = xlib.makecheckbox { label = "ttt_killer_crowbar_enabled (def. 1)", repconvar = "rep_ttt_killer_crowbar_enabled", parent = indproplst }
     indproplst:AddItem(kilcen)
