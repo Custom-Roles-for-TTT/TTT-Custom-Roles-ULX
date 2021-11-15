@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1245 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -505,6 +505,9 @@ local function AddTraitorProperties(gppnl)
 
     local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
     traproplst:AddItem(impwd)
+
+    local impac = xlib.makeslider { label = "ttt_impersonator_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_activation_credits", parent = traproplst }
+    traproplst:AddItem(impac)
 
     local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
     traproplst:AddItem(hyplbl)
