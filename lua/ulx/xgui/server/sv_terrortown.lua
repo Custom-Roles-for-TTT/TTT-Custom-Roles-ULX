@@ -199,6 +199,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_tracker_footstep_time")
         CreateReplicatedWritableCvar("ttt_tracker_footstep_color")
         CreateReplicatedWritableCvar("ttt_medium_spirit_color")
+        CreateReplicatedWritableCvar("ttt_medium_dead_notify")
 
         --jester properties
         CreateReplicatedWritableCvar("ttt_jesters_trigger_traitor_testers")
