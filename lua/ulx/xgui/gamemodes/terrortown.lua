@@ -477,7 +477,7 @@ end
 local function AddTraitorProperties(gppnl)
     local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1220 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1270 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -505,6 +505,12 @@ local function AddTraitorProperties(gppnl)
 
     local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
     traproplst:AddItem(impwd)
+
+    local impac = xlib.makeslider { label = "ttt_impersonator_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_activation_credits", parent = traproplst }
+    traproplst:AddItem(impac)
+
+    local impdc = xlib.makeslider { label = "ttt_impersonator_detective_chance (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_detective_chance", parent = traproplst }
+    traproplst:AddItem(impdc)
 
     local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
     traproplst:AddItem(hyplbl)
@@ -804,7 +810,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 350 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 390 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -865,6 +871,12 @@ local function AddDetectiveProperties(gppnl)
 
     local mdmcol = xlib.makecheckbox { label = "ttt_medium_spirit_color (def. 1)", repconvar = "rep_ttt_medium_spirit_color", parent = detproplst }
     detproplst:AddItem(mdmcol)
+
+    local mdmsv = xlib.makecheckbox { label = "ttt_medium_spirit_vision (def. 1)", repconvar = "rep_ttt_medium_spirit_vision", parent = detproplst }
+    detproplst:AddItem(mdmsv)
+
+    local mdmdn = xlib.makecheckbox { label = "ttt_medium_dead_notify (def. 1)", repconvar = "rep_ttt_medium_dead_notify", parent = detproplst }
+    detproplst:AddItem(mdmdn)
 
     for _, r in ipairs(external_detectives) do
         if role_cvars[r] then
