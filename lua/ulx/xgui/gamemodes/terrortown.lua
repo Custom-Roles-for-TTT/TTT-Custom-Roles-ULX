@@ -1951,13 +1951,13 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 290)
+    miscclp:SetSize(390, 340)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 290)
+    misclst:SetSize(390, 340)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -2001,6 +2001,11 @@ local function AddMiscModule()
 
     local miscss = xlib.makecheckbox { label = "ttt_scoreboard_score (def. 0)", repconvar = "rep_ttt_scoreboard_score", parent = misclst }
     misclst:AddItem(miscss)
+
+    local miscrstlbl = xlib.makelabel { label = "ttt_round_summary_tabs (def. summary,hilite,events,scores)", parent = misclst }
+    misclst:AddItem(miscrstlbl)
+    local miscrsttb = xlib.maketextbox { repconvar = "rep_ttt_round_summary_tabs", enableinput = true, parent = misclst }
+    misclst:AddItem(miscrsttb)
 
     --Disable Features
     local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)
