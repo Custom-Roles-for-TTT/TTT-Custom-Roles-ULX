@@ -448,6 +448,9 @@ local function init()
         CreateReplicatedWritableCvar("ttt_spawn_wave_interval")
         CreateReplicatedWritableCvar("ttt_crowbar_unlocks")
         CreateReplicatedWritableCvar("ttt_crowbar_pushforce")
+        CreateReplicatedWritableCvar("ttt_scoreboard_deaths")
+        CreateReplicatedWritableCvar("ttt_scoreboard_score")
+        CreateReplicatedWritableCvar("ttt_round_summary_tabs")
 
         --disable features
         CreateReplicatedWritableCvar("ttt_disable_headshots")
