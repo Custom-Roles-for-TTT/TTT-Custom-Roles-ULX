@@ -888,7 +888,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 1375 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 1400 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -1048,6 +1048,9 @@ local function AddJesterRoleProperties(gppnl)
 
     local gobtmr = xlib.makeslider { label = "ttt_lootgoblin_activation_timer (def. 30)", min = 0, max = 120, repconvar = "rep_ttt_lootgoblin_activation_timer", parent = jesproplst }
     jesproplst:AddItem(gobtmr)
+
+    local gobtmrm = xlib.makeslider { label = "ttt_lootgoblin_activation_timer_max (def. 60)", min = 0, max = 120, repconvar = "rep_ttt_lootgoblin_activation_timer_max", parent = jesproplst }
+    jesproplst:AddItem(gobtmrm)
 
     local gobann = xlib.makeslider { label = "ttt_lootgoblin_announce (def. 4)", min = 0, max = 4, repconvar = "rep_ttt_lootgoblin_announce", parent = jesproplst }
     jesproplst:AddItem(gobann)
