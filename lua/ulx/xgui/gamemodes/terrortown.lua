@@ -808,7 +808,7 @@ local function AddInnocentProperties(gppnl)
 end
 
 local function AddDetectiveProperties(gppnl)
-    local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES, INNOCENT_ROLES)
+    local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
     local height = 390 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
