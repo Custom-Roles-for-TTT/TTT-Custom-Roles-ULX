@@ -299,8 +299,8 @@ function ulx.force(calling_ply, target_plys, target_role, should_silent)
                 v:SetDefaultCredits()
                 SendFullStateUpdate()
 
-                GiveLoadoutItems(v)
-                GiveLoadoutWeapons(v)
+                -- Give the player their default weapons and equipment
+                hook.Run("PlayerLoadout", v)
 
                 table.insert(affected_plys, v)
 
@@ -386,35 +386,6 @@ function RemoveLoadoutWeapons(ply)
     end
 
 	ply:StripRoleWeapons()
-end
-
---[[GiveLoadoutWeapons][Gives the loadout weapons for that player.]
-@param  {[PlayerObject]} ply [The player who will have their loadout weapons given.]
---]]
-function GiveLoadoutWeapons(ply)
-    local r = GetRoundState() == ROUND_PREP and ROLE_INNOCENT or ply:GetRole()
-    local weps = GetLoadoutWeapons(r)
-    if not weps then return end
-
-    for _, cls in pairs(weps) do
-        if not ply:HasWeapon(cls) and ply:CanCarryType(WEPS.TypeForWeapon(cls)) then
-            ply:Give(cls)
-        end
-    end
-end
-
---[[GiveLoadoutItems][Gives the default loadout items for that role.]
-@param  {[PlayerObject]} ply [The player who the equipment will be given to.]
---]]
-function GiveLoadoutItems(ply)
-    local items = EquipmentItems[ply:GetRole()]
-    if items then
-        for _, item in pairs(items) do
-            if item.loadout and item.id then
-                ply:GiveEquipmentItem(item.id)
-            end
-        end
-    end
 end
 
 --[End]----------------------------------------------------------------------------------------
