@@ -187,6 +187,9 @@ local function init()
 
         --detective properties
         CreateReplicatedWritableCvar("ttt_detective_search_only")
+        for _, dataType in ipairs(CORPSE_ICON_TYPES) do
+            CreateReplicatedWritableCvar("ttt_detective_search_only_" .. dataType)
+        end
         CreateReplicatedWritableCvar("ttt_detective_disable_looting")
         CreateReplicatedWritableCvar("ttt_special_detectives_armor_loadout")
         CreateReplicatedWritableCvar("ttt_all_search_postround")

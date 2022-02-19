@@ -810,7 +810,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 390 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 390 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + #CORPSE_ICON_TYPES
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -826,6 +826,11 @@ local function AddDetectiveProperties(gppnl)
 
     local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
     detproplst:AddItem(detsch)
+
+    for _, dataType in ipairs(CORPSE_ICON_TYPES) do
+        local detschtype = xlib.makecheckbox { label = "ttt_detective_search_only_" .. dataType .. " (def. 0)", repconvar = "rep_ttt_detective_search_only_" .. dataType, parent = detproplst }
+        detproplst:AddItem(detschtype)
+    end
 
     local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
