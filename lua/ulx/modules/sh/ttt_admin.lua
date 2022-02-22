@@ -8,6 +8,8 @@ end
 --[Ulx Completes]------------------------------------------------------------------------------
 ulx.target_role = {}
 local function UpdateRoles()
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     table.Empty(ulx.target_role)
 
     for wrole = 0, ROLE_MAX or 25 do
@@ -238,6 +240,8 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 end)
 
 hook.Add("PlayerSpawn", "Inform", function(ply)
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     local slays_left = tonumber(ply:GetPData("slaynr_slays")) or 0
     local slay_reason = false
 
@@ -606,6 +610,8 @@ tttspec:help("Forces the <target(s)> to/from spectator.")
 ------------------------------ Next Round  ------------------------------
 ulx.next_round = {}
 local function updateNextround()
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     table.Empty(ulx.next_round) -- Don't reassign so we don't lose our refs
 
     for wrole = 0, ROLE_MAX do
@@ -760,6 +766,8 @@ impair:help("Impair the targets health the following round. Set to 0 to remove i
 --- [impair Next Round Helper Functions ]----------------------------------------------------------------------------
 
 hook.Add("PlayerSpawn", "InformImpair", function(ply)
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     local impairDamage = tonumber(ply:GetPData("ImpairNR")) or 0
     if ply:Alive() and impairDamage > 0 then
         local chat_message = ""
