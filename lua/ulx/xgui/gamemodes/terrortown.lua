@@ -249,27 +249,6 @@ local function AddSpecialistTraitorSettings(gppnl)
     AddDefaultRoleSettings(sptralst, traitor_roles)
 end
 
-local function AddSpecialistInnocentSettings(gppnl)
-    local inno_roles = table.ExcludedKeys(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
-    local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 50 + (70 * #inno_roles))
-    spinnclp:SetExpanded(1)
-    spinnclp:SetLabel("Specialist Innocent Settings")
-
-    local spinnlst = vgui.Create("DPanelList", spinnclp)
-    spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 50 + (70 * #inno_roles))
-    spinnlst:SetSpacing(5)
-
-    local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
-    spinnlst:AddItem(sipercet)
-
-    local sichance = xlib.makeslider { label = "ttt_special_innocent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_chance", parent = spinnlst }
-    spinnlst:AddItem(sichance)
-
-    AddDefaultRoleSettings(spinnlst, inno_roles)
-end
-
 local function AddSpecialistDetectiveSettings(gppnl)
     local det_roles = table.ExcludedKeys(DETECTIVE_ROLES, {ROLE_DETECTIVE})
     local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
@@ -289,6 +268,27 @@ local function AddSpecialistDetectiveSettings(gppnl)
     spdetlst:AddItem(sdchance)
 
     AddDefaultRoleSettings(spdetlst, det_roles)
+end
+
+local function AddSpecialistInnocentSettings(gppnl)
+    local inno_roles = table.ExcludedKeys(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
+    local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
+    spinnclp:SetSize(390, 50 + (70 * #inno_roles))
+    spinnclp:SetExpanded(1)
+    spinnclp:SetLabel("Specialist Innocent Settings")
+
+    local spinnlst = vgui.Create("DPanelList", spinnclp)
+    spinnlst:SetPos(5, 25)
+    spinnlst:SetSize(390, 50 + (70 * #inno_roles))
+    spinnlst:SetSpacing(5)
+
+    local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
+    spinnlst:AddItem(sipercet)
+
+    local sichance = xlib.makeslider { label = "ttt_special_innocent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_chance", parent = spinnlst }
+    spinnlst:AddItem(sichance)
+
+    AddDefaultRoleSettings(spinnlst, inno_roles)
 end
 
 local function AddIndependentRoleSettings(gppnl)
@@ -378,19 +378,7 @@ local function AddRoleHealthSettings(gppnl)
     end
 end
 
-local function GetExternalRolesForTeam(role_list, excludes_team)
-    local team_list = {}
-    if ROLE_MAX >= ROLE_EXTERNAL_START then
-        for role = ROLE_EXTERNAL_START, ROLE_MAX do
-            if role_list[role] and not (excludes_team and excludes_team[role]) then
-                table.insert(team_list, role)
-            end
-        end
-    end
-    return team_list
-end
-
-local function GetExternalRoleConVars(team_list)
+local function GetRoleConVars(team_list)
     local role_cvars = {}
     local num_count, bool_count, text_count = 0, 0, 0
     for _, r in ipairs(team_list) do
@@ -420,7 +408,7 @@ local function GetExternalRoleConVars(team_list)
     return role_cvars, num_count, bool_count, text_count
 end
 
-local function AddExternalRoleProperties(role, role_cvars, list)
+local function AddRoleProperties(role, role_cvars, list)
     local rolestring = ROLE_STRINGS[role]
     local label = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = rolestring .. " settings:", parent = list }
     list:AddItem(label)
@@ -462,10 +450,10 @@ local function AddExternalRoleProperties(role, role_cvars, list)
     end
 end
 
-local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
-    local external_roles_with_cvars = table.Count(role_cvars)
+local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local roles_with_cvars = table.Count(role_cvars)
     -- Labels
-    return (external_roles_with_cvars * 20) +
+    return (roles_with_cvars * 20) +
             -- Sliders
             (num_count * 25) +
             -- Checkboxes
@@ -475,9 +463,9 @@ local function GetExternalRolesHeight(role_cvars, num_count, bool_count, text_co
 end
 
 local function AddTraitorProperties(gppnl)
-    local external_traitors = GetExternalRolesForTeam(TRAITOR_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_traitors)
-    local height = 1270 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local traitor_roles = GetTeamRoles(TRAITOR_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(traitor_roles)
+    local height = 40 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -488,191 +476,67 @@ local function AddTraitorProperties(gppnl)
     traproplst:SetSize(390, height)
     traproplst:SetSpacing(5)
 
+    local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = traproplst }
+    traproplst:AddItem(tralbl)
+
     local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
     traproplst:AddItem(travis)
 
-    local trapd = xlib.makecheckbox { label = "ttt_traitor_phantom_cure (def. 0)", repconvar = "rep_ttt_traitor_phantom_cure", parent = traproplst }
-    traproplst:AddItem(trapd)
-
-    local implbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Impersonator settings:", parent = traproplst }
-    traproplst:AddItem(implbl)
-
-    local imppen = xlib.makeslider { label = "ttt_impersonator_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_damage_penalty", parent = traproplst }
-    traproplst:AddItem(imppen)
-
-    local impudi = xlib.makecheckbox { label = "ttt_impersonator_use_detective_icon (def. 1)", repconvar = "rep_ttt_impersonator_use_detective_icon", parent = traproplst }
-    traproplst:AddItem(impudi)
-
-    local impwd = xlib.makecheckbox { label = "ttt_impersonator_without_detective (def. 0)", repconvar = "rep_ttt_impersonator_without_detective", parent = traproplst }
-    traproplst:AddItem(impwd)
-
-    local impac = xlib.makeslider { label = "ttt_impersonator_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_impersonator_activation_credits", parent = traproplst }
-    traproplst:AddItem(impac)
-
-    local impdc = xlib.makeslider { label = "ttt_impersonator_detective_chance (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_impersonator_detective_chance", parent = traproplst }
-    traproplst:AddItem(impdc)
-
-    local hyplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Hypnotist settings:", parent = traproplst }
-    traproplst:AddItem(hyplbl)
-
-    local hypdl = xlib.makecheckbox { label = "ttt_hypnotist_device_loadout (def. 1)", repconvar = "rep_ttt_hypnotist_device_loadout", parent = traproplst }
-    traproplst:AddItem(hypdl)
-
-    local hypds = xlib.makecheckbox { label = "ttt_hypnotist_device_shop (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop", parent = traproplst }
-    traproplst:AddItem(hypds)
-
-    local hypdr = xlib.makecheckbox { label = "ttt_hypnotist_device_shop_rebuyable (def. 0)", repconvar = "rep_ttt_hypnotist_device_shop_rebuyable", parent = traproplst }
-    traproplst:AddItem(hypdr)
-
-    local hypcd = xlib.makecheckbox { label = "ttt_hypnotist_convert_detectives (def. 0)", repconvar = "rep_ttt_hypnotist_convert_detectives", parent = traproplst }
-    traproplst:AddItem(hypcd)
-
-    local hypdt = xlib.makeslider { label = "ttt_hypnotist_device_time (def. 8)", min = 0, max = 60, repconvar = "rep_ttt_hypnotist_device_time", parent = traproplst }
-    traproplst:AddItem(hypdt)
-
-    local asnlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Assassin settings:", parent = traproplst }
-    traproplst:AddItem(asnlbl)
-
-    local asntgt = xlib.makecheckbox { label = "ttt_assassin_show_target_icon (def. 0)", repconvar = "rep_ttt_assassin_show_target_icon", parent = traproplst }
-    traproplst:AddItem(asntgt)
-
-    local asntve = xlib.makecheckbox { label = "ttt_assassin_target_vision_enable (def. 0)", repconvar = "rep_ttt_assassin_target_vision_enable", parent = traproplst }
-    traproplst:AddItem(asntve)
-
-    local asntgtdelay = xlib.makeslider { label = "ttt_assassin_next_target_delay (def. 5)", min = 0, max = 10, repconvar = "rep_ttt_assassin_next_target_delay", parent = traproplst }
-    traproplst:AddItem(asntgtdelay)
-
-    local asntdb = xlib.makeslider { label = "ttt_assassin_target_damage_bonus (def. 1)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_target_damage_bonus", parent = traproplst }
-    traproplst:AddItem(asntdb)
-
-    local asntbb = xlib.makecheckbox { label = "ttt_assassin_target_bonus_bought (def. 1)", repconvar = "rep_ttt_assassin_target_bonus_bought", parent = traproplst }
-    traproplst:AddItem(asntbb)
-
-    local asnwdp = xlib.makeslider { label = "ttt_assassin_wrong_damage_penalty (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_wrong_damage_penalty", parent = traproplst }
-    traproplst:AddItem(asnwdp)
-
-    local asnfdp = xlib.makeslider { label = "ttt_assassin_failed_damage_penalty (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_assassin_failed_damage_penalty", parent = traproplst }
-    traproplst:AddItem(asnfdp)
-
-    local asnsrl = xlib.makecheckbox { label = "ttt_assassin_shop_roles_last (def. 0)", repconvar = "rep_ttt_assassin_shop_roles_last", parent = traproplst }
-    traproplst:AddItem(asnsrl)
-
-    local vamlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Vampire settings:", parent = traproplst }
-    traproplst:AddItem(vamlbl)
-
-    local vamamon = xlib.makecheckbox { label = "ttt_vampires_are_monsters (def. 0)", repconvar = "rep_ttt_vampires_are_monsters", parent = traproplst }
-    traproplst:AddItem(vamamon)
-
-    local vamain = xlib.makecheckbox { label = "ttt_vampires_are_independent (def. 0)", repconvar = "rep_ttt_vampires_are_independent", parent = traproplst }
-    traproplst:AddItem(vamain)
-
-    local vamcen = xlib.makecheckbox { label = "ttt_vampire_convert_enable (def. 0)", repconvar = "rep_ttt_vampire_convert_enable", parent = traproplst }
-    traproplst:AddItem(vamcen)
-
-    local vamden = xlib.makecheckbox { label = "ttt_vampire_drain_enable (def. 1)", repconvar = "rep_ttt_vampire_drain_enable", parent = traproplst }
-    traproplst:AddItem(vamden)
-
-    local vamdfi = xlib.makecheckbox { label = "ttt_vampire_drain_first (def. 0)", repconvar = "rep_ttt_vampire_drain_first", parent = traproplst }
-    traproplst:AddItem(vamdfi)
-
-    local vamdc = xlib.makeslider { label = "ttt_vampire_drain_credits (def. 0)", min = 0, max = 5, repconvar = "rep_ttt_vampire_drain_credits", parent = traproplst }
-    traproplst:AddItem(vamdc)
-
-    local vamkc = xlib.makecheckbox { label = "ttt_vampire_kill_credits (def. 1)", repconvar = "rep_ttt_vampire_kill_credits", parent = traproplst }
-    traproplst:AddItem(vamkc)
-
-    local vamlc = xlib.makecheckbox { label = "ttt_vampire_loot_credits (def. 1)", repconvar = "rep_ttt_vampire_loot_credits", parent = traproplst }
-    traproplst:AddItem(vamlc)
-
-    local vamft = xlib.makeslider { label = "ttt_vampire_fang_timer (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_vampire_fang_timer", parent = traproplst }
-    traproplst:AddItem(vamft)
-
-    local vamfdt = xlib.makeslider { label = "ttt_vampire_fang_dead_timer (def. 0)", min = 0, max = 30, repconvar = "rep_ttt_vampire_fang_dead_timer", parent = traproplst }
-    traproplst:AddItem(vamfdt)
-
-    local vamfh = xlib.makeslider { label = "ttt_vampire_fang_heal (def. 50)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_heal", parent = traproplst }
-    traproplst:AddItem(vamfh)
-
-    local vamfoh = xlib.makeslider { label = "ttt_vampire_fang_overheal (def. 25)", min = 0, max = 100, repconvar = "rep_ttt_vampire_fang_overheal", parent = traproplst }
-    traproplst:AddItem(vamfoh)
-
-    local vamfohl = xlib.makeslider { label = "ttt_vampire_fang_overheal_living (def. -1)", min = -1, max = 100, repconvar = "rep_ttt_vampire_fang_overheal_living", parent = traproplst }
-    traproplst:AddItem(vamfohl)
-
-    local vamdre = xlib.makeslider { label = "ttt_vampire_damage_reduction (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_vampire_damage_reduction", parent = traproplst }
-    traproplst:AddItem(vamdre)
-
-    local vampoc = xlib.makecheckbox { label = "ttt_vampire_prime_only_convert (def. 1)", repconvar = "rep_ttt_vampire_prime_only_convert", parent = traproplst }
-    traproplst:AddItem(vampoc)
-
-    local vampdm = xlib.makeslider { label = "ttt_vampire_prime_death_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_vampire_prime_death_mode", parent = traproplst }
-    traproplst:AddItem(vampdm)
-
-    local vamsti = xlib.makecheckbox { label = "ttt_vampire_show_target_icon (def. 0)", repconvar = "rep_ttt_vampire_show_target_icon", parent = traproplst }
-    traproplst:AddItem(vamsti)
-
-    local vamve = xlib.makecheckbox { label = "ttt_vampire_vision_enable (def. 0)", repconvar = "rep_ttt_vampire_vision_enable", parent = traproplst }
-    traproplst:AddItem(vamve)
-
-    local qualbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Quack settings:", parent = traproplst }
-    traproplst:AddItem(qualbl)
-
-    local quacurmo = xlib.makeslider { label = "ttt_quack_fake_cure_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_quack_fake_cure_mode", parent = traproplst }
-    traproplst:AddItem(quacurmo)
-
-    local quapt = xlib.makeslider { label = "ttt_quack_fake_cure_time (def. -1)", min = -1, max = 60, repconvar = "rep_ttt_quack_fake_cure_time", parent = traproplst }
-    traproplst:AddItem(quapt)
-
-    local quapd = xlib.makecheckbox { label = "ttt_quack_phantom_cure (def. 0)", repconvar = "rep_ttt_quack_phantom_cure", parent = traproplst }
-    traproplst:AddItem(quapd)
-
-    local quasb = xlib.makecheckbox { label = "ttt_quack_station_bomb (def. 0)", repconvar = "rep_ttt_quack_station_bomb", parent = traproplst }
-    traproplst:AddItem(quasb)
-
-    local quasbt = xlib.makeslider { label = "ttt_quack_station_bomb_time (def. 4)", min = 0, max = 60, repconvar = "rep_ttt_quack_station_bomb_time", parent = traproplst }
-    traproplst:AddItem(quasbt)
-
-    local parlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Parasite settings:", parent = traproplst }
-    traproplst:AddItem(parlbl)
-
-    local partim = xlib.makeslider { label = "ttt_parasite_infection_time (def. 45)", min = 0, max = 300, repconvar = "rep_ttt_parasite_infection_time", parent = traproplst }
-    traproplst:AddItem(partim)
-
-    local parit = xlib.makecheckbox { label = "ttt_parasite_infection_transfer (def. 0)", repconvar = "rep_ttt_parasite_infection_transfer", parent = traproplst }
-    traproplst:AddItem(parit)
-
-    local paritr = xlib.makecheckbox { label = "ttt_parasite_infection_transfer_reset (def. 1)", repconvar = "rep_ttt_parasite_infection_transfer_reset", parent = traproplst }
-    traproplst:AddItem(paritr)
-
-    local parism = xlib.makeslider { label = "ttt_parasite_infection_suicide_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_parasite_infection_suicide_mode", parent = traproplst }
-    traproplst:AddItem(parism)
-
-    local parrmd = xlib.makeslider { label = "ttt_parasite_respawn_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_parasite_respawn_mode", parent = traproplst }
-    traproplst:AddItem(parrmd)
-
-    local parhea = xlib.makeslider { label = "ttt_parasite_respawn_health (def. 100)", min = 0, max = 100, repconvar = "rep_ttt_parasite_respawn_health", parent = traproplst }
-    traproplst:AddItem(parhea)
-
-    local parann = xlib.makecheckbox { label = "ttt_parasite_announce_infection (def. 0)", repconvar = "rep_ttt_parasite_announce_infection", parent = traproplst }
-    traproplst:AddItem(parann)
-
-    local parcurmo = xlib.makeslider { label = "ttt_parasite_cure_mode (def. 2)", min = 0, max = 2, repconvar = "rep_ttt_parasite_cure_mode", parent = traproplst }
-    traproplst:AddItem(parcurmo)
-
-    local parcurt = xlib.makeslider { label = "ttt_parasite_cure_time (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_parasite_cure_time", parent = traproplst }
-    traproplst:AddItem(parcurt)
-
-    for _, r in ipairs(external_traitors) do
+    for _, r in ipairs(traitor_roles) do
         if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], traproplst)
+            AddRoleProperties(r, role_cvars[r], traproplst)
+        end
+    end
+end
+
+local function AddDetectiveProperties(gppnl)
+    local detective_roles = GetTeamRoles(DETECTIVE_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
+    local height = 120 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    detpropclp:SetSize(390, height)
+    detpropclp:SetExpanded(1)
+    detpropclp:SetLabel("Detective Properties")
+
+    local detproplst = vgui.Create("DPanelList", detpropclp)
+    detproplst:SetPos(5, 25)
+    detproplst:SetSize(390, height)
+    detproplst:SetSpacing(5)
+
+    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = detproplst }
+    detproplst:AddItem(detlbl)
+
+    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
+    detproplst:AddItem(detsch)
+
+    for _, dataType in ipairs(CORPSE_ICON_TYPES) do
+        local detschtype = xlib.makecheckbox { label = "ttt_detective_search_only_" .. dataType .. " (def. 0)", repconvar = "rep_ttt_detective_search_only_" .. dataType, parent = detproplst }
+        detproplst:AddItem(detschtype)
+    end
+
+    local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
+    detproplst:AddItem(detdlo)
+
+    local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
+    detproplst:AddItem(detsdal)
+
+    local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
+    detproplst:AddItem(prsrch)
+
+    local bnsrch = xlib.makecheckbox { label = "ttt_all_search_binoc (def. 0)", repconvar = "rep_ttt_all_search_binoc", parent = detproplst }
+    detproplst:AddItem(bnsrch)
+
+    for _, r in ipairs(detective_roles) do
+        if role_cvars[r] then
+            AddRoleProperties(r, role_cvars[r], detproplst)
         end
     end
 end
 
 local function AddInnocentProperties(gppnl)
-    local external_innocents = GetExternalRolesForTeam(INNOCENT_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_innocents)
-    local height = 860 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local innocent_roles = GetTeamRoles(INNOCENT_ROLES, DETECTIVE_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(innocent_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -683,6 +547,7 @@ local function AddInnocentProperties(gppnl)
     innproplst:SetSize(390, height)
     innproplst:SetSpacing(5)
 
+    -- TODO: Transfer innocent role convars to ROLE_CONVARS table
     local glilbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Glitch settings:", parent = innproplst }
     innproplst:AddItem(glilbl)
 
@@ -800,100 +665,17 @@ local function AddInnocentProperties(gppnl)
     local meddt = xlib.makeslider { label = "ttt_paramedic_defib_time (def. 8)", min = 0, max = 60, repconvar = "rep_ttt_paramedic_defib_time", parent = innproplst }
     innproplst:AddItem(meddt)
 
-    for _, r in ipairs(external_innocents) do
+    for _, r in ipairs(innocent_roles) do
         if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], innproplst)
-        end
-    end
-end
-
-local function AddDetectiveProperties(gppnl)
-    local external_detectives = GetExternalRolesForTeam(DETECTIVE_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_detectives)
-    local height = 390 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + #CORPSE_ICON_TYPES
-    local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    detpropclp:SetSize(390, height)
-    detpropclp:SetExpanded(1)
-    detpropclp:SetLabel("Detective Properties")
-
-    local detproplst = vgui.Create("DPanelList", detpropclp)
-    detproplst:SetPos(5, 25)
-    detproplst:SetSize(390, height)
-    detproplst:SetSpacing(5)
-
-    local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = detproplst }
-    detproplst:AddItem(detlbl)
-
-    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
-    detproplst:AddItem(detsch)
-
-    for _, dataType in ipairs(CORPSE_ICON_TYPES) do
-        local detschtype = xlib.makecheckbox { label = "ttt_detective_search_only_" .. dataType .. " (def. 0)", repconvar = "rep_ttt_detective_search_only_" .. dataType, parent = detproplst }
-        detproplst:AddItem(detschtype)
-    end
-
-    local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
-    detproplst:AddItem(detdlo)
-
-    local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
-    detproplst:AddItem(detsdal)
-
-    local prsrch = xlib.makecheckbox { label = "ttt_all_search_postround (def. 1)", repconvar = "rep_ttt_all_search_postround", parent = detproplst }
-    detproplst:AddItem(prsrch)
-
-    local bnsrch = xlib.makecheckbox { label = "ttt_all_search_binoc (def. 0)", repconvar = "rep_ttt_all_search_binoc", parent = detproplst }
-    detproplst:AddItem(bnsrch)
-
-    local pallbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paladin settings:", parent = detproplst }
-    detproplst:AddItem(pallbl)
-
-    local palrad = xlib.makeslider { label = "ttt_paladin_aura_radius (def. 5)", min = 1, max = 30, repconvar = "rep_ttt_paladin_aura_radius", parent = detproplst }
-    detproplst:AddItem(palrad)
-
-    local palred = xlib.makeslider { label = "ttt_paladin_damage_reduction (def. 0.3)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_paladin_damage_reduction", parent = detproplst }
-    detproplst:AddItem(palred)
-
-    local palheal = xlib.makeslider { label = "ttt_paladin_heal_rate (def. 100)", min = 1, max = 10, repconvar = "rep_ttt_paladin_heal_rate", parent = detproplst }
-    detproplst:AddItem(palheal)
-
-    local palslfp = xlib.makecheckbox { label = "ttt_paladin_protect_self (def. 0)", repconvar = "rep_ttt_paladin_protect_self", parent = detproplst }
-    detproplst:AddItem(palslfp)
-
-    local palslfh = xlib.makecheckbox { label = "ttt_paladin_heal_self (def. 1)", repconvar = "rep_ttt_paladin_heal_self", parent = detproplst }
-    detproplst:AddItem(palslfh)
-
-    local trklbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Tracker settings:", parent = detproplst }
-    detproplst:AddItem(trklbl)
-
-    local trktime = xlib.makeslider { label = "ttt_tracker_footstep_time (def. 15)", min = 1, max = 60, repconvar = "rep_ttt_tracker_footstep_time", parent = detproplst }
-    detproplst:AddItem(trktime)
-
-    local trkcol = xlib.makecheckbox { label = "ttt_tracker_footstep_color (def. 1)", repconvar = "rep_ttt_tracker_footstep_color", parent = detproplst }
-    detproplst:AddItem(trkcol)
-
-    local mdmlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Medium settings:", parent = detproplst }
-    detproplst:AddItem(mdmlbl)
-
-    local mdmcol = xlib.makecheckbox { label = "ttt_medium_spirit_color (def. 1)", repconvar = "rep_ttt_medium_spirit_color", parent = detproplst }
-    detproplst:AddItem(mdmcol)
-
-    local mdmsv = xlib.makecheckbox { label = "ttt_medium_spirit_vision (def. 1)", repconvar = "rep_ttt_medium_spirit_vision", parent = detproplst }
-    detproplst:AddItem(mdmsv)
-
-    local mdmdn = xlib.makecheckbox { label = "ttt_medium_dead_notify (def. 1)", repconvar = "rep_ttt_medium_dead_notify", parent = detproplst }
-    detproplst:AddItem(mdmdn)
-
-    for _, r in ipairs(external_detectives) do
-        if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], detproplst)
+            AddRoleProperties(r, role_cvars[r], innproplst)
         end
     end
 end
 
 local function AddJesterRoleProperties(gppnl)
-    local external_jesters = GetExternalRolesForTeam(JESTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_jesters)
-    local height = 1400 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
+    local jester_roles = GetTeamRoles(JESTER_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(jester_roles)
+    local height = 100 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -903,6 +685,9 @@ local function AddJesterRoleProperties(gppnl)
     jesproplst:SetPos(5, 25)
     jesproplst:SetSize(390, height)
     jesproplst:SetSpacing(5)
+
+    local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = jesproplst }
+    jesproplst:AddItem(jeslbl)
 
     local jestester = xlib.makecheckbox { label = "ttt_jesters_trigger_traitor_testers (def. 1)", repconvar = "rep_ttt_jesters_trigger_traitor_testers", parent = jesproplst }
     jesproplst:AddItem(jestester)
@@ -916,6 +701,7 @@ local function AddJesterRoleProperties(gppnl)
     local jesvti = xlib.makecheckbox { label = "ttt_jesters_visible_to_independents (def. 1)", repconvar = "rep_ttt_jesters_visible_to_independents", parent = jesproplst }
     jesproplst:AddItem(jesvti)
 
+    -- TODO: Transfer jester role convars to ROLE_CONVARS table
     local jeslbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Jester settings:", parent = jesproplst }
     jesproplst:AddItem(jeslbl)
 
@@ -1093,17 +879,17 @@ local function AddJesterRoleProperties(gppnl)
     local gobnc = xlib.makecheckbox { label = "ttt_lootgoblin_notify_confetti (def. 1)", repconvar = "rep_ttt_lootgoblin_notify_confetti", parent = jesproplst }
     jesproplst:AddItem(gobnc)
 
-    for _, r in ipairs(external_jesters) do
+    for _, r in ipairs(jester_roles) do
         if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], jesproplst)
+            AddRoleProperties(r, role_cvars[r], jesproplst)
         end
     end
 end
 
 local function AddIndependentRoleProperties(gppnl)
-    local external_independents = GetExternalRolesForTeam(INDEPENDENT_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_independents)
-    local height = 1135 + GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
+    local independent_roles = GetTeamRoles(INDEPENDENT_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(independent_roles)
+    local height = 60 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count) + ((ROLE_MAX - 1) * 20)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -1114,12 +900,16 @@ local function AddIndependentRoleProperties(gppnl)
     indproplst:SetSize(390, height)
     indproplst:SetSpacing(5)
 
+    local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = indproplst }
+    indproplst:AddItem(indlbl)
+
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
     indproplst:AddItem(indtes)
 
     local indmia = xlib.makecheckbox { label = "ttt_independents_update_scoreboard (def. 0)", repconvar = "rep_ttt_independents_update_scoreboard", parent = indproplst }
     indproplst:AddItem(indmia)
 
+    -- TODO: Transfer independent role convars to ROLE_CONVARS table
     local drulbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Drunk settings:", parent = indproplst }
     indproplst:AddItem(drulbl)
 
@@ -1275,30 +1065,30 @@ local function AddIndependentRoleProperties(gppnl)
     local msdt = xlib.makeslider { label = "ttt_madscientist_device_time (def. 4)", min = 0, max = 60, repconvar = "rep_ttt_madscientist_device_time", parent = indproplst }
     indproplst:AddItem(msdt)
 
-    for _, r in ipairs(external_independents) do
+    for _, r in ipairs(independent_roles) do
         if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], indproplst)
+            AddRoleProperties(r, role_cvars[r], indproplst)
         end
     end
 end
 
 local function AddMonsterRoleProperties(gppnl)
-    local external_monsters = GetExternalRolesForTeam(MONSTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetExternalRoleConVars(external_monsters)
-    local height = GetExternalRolesHeight(role_cvars, num_count, bool_count, text_count)
-    local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    indpropclp:SetSize(390, height)
-    indpropclp:SetExpanded(1)
-    indpropclp:SetLabel("Monsters Properties")
+    local monster_roles = GetTeamRoles(MONSTER_ROLES)
+    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(monster_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
+    monpropclp:SetSize(390, height)
+    monpropclp:SetExpanded(1)
+    monpropclp:SetLabel("Monsters Properties")
 
-    local indproplst = vgui.Create("DPanelList", indpropclp)
-    indproplst:SetPos(5, 25)
-    indproplst:SetSize(390, height)
-    indproplst:SetSpacing(5)
+    local monproplst = vgui.Create("DPanelList", monpropclp)
+    monproplst:SetPos(5, 25)
+    monproplst:SetSize(390, height)
+    monproplst:SetSpacing(5)
 
-    for _, r in ipairs(external_monsters) do
+    for _, r in ipairs(monster_roles) do
         if role_cvars[r] then
-            AddExternalRoleProperties(r, role_cvars[r], indproplst)
+            AddRoleProperties(r, role_cvars[r], monproplst)
         end
     end
 end
@@ -1625,14 +1415,14 @@ local function AddGameplayModule()
 
     AddTraitorAndDetectiveSettings(gppnl)
     AddSpecialistTraitorSettings(gppnl)
-    AddSpecialistInnocentSettings(gppnl)
     AddSpecialistDetectiveSettings(gppnl)
+    AddSpecialistInnocentSettings(gppnl)
     AddIndependentRoleSettings(gppnl)
     AddMonsterSettings(gppnl)
     AddRoleHealthSettings(gppnl)
     AddTraitorProperties(gppnl)
-    AddInnocentProperties(gppnl)
     AddDetectiveProperties(gppnl)
+    AddInnocentProperties(gppnl)
     AddJesterRoleProperties(gppnl)
     AddIndependentRoleProperties(gppnl)
     AddMonsterRoleProperties(gppnl)
