@@ -476,7 +476,7 @@ end
 local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local roles_with_cvars = table.Count(role_cvars)
     -- Labels
-    return (roles_with_cvars * 20) +
+    return (roles_with_cvars * 18) +
             -- Sliders
             (num_count * 25) +
             -- Checkboxes
@@ -488,7 +488,7 @@ end
 local function AddTraitorProperties(gppnl)
     local traitor_roles = GetSortedTeamRoles(TRAITOR_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(traitor_roles)
-    local height = 15 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -515,7 +515,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
-    local height = 105 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 118 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -570,124 +570,6 @@ local function AddInnocentProperties(gppnl)
     innproplst:SetSize(390, height)
     innproplst:SetSpacing(5)
 
-    -- TODO: Transfer innocent role convars to ROLE_CONVARS table
-    local glilbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Glitch settings:", parent = innproplst }
-    innproplst:AddItem(glilbl)
-
-    local glimo = xlib.makeslider { label = "ttt_glitch_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_glitch_mode", parent = innproplst }
-    innproplst:AddItem(glimo)
-
-    local gliut = xlib.makecheckbox { label = "ttt_glitch_use_traps (def. 0)", repconvar = "rep_ttt_glitch_use_traps", parent = innproplst }
-    innproplst:AddItem(gliut)
-
-    local phalbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Phantom settings:", parent = innproplst }
-    innproplst:AddItem(phalbl)
-
-    local phrh = xlib.makeslider { label = "ttt_phantom_respawn_health (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_respawn_health", parent = innproplst }
-    innproplst:AddItem(phrh)
-
-    local phwer = xlib.makecheckbox { label = "ttt_phantom_weaker_each_respawn (def. 0)", repconvar = "rep_ttt_phantom_weaker_each_respawn", parent = innproplst }
-    innproplst:AddItem(phwer)
-
-    local phad = xlib.makecheckbox { label = "ttt_phantom_announce_death (def. 0)", repconvar = "rep_ttt_phantom_announce_death", parent = innproplst }
-    innproplst:AddItem(phad)
-
-    local phks = xlib.makecheckbox { label = "ttt_phantom_killer_smoke (def. 0)", repconvar = "rep_ttt_phantom_killer_smoke", parent = innproplst }
-    innproplst:AddItem(phks)
-
-    local phkft = xlib.makeslider { label = "ttt_phantom_killer_footstep_time (def. 0)", min = 1, max = 60, repconvar = "rep_ttt_phantom_killer_footstep_time", parent = innproplst }
-    innproplst:AddItem(phkft)
-
-    local phkh = xlib.makecheckbox { label = "ttt_phantom_killer_haunt (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt", parent = innproplst }
-    innproplst:AddItem(phkh)
-
-    local phkhpm = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_max (def. 100)", min = 1, max = 200, repconvar = "rep_ttt_phantom_killer_haunt_power_max", parent = innproplst }
-    innproplst:AddItem(phkhpm)
-
-    local phkhpr = xlib.makeslider { label = "ttt_phantom_killer_haunt_power_rate (def. 10)", min = 1, max = 25, repconvar = "rep_ttt_phantom_killer_haunt_power_rate", parent = innproplst }
-    innproplst:AddItem(phkhpr)
-
-    local phkhmc = xlib.makeslider { label = "ttt_phantom_killer_haunt_move_cost (def. 25)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_move_cost", parent = innproplst }
-    innproplst:AddItem(phkhmc)
-
-    local phkhjc = xlib.makeslider { label = "ttt_phantom_killer_haunt_jump_cost (def. 50)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_jump_cost", parent = innproplst }
-    innproplst:AddItem(phkhjc)
-
-    local phkhdc = xlib.makeslider { label = "ttt_phantom_killer_haunt_drop_cost (def. 75)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_drop_cost", parent = innproplst }
-    innproplst:AddItem(phkhdc)
-
-    local phkhac = xlib.makeslider { label = "ttt_phantom_killer_haunt_attack_cost (def. 100)", min = 1, max = 100, repconvar = "rep_ttt_phantom_killer_haunt_attack_cost", parent = innproplst }
-    innproplst:AddItem(phkhac)
-
-    local phkhwb = xlib.makecheckbox { label = "ttt_phantom_killer_haunt_without_body (def. 1)", repconvar = "rep_ttt_phantom_killer_haunt_without_body", parent = innproplst }
-    innproplst:AddItem(phkhwb)
-
-    local phcurt = xlib.makeslider { label = "ttt_phantom_cure_time (def. 3)", min = 0, max = 60, repconvar = "rep_ttt_phantom_cure_time", parent = innproplst }
-    innproplst:AddItem(phcurt)
-
-    local revlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Revenger settings:", parent = innproplst }
-    innproplst:AddItem(revlbl)
-
-    local revrad = xlib.makeslider { label = "ttt_revenger_radar_timer (def. 15)", min = 1, max = 60, repconvar = "rep_ttt_revenger_radar_timer", parent = innproplst }
-    innproplst:AddItem(revrad)
-
-    local revbon = xlib.makeslider { label = "ttt_revenger_damage_bonus (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_revenger_damage_bonus", parent = innproplst }
-    innproplst:AddItem(revbon)
-
-    local revdht = xlib.makeslider { label = "ttt_revenger_drain_health_to (def. -1)", min = -1, max = 200, repconvar = "rep_ttt_revenger_drain_health_to", parent = innproplst }
-    innproplst:AddItem(revdht)
-
-    local deplbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Deputy settings:", parent = innproplst }
-    innproplst:AddItem(deplbl)
-
-    local deppen = xlib.makeslider { label = "ttt_deputy_damage_penalty (def. 0)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_deputy_damage_penalty", parent = innproplst }
-    innproplst:AddItem(deppen)
-
-    local depudi = xlib.makecheckbox { label = "ttt_deputy_use_detective_icon (def. 1)", repconvar = "rep_ttt_deputy_use_detective_icon", parent = innproplst }
-    innproplst:AddItem(depudi)
-
-    local depwd = xlib.makecheckbox { label = "ttt_deputy_without_detective (def. 0)", repconvar = "rep_ttt_deputy_without_detective", parent = innproplst }
-    innproplst:AddItem(depwd)
-
-    local depac = xlib.makeslider { label = "ttt_deputy_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_deputy_activation_credits", parent = innproplst }
-    innproplst:AddItem(depac)
-
-    local vetlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Veteran settings:", parent = innproplst }
-    innproplst:AddItem(vetlbl)
-
-    local vetbon = xlib.makeslider { label = "ttt_veteran_damage_bonus (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_veteran_damage_bonus", parent = innproplst }
-    innproplst:AddItem(vetbon)
-
-    local vetheal = xlib.makecheckbox { label = "ttt_veteran_full_heal (def. 1)", repconvar = "rep_ttt_veteran_full_heal", parent = innproplst }
-    innproplst:AddItem(vetheal)
-
-    local vethbon = xlib.makeslider { label = "ttt_veteran_heal_bonus (def. 0)", min = 0, max = 100, repconvar = "rep_ttt_veteran_heal_bonus", parent = innproplst }
-    innproplst:AddItem(vethbon)
-
-    local vetann = xlib.makecheckbox { label = "ttt_veteran_announce (def. 0)", repconvar = "rep_ttt_veteran_announce", parent = innproplst }
-    innproplst:AddItem(vetann)
-
-    local vetac = xlib.makeslider { label = "ttt_veteran_activation_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_veteran_activation_credits", parent = innproplst }
-    innproplst:AddItem(vetac)
-
-    local medlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Paramedic settings:", parent = innproplst }
-    innproplst:AddItem(medlbl)
-
-    local meddl = xlib.makecheckbox { label = "ttt_paramedic_device_loadout (def. 1)", repconvar = "rep_ttt_paramedic_device_loadout", parent = innproplst }
-    innproplst:AddItem(meddl)
-
-    local medds = xlib.makecheckbox { label = "ttt_paramedic_device_shop (def. 0)", repconvar = "rep_ttt_paramedic_device_shop", parent = innproplst }
-    innproplst:AddItem(medds)
-
-    local meddsr = xlib.makecheckbox { label = "ttt_paramedic_device_shop_rebuyable (def. 0)", repconvar = "rep_ttt_paramedic_device_shop_rebuyable", parent = innproplst }
-    innproplst:AddItem(meddsr)
-
-    local meddai = xlib.makecheckbox { label = "ttt_paramedic_defib_as_innocent (def. 0)", repconvar = "rep_ttt_paramedic_defib_as_innocent", parent = innproplst }
-    innproplst:AddItem(meddai)
-
-    local meddt = xlib.makeslider { label = "ttt_paramedic_defib_time (def. 8)", min = 0, max = 60, repconvar = "rep_ttt_paramedic_defib_time", parent = innproplst }
-    innproplst:AddItem(meddt)
-
     for _, r in ipairs(innocent_roles) do
         if role_cvars[r] then
             AddRoleProperties(r, role_cvars[r], innproplst)
@@ -698,7 +580,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(jester_roles)
-    local height = 80 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 98 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -734,7 +616,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local independent_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(independent_roles)
-    local height = 50 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 58 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
