@@ -515,7 +515,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
-    local height = 138 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 143 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -540,8 +540,8 @@ local function AddDetectiveProperties(gppnl)
     local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
 
-    local deths = xlib.makecheckbox { label = "ttt_detective_hide_special (def. 0)", repconvar = "rep_ttt_detective_hide_special", parent = detproplst }
-    detproplst:AddItem(deths)
+    local dethsm = xlib.makeslider { label = "ttt_detective_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detective_hide_special_mode", parent = detproplst }
+    detproplst:AddItem(dethsm)
 
     local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
     detproplst:AddItem(detsdal)
