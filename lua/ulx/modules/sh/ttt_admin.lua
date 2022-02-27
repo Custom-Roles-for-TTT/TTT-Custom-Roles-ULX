@@ -5,14 +5,21 @@ if SERVER then
     util.AddNetworkString("TTT_RoleChanged")
 end
 
+local function SortRolesByName(roles)
+    table.sort(roles, function(a, b) return a < b end)
+end
+
 --[Ulx Completes]------------------------------------------------------------------------------
 ulx.target_role = {}
 local function UpdateRoles()
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     table.Empty(ulx.target_role)
 
     for wrole = 0, ROLE_MAX or 25 do
         table.insert(ulx.target_role, ROLE_STRINGS_RAW[wrole])
     end
+    SortRolesByName(ulx.target_role)
 end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
@@ -238,6 +245,8 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
 end)
 
 hook.Add("PlayerSpawn", "Inform", function(ply)
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     local slays_left = tonumber(ply:GetPData("slaynr_slays")) or 0
     local slay_reason = false
 
@@ -319,7 +328,7 @@ end
 
 local force = ulx.command(CATEGORY_NAME, "ulx force", ulx.force, "!force")
 force:addParam { type = ULib.cmds.PlayersArg }
-force:addParam { type = ULib.cmds.StringArg, completes = ulx.target_role, hint = "Role" }
+force:addParam { type = ULib.cmds.StringArg, completes = ulx.target_role, hint = "Role", error = "Invalid role \"%s\" specified", ULib.cmds.restrictToCompletes }
 force:addParam { type = ULib.cmds.BoolArg, invisible = true }
 force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", { _, _, _, true }, "!sforce", true)
@@ -606,11 +615,14 @@ tttspec:help("Forces the <target(s)> to/from spectator.")
 ------------------------------ Next Round  ------------------------------
 ulx.next_round = {}
 local function updateNextround()
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     table.Empty(ulx.next_round) -- Don't reassign so we don't lose our refs
 
     for wrole = 0, ROLE_MAX do
         table.insert(ulx.next_round, ROLE_STRINGS_RAW[wrole])
     end
+    SortRolesByName(ulx.next_round)
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
@@ -760,6 +772,8 @@ impair:help("Impair the targets health the following round. Set to 0 to remove i
 --- [impair Next Round Helper Functions ]----------------------------------------------------------------------------
 
 hook.Add("PlayerSpawn", "InformImpair", function(ply)
+    if GAMEMODE.FolderName ~= "terrortown" then return end
+
     local impairDamage = tonumber(ply:GetPData("ImpairNR")) or 0
     if ply:Alive() and impairDamage > 0 then
         local chat_message = ""
