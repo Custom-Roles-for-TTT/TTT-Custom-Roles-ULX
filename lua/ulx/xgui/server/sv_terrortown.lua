@@ -227,6 +227,7 @@ local function init()
         --other role credits are handled in the shop convar section so they can be dynamically created if shop-for-all is enabled
 
         --sprint
+        CreateReplicatedWritableCvar("ttt_sprint_enabled")
         CreateReplicatedWritableCvar("ttt_sprint_bonus_rel")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_innocent")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_traitor")

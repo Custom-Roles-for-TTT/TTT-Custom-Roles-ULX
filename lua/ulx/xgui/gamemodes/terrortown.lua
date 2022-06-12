@@ -1220,14 +1220,17 @@ local function AddPlayerMovementModule()
     local pmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     local pmspp = vgui.Create("DCollapsibleCategory", pmpnl)
-    pmspp:SetSize(390, 100)
+    pmspp:SetSize(390, 120)
     pmspp:SetExpanded(1)
     pmspp:SetLabel("Sprint")
 
     local pmsplst = vgui.Create("DPanelList", pmspp)
     pmsplst:SetPos(5, 25)
-    pmsplst:SetSize(390, 100)
+    pmsplst:SetSize(390, 120)
     pmsplst:SetSpacing(5)
+
+    local pmspe = xlib.makecheckbox { label = "ttt_sprint_enabled  (def. 1)", repconvar = "rep_ttt_sprint_enabled", parent = pmsplst }
+    pmsplst:AddItem(pmspe)
 
     local pmspbr = xlib.makeslider { label = "ttt_sprint_bonus_rel (def. 0.4)", min = 0.1, max = 2, decimal = 1, repconvar = "rep_ttt_sprint_bonus_rel", parent = pmsplst }
     pmsplst:AddItem(pmspbr)
