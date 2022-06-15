@@ -78,6 +78,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_special_detective_chance")
         CreateReplicatedWritableCvar("ttt_independent_chance")
         CreateReplicatedWritableCvar("ttt_jester_chance")
+        CreateReplicatedWritableCvar("ttt_monster_max")
         CreateReplicatedWritableCvar("ttt_monster_pct")
         CreateReplicatedWritableCvar("ttt_monster_chance")
 

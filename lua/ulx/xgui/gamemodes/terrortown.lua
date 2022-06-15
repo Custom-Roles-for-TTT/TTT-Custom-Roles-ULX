@@ -356,14 +356,17 @@ end
 local function AddMonsterSettings(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monclp:SetSize(390, 50 + (70 * #monster_roles))
+    monclp:SetSize(390, 75 + (70 * #monster_roles))
     monclp:SetExpanded(1)
     monclp:SetLabel("Monster Settings")
 
     local monlst = vgui.Create("DPanelList", monclp)
     monlst:SetPos(5, 25)
-    monlst:SetSize(390, 50 + (70 * #monster_roles))
+    monlst:SetSize(390, 75 + (70 * #monster_roles))
     monlst:SetSpacing(5)
+
+    local monmax = xlib.makeslider { label = "ttt_monster_max (def. 1)", min = 0, max = 80, repconvar = "rep_ttt_monster_max", parent = monlst }
+    monlst:AddItem(monmax)
 
     local monpercet = xlib.makeslider { label = "ttt_monster_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_pct", parent = monlst }
     monlst:AddItem(monpercet)
