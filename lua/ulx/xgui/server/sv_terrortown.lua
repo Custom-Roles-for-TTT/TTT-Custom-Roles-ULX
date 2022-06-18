@@ -78,6 +78,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_special_detective_chance")
         CreateReplicatedWritableCvar("ttt_independent_chance")
         CreateReplicatedWritableCvar("ttt_jester_chance")
+        CreateReplicatedWritableCvar("ttt_monster_max")
         CreateReplicatedWritableCvar("ttt_monster_pct")
         CreateReplicatedWritableCvar("ttt_monster_chance")
 
@@ -227,6 +228,7 @@ local function init()
         --other role credits are handled in the shop convar section so they can be dynamically created if shop-for-all is enabled
 
         --sprint
+        CreateReplicatedWritableCvar("ttt_sprint_enabled")
         CreateReplicatedWritableCvar("ttt_sprint_bonus_rel")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_innocent")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_traitor")
