@@ -161,16 +161,16 @@ local function AddRoundStructureModule()
 
     --Round Length
     local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl)
-    rsrlclp:SetSize(390, 90)
+    rsrlclp:SetSize(390, 115)
     rsrlclp:SetExpanded(0)
     rsrlclp:SetLabel("Round Length")
 
     local rsrllst = vgui.Create("DPanelList", rsrlclp)
     rsrllst:SetPos(5, 25)
-    rsrllst:SetSize(390, 90)
+    rsrllst:SetSize(390, 115)
     rsrllst:SetSpacing(5)
 
-    local hstmd = xlib.makecheckbox { label = "ttt_haste", repconvar = "rep_ttt_haste", parent = rsrllst }
+    local hstmd = xlib.makecheckbox { label = "ttt_haste (def. 1)", repconvar = "rep_ttt_haste", parent = rsrllst }
     rsrllst:AddItem(hstmd)
 
     local hstsm = xlib.makeslider { label = "ttt_haste_starting_minutes (def. 5)", min = 1, max = 60, repconvar = "rep_ttt_haste_starting_minutes", parent = rsrllst }
@@ -181,6 +181,9 @@ local function AddRoundStructureModule()
 
     local rtm = xlib.makeslider { label = "ttt_roundtime_minutes (def. 10)", min = 1, max = 60, repconvar = "rep_ttt_roundtime_minutes", parent = rsrllst }
     rsrllst:AddItem(rtm)
+
+    local tlwd = xlib.makecheckbox { label = "ttt_roundtime_win_draw (def. 0)", repconvar = "rep_ttt_roundtime_win_draw", parent = rsrllst }
+    rsrllst:AddItem(tlwd)
 
     --Map Switching and Voting
     local msavclp = vgui.Create("DCollapsibleCategory", rspnl)

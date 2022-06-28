@@ -56,6 +56,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_haste_starting_minutes")
         CreateReplicatedWritableCvar("ttt_haste_minutes_per_death")
         CreateReplicatedWritableCvar("ttt_roundtime_minutes")
+        CreateReplicatedWritableCvar("ttt_roundtime_win_draw")
 
         --map switching and voting
         CreateReplicatedWritableCvar("ttt_round_limit")
