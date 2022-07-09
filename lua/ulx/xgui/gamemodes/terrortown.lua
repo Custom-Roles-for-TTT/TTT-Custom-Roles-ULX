@@ -161,16 +161,16 @@ local function AddRoundStructureModule()
 
     --Round Length
     local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl)
-    rsrlclp:SetSize(390, 90)
+    rsrlclp:SetSize(390, 115)
     rsrlclp:SetExpanded(0)
     rsrlclp:SetLabel("Round Length")
 
     local rsrllst = vgui.Create("DPanelList", rsrlclp)
     rsrllst:SetPos(5, 25)
-    rsrllst:SetSize(390, 90)
+    rsrllst:SetSize(390, 115)
     rsrllst:SetSpacing(5)
 
-    local hstmd = xlib.makecheckbox { label = "ttt_haste", repconvar = "rep_ttt_haste", parent = rsrllst }
+    local hstmd = xlib.makecheckbox { label = "ttt_haste (def. 1)", repconvar = "rep_ttt_haste", parent = rsrllst }
     rsrllst:AddItem(hstmd)
 
     local hstsm = xlib.makeslider { label = "ttt_haste_starting_minutes (def. 5)", min = 1, max = 60, repconvar = "rep_ttt_haste_starting_minutes", parent = rsrllst }
@@ -181,6 +181,9 @@ local function AddRoundStructureModule()
 
     local rtm = xlib.makeslider { label = "ttt_roundtime_minutes (def. 10)", min = 1, max = 60, repconvar = "rep_ttt_roundtime_minutes", parent = rsrllst }
     rsrllst:AddItem(rtm)
+
+    local tlwd = xlib.makecheckbox { label = "ttt_roundtime_win_draw (def. 0)", repconvar = "rep_ttt_roundtime_win_draw", parent = rsrllst }
+    rsrllst:AddItem(tlwd)
 
     --Map Switching and Voting
     local msavclp = vgui.Create("DCollapsibleCategory", rspnl)
@@ -356,14 +359,17 @@ end
 local function AddMonsterSettings(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monclp:SetSize(390, 50 + (70 * #monster_roles))
+    monclp:SetSize(390, 75 + (70 * #monster_roles))
     monclp:SetExpanded(1)
     monclp:SetLabel("Monster Settings")
 
     local monlst = vgui.Create("DPanelList", monclp)
     monlst:SetPos(5, 25)
-    monlst:SetSize(390, 50 + (70 * #monster_roles))
+    monlst:SetSize(390, 75 + (70 * #monster_roles))
     monlst:SetSpacing(5)
+
+    local monmax = xlib.makeslider { label = "ttt_monster_max (def. 1)", min = 0, max = 80, repconvar = "rep_ttt_monster_max", parent = monlst }
+    monlst:AddItem(monmax)
 
     local monpercet = xlib.makeslider { label = "ttt_monster_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_monster_pct", parent = monlst }
     monlst:AddItem(monpercet)
@@ -515,7 +521,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
-    local height = 143 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 168 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -542,6 +548,9 @@ local function AddDetectiveProperties(gppnl)
 
     local dethsm = xlib.makeslider { label = "ttt_detective_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detective_hide_special_mode", parent = detproplst }
     detproplst:AddItem(dethsm)
+
+    local detge = xlib.makecheckbox { label = "ttt_detective_glow_enable (def. 0)", repconvar = "rep_ttt_detective_glow_enable", parent = detproplst }
+    detproplst:AddItem(detge)
 
     local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
     detproplst:AddItem(detsdal)
@@ -1220,14 +1229,17 @@ local function AddPlayerMovementModule()
     local pmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     local pmspp = vgui.Create("DCollapsibleCategory", pmpnl)
-    pmspp:SetSize(390, 100)
+    pmspp:SetSize(390, 120)
     pmspp:SetExpanded(1)
     pmspp:SetLabel("Sprint")
 
     local pmsplst = vgui.Create("DPanelList", pmspp)
     pmsplst:SetPos(5, 25)
-    pmsplst:SetSize(390, 100)
+    pmsplst:SetSize(390, 120)
     pmsplst:SetSpacing(5)
+
+    local pmspe = xlib.makecheckbox { label = "ttt_sprint_enabled  (def. 1)", repconvar = "rep_ttt_sprint_enabled", parent = pmsplst }
+    pmsplst:AddItem(pmspe)
 
     local pmspbr = xlib.makeslider { label = "ttt_sprint_bonus_rel (def. 0.4)", min = 0.1, max = 2, decimal = 1, repconvar = "rep_ttt_sprint_bonus_rel", parent = pmsplst }
     pmsplst:AddItem(pmspbr)
