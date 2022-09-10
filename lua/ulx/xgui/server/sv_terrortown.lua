@@ -271,6 +271,8 @@ local function init()
         CreateReplicatedWritableCvar("ttt_scoreboard_deaths")
         CreateReplicatedWritableCvar("ttt_scoreboard_score")
         CreateReplicatedWritableCvar("ttt_round_summary_tabs")
+        CreateReplicatedWritableCvar("ttt_smokegrenade_extinguish")
+        CreateReplicatedWritableCvar("ttt_player_set_color")
 
         --disable features
         CreateReplicatedWritableCvar("ttt_disable_headshots")
