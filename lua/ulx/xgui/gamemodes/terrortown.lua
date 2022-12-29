@@ -396,7 +396,7 @@ local function AddRoleHealthSettings(gppnl)
         local rolestring = ROLE_STRINGS_RAW[role]
         local convar = "ttt_" .. rolestring .. "_starting_health"
         local default = GetReplicatedConVarDefault(convar, "100")
-        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
         -- Save the control so it can be updated later
@@ -406,7 +406,7 @@ local function AddRoleHealthSettings(gppnl)
 
         convar = "ttt_" .. rolestring .. "_max_health"
         default = GetReplicatedConVarDefault(convar, "100")
-        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
 
         -- Save the control so it can be updated later
