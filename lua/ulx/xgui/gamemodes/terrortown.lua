@@ -1164,14 +1164,17 @@ local function AddEquipmentCreditsModule()
     local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     SortRolesByName(traitor_shops)
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
+    ectcclp:SetSize(390, 170 + (25 * #traitor_shops))
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 145 + (25 * #traitor_shops))
+    ectclst:SetSize(390, 170 + (25 * #traitor_shops))
     ectclst:SetSpacing(5)
+
+    local ectcct = xlib.makeslider { label = "ttt_traitor_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_traitor_credits_timer", parent = ectclst }
+    ectclst:AddItem(ectcct)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
     ectclst:AddItem(ectccs)
@@ -1197,14 +1200,17 @@ local function AddEquipmentCreditsModule()
     local detective_shops = table.IntersectedKeys(DETECTIVE_ROLES, credit_roles, {ROLE_DETECTIVE})
     SortRolesByName(detective_shops)
     local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecdcclp:SetSize(390, 75 + (25 * #detective_shops))
+    ecdcclp:SetSize(390, 100 + (25 * #detective_shops))
     ecdcclp:SetExpanded(0)
     ecdcclp:SetLabel("Detective Credits")
 
     local ecdclst = vgui.Create("DPanelList", ecdcclp)
     ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 75 + (25 * #detective_shops))
+    ecdclst:SetSize(390, 100 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
+
+    local ecdcct = xlib.makeslider { label = "ttt_detective_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detective_credits_timer", parent = ecdclst }
+    ecdclst:AddItem(ecdcct)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
     ecdclst:AddItem(ecdccs)
