@@ -134,6 +134,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_multiple_jesters_independents")
         CreateReplicatedWritableCvar("ttt_jester_independent_pct")
         CreateReplicatedWritableCvar("ttt_jester_independent_max")
+        CreateReplicatedWritableCvar("ttt_jester_independent_chance")
         CreateReplicatedWritableCvar("ttt_single_drunk_clown")
 
         --role properties
