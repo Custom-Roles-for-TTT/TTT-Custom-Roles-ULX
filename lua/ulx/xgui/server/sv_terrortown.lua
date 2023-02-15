@@ -124,14 +124,25 @@ local function init()
         CreateReplicatedWritableCvar("ttt_independents_update_scoreboard")
 
         --other custom role properties
-        CreateReplicatedWritableCvar("ttt_single_deputy_impersonator")
         CreateReplicatedWritableCvar("ttt_deputy_impersonator_promote_any_death")
-        CreateReplicatedWritableCvar("ttt_single_doctor_quack")
-        CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist")
-        CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
         CreateReplicatedWritableCvar("ttt_single_jester_independent")
         CreateReplicatedWritableCvar("ttt_single_jester_independent_max_players")
+        CreateReplicatedWritableCvar("ttt_multiple_jesters_independents")
+        CreateReplicatedWritableCvar("ttt_jester_independent_pct")
+        CreateReplicatedWritableCvar("ttt_jester_independent_max")
+        CreateReplicatedWritableCvar("ttt_jester_independent_chance")
         CreateReplicatedWritableCvar("ttt_single_drunk_clown")
+        CreateReplicatedWritableCvar("ttt_single_drunk_clown_chance")
+        CreateReplicatedWritableCvar("ttt_single_jester_swapper")
+        CreateReplicatedWritableCvar("ttt_single_jester_swapper_chance")
+        CreateReplicatedWritableCvar("ttt_single_deputy_impersonator")
+        CreateReplicatedWritableCvar("ttt_single_deputy_impersonator_chance")
+        CreateReplicatedWritableCvar("ttt_single_doctor_quack")
+        CreateReplicatedWritableCvar("ttt_single_doctor_quack_chance")
+        CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist")
+        CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist_chance")
+        CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
+        CreateReplicatedWritableCvar("ttt_single_phantom_parasite_chance")
 
         --role properties
         for role = 0, ROLE_MAX do
@@ -215,6 +226,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_weapon_spawn_count")
 
         --traitor credits
+        CreateReplicatedWritableCvar("ttt_traitor_credits_timer")
         CreateReplicatedWritableCvar("ttt_credits_starting")
         CreateReplicatedWritableCvar("ttt_credits_alonebonus")
         CreateReplicatedWritableCvar("ttt_credits_award_pct")
@@ -223,6 +235,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_credits_detectivekill")
 
         --detective credits
+        CreateReplicatedWritableCvar("ttt_detective_credits_timer")
         CreateReplicatedWritableCvar("ttt_det_credits_starting")
         CreateReplicatedWritableCvar("ttt_det_credits_traitorkill")
         CreateReplicatedWritableCvar("ttt_det_credits_traitordead")

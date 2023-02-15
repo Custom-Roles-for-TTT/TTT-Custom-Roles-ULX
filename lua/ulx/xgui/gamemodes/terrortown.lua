@@ -319,7 +319,7 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
-    local height = 150 + (70 * #indep_roles) + (70 * #jester_roles)
+    local height = 245 + (70 * #indep_roles) + (70 * #jester_roles)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetSize(390, height)
     indclp:SetExpanded(1)
@@ -338,6 +338,18 @@ local function AddIndependentRoleSettings(gppnl)
 
     local singlejindmp = xlib.makeslider { label = "ttt_single_jester_independent_max_players (def. 0)", min = 0, max = 32, repconvar = "rep_ttt_single_jester_independent_max_players", parent = indlst }
     indlst:AddItem(singlejindmp)
+
+    local multjind = xlib.makecheckbox { label = "ttt_multiple_jesters_independents (def. 0)", repconvar = "rep_ttt_multiple_jesters_independents", parent = indlst }
+    indlst:AddItem(multjind)
+
+    local jindpct = xlib.makeslider { label = "ttt_jester_independent_pct (def. 0.13)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_jester_independent_pct", parent = indlst }
+    indlst:AddItem(jindpct)
+
+    local jindmax = xlib.makeslider { label = "ttt_jester_independent_max (def. 2)", min = 0, max = 16, repconvar = "rep_ttt_jester_independent_max", parent = indlst }
+    indlst:AddItem(jindmax)
+
+    local jindchance = xlib.makeslider { label = "ttt_jester_independent_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_jester_independent_chance", parent = indlst }
+    indlst:AddItem(jindchance)
 
     local indlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Independent settings:", parent = indlst }
     indlst:AddItem(indlbl)
@@ -396,7 +408,7 @@ local function AddRoleHealthSettings(gppnl)
         local rolestring = ROLE_STRINGS_RAW[role]
         local convar = "ttt_" .. rolestring .. "_starting_health"
         local default = GetReplicatedConVarDefault(convar, "100")
-        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(starthealth)
 
         -- Save the control so it can be updated later
@@ -406,7 +418,7 @@ local function AddRoleHealthSettings(gppnl)
 
         convar = "ttt_" .. rolestring .. "_max_health"
         default = GetReplicatedConVarDefault(convar, "100")
-        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = 1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
         rolehealthlst:AddItem(maxhealth)
 
         -- Save the control so it can be updated later
@@ -687,23 +699,44 @@ local function AddCustomRoleProperties(gppnl)
     crproplst:SetSize(390, 120)
     crproplst:SetSpacing(5)
 
+    local depimppadd = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
+    crproplst:AddItem(depimppadd)
+
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
 
-    local depimppadd = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
-    crproplst:AddItem(depimppadd)
+    local singdepimpchance = xlib.makeslider { label = "ttt_single_deputy_impersonator_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_deputy_impersonator_chance", parent = crproplst }
+    crproplst:AddItem(singdepimpchance)
 
     local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
     crproplst:AddItem(singdocqua)
 
+    local singdocquachance = xlib.makeslider { label = "ttt_single_doctor_quackr_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_doctor_quack_chance", parent = crproplst }
+    crproplst:AddItem(singdocquachance)
+
     local singmedhyp = xlib.makecheckbox { label = "ttt_single_paramedic_hypnotist (def. 0)", repconvar = "rep_ttt_single_paramedic_hypnotist", parent = crproplst }
     crproplst:AddItem(singmedhyp)
+
+    local singmedhypchance = xlib.makeslider { label = "ttt_single_paramedic_hypnotist_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_paramedic_hypnotist_chance", parent = crproplst }
+    crproplst:AddItem(singmedhypchance)
 
     local singphapar = xlib.makecheckbox { label = "ttt_single_phantom_parasite (def. 0)", repconvar = "rep_ttt_single_phantom_parasite", parent = crproplst }
     crproplst:AddItem(singphapar)
 
+    local singphaparchance = xlib.makeslider { label = "ttt_single_phantom_parasite_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_phantom_parasite_chance", parent = crproplst }
+    crproplst:AddItem(singphaparchance)
+
     local singdruclo = xlib.makecheckbox { label = "ttt_single_drunk_clown (def. 0)", repconvar = "rep_ttt_single_drunk_clown", parent = crproplst }
     crproplst:AddItem(singdruclo)
+
+    local singdruclochance = xlib.makeslider { label = "ttt_single_drunk_clown_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_drunk_clown_chance", parent = crproplst }
+    crproplst:AddItem(singdruclochance)
+
+    local singjesswa = xlib.makecheckbox { label = "ttt_single_jester_swapper (def. 0)", repconvar = "rep_ttt_single_jester_swapper", parent = crproplst }
+    crproplst:AddItem(singjesswa)
+
+    local singjesswachance = xlib.makeslider { label = "ttt_single_jester_swapper_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_jester_swapper_chance", parent = crproplst }
+    crproplst:AddItem(singjesswachance)
 end
 
 local function AddShopRandomizationSettings(lst, role_list)
@@ -1164,14 +1197,17 @@ local function AddEquipmentCreditsModule()
     local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     SortRolesByName(traitor_shops)
     local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ectcclp:SetSize(390, 145 + (25 * #traitor_shops))
+    ectcclp:SetSize(390, 170 + (25 * #traitor_shops))
     ectcclp:SetExpanded(1)
     ectcclp:SetLabel("Traitor Credits")
 
     local ectclst = vgui.Create("DPanelList", ectcclp)
     ectclst:SetPos(5, 25)
-    ectclst:SetSize(390, 145 + (25 * #traitor_shops))
+    ectclst:SetSize(390, 170 + (25 * #traitor_shops))
     ectclst:SetSpacing(5)
+
+    local ectcct = xlib.makeslider { label = "ttt_traitor_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_traitor_credits_timer", parent = ectclst }
+    ectclst:AddItem(ectcct)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }
     ectclst:AddItem(ectccs)
@@ -1197,14 +1233,17 @@ local function AddEquipmentCreditsModule()
     local detective_shops = table.IntersectedKeys(DETECTIVE_ROLES, credit_roles, {ROLE_DETECTIVE})
     SortRolesByName(detective_shops)
     local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecdcclp:SetSize(390, 75 + (25 * #detective_shops))
+    ecdcclp:SetSize(390, 100 + (25 * #detective_shops))
     ecdcclp:SetExpanded(0)
     ecdcclp:SetLabel("Detective Credits")
 
     local ecdclst = vgui.Create("DPanelList", ecdcclp)
     ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 75 + (25 * #detective_shops))
+    ecdclst:SetSize(390, 100 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
+
+    local ecdcct = xlib.makeslider { label = "ttt_detective_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detective_credits_timer", parent = ecdclst }
+    ecdclst:AddItem(ecdcct)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
     ecdclst:AddItem(ecdccs)
