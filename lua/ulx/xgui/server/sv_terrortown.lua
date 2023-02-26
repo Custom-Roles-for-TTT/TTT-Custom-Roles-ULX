@@ -125,6 +125,7 @@ local function init()
 
         --other custom role properties
         CreateReplicatedWritableCvar("ttt_deputy_impersonator_promote_any_death")
+        CreateReplicatedWritableCvar("ttt_deputy_impersonator_start_promoted")
         CreateReplicatedWritableCvar("ttt_single_jester_independent")
         CreateReplicatedWritableCvar("ttt_single_jester_independent_max_players")
         CreateReplicatedWritableCvar("ttt_multiple_jesters_independents")
