@@ -690,17 +690,20 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 120)
+    crpropclp:SetSize(390, 310)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 120)
+    crproplst:SetSize(390, 310)
     crproplst:SetSpacing(5)
 
-    local depimppadd = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
-    crproplst:AddItem(depimppadd)
+    local depimppad = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
+    crproplst:AddItem(depimppad)
+
+    local depimpsp = xlib.makecheckbox { label = "ttt_deputy_impersonator_start_promoted (def. 0)", repconvar = "rep_ttt_deputy_impersonator_start_promoted", parent = crproplst }
+    crproplst:AddItem(depimpsp)
 
     local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
     crproplst:AddItem(singdepimp)
