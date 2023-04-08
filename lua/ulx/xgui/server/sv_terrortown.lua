@@ -182,6 +182,7 @@ local function init()
         --dna
         CreateReplicatedWritableCvar("ttt_killer_dna_range")
         CreateReplicatedWritableCvar("ttt_killer_dna_basetime")
+        CreateReplicatedWritableCvar("ttt_dna_scan_on_dialog")
 
         --voicechat battery
         CreateReplicatedWritableCvar("ttt_voice_drain")

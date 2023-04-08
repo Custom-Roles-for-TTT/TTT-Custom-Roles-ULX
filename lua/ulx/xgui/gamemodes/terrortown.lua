@@ -954,13 +954,13 @@ end
 
 local function AddDna(gppnl)
     local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpdnaclp:SetSize(390, 50)
+    gpdnaclp:SetSize(390, 70)
     gpdnaclp:SetExpanded(0)
     gpdnaclp:SetLabel("DNA")
 
     local gpdnalst = vgui.Create("DPanelList", gpdnaclp)
     gpdnalst:SetPos(5, 25)
-    gpdnalst:SetSize(390, 50)
+    gpdnalst:SetSize(390, 70)
     gpdnalst:SetSpacing(5)
 
     local dnarange = xlib.makeslider { label = "ttt_killer_dna_range (def. 550)", min = 100, max = 1000, repconvar = "rep_ttt_killer_dna_range", parent = gpdnalst }
@@ -968,6 +968,9 @@ local function AddDna(gppnl)
 
     local dnakbt = xlib.makeslider { label = "ttt_killer_dna_basetime (def. 100)", min = 10, max = 200, repconvar = "rep_ttt_killer_dna_basetime", parent = gpdnalst }
     gpdnalst:AddItem(dnakbt)
+
+    local dnasid = xlib.makecheckbox { label = "ttt_dna_scan_on_dialog (def. 1)", repconvar = "rep_ttt_dna_scan_on_dialog", parent = gpdnalst }
+    gpdnalst:AddItem(dnasid)
 end
 
 local function AddVoiceChat(gppnl)
