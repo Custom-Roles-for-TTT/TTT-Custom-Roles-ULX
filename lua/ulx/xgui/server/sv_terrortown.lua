@@ -99,16 +99,16 @@ local function init()
         end
 
         --traitor properties
-        CreateReplicatedWritableCvar("ttt_traitor_vision_enable")
+        CreateReplicatedWritableCvar("ttt_traitors_vision_enable")
 
         --detective properties
-        CreateReplicatedWritableCvar("ttt_detective_search_only")
+        CreateReplicatedWritableCvar("ttt_detectives_search_only")
         for _, dataType in ipairs(CORPSE_ICON_TYPES) do
-            CreateReplicatedWritableCvar("ttt_detective_search_only_" .. dataType)
+            CreateReplicatedWritableCvar("ttt_detectives_search_only_" .. dataType)
         end
-        CreateReplicatedWritableCvar("ttt_detective_disable_looting")
-        CreateReplicatedWritableCvar("ttt_detective_hide_special_mode")
-        CreateReplicatedWritableCvar("ttt_detective_glow_enable")
+        CreateReplicatedWritableCvar("ttt_detectives_disable_looting")
+        CreateReplicatedWritableCvar("ttt_detectives_hide_special_mode")
+        CreateReplicatedWritableCvar("ttt_detectives_glow_enable")
         CreateReplicatedWritableCvar("ttt_special_detectives_armor_loadout")
         CreateReplicatedWritableCvar("ttt_all_search_postround")
         CreateReplicatedWritableCvar("ttt_all_search_binoc")
