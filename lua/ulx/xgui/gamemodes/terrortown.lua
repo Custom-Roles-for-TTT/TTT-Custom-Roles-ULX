@@ -99,7 +99,7 @@ local function GetReplicatedConVarMax(name, max)
 end
 
 local function GetShopRoles()
-    if not GetGlobalBool("ttt_shop_for_all", false) then
+    if not GetConVar("ttt_shop_for_all"):GetBool() then
         return SHOP_ROLES
     end
 
