@@ -117,11 +117,9 @@ local function init()
         CreateReplicatedWritableCvar("ttt_jesters_trigger_traitor_testers")
         CreateReplicatedWritableCvar("ttt_jesters_visible_to_traitors")
         CreateReplicatedWritableCvar("ttt_jesters_visible_to_monsters")
-        CreateReplicatedWritableCvar("ttt_jesters_visible_to_independents")
 
         --independent properties
         CreateReplicatedWritableCvar("ttt_independents_trigger_traitor_testers")
-        CreateReplicatedWritableCvar("ttt_independents_update_scoreboard")
 
         --other custom role properties
         CreateReplicatedWritableCvar("ttt_deputy_impersonator_promote_any_death")

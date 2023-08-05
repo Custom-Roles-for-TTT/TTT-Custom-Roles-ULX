@@ -604,7 +604,7 @@ end
 local function AddJesterRoleProperties(gppnl)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(jester_roles)
-    local height = 98 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 78 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -627,9 +627,6 @@ local function AddJesterRoleProperties(gppnl)
     local jesvtm = xlib.makecheckbox { label = "ttt_jesters_visible_to_monsters (def. 1)", repconvar = "rep_ttt_jesters_visible_to_monsters", parent = jesproplst }
     jesproplst:AddItem(jesvtm)
 
-    local jesvti = xlib.makecheckbox { label = "ttt_jesters_visible_to_independents (def. 1)", repconvar = "rep_ttt_jesters_visible_to_independents", parent = jesproplst }
-    jesproplst:AddItem(jesvti)
-
     for _, r in ipairs(jester_roles) do
         if role_cvars[r] then
             AddRoleProperties(r, role_cvars[r], jesproplst)
@@ -640,7 +637,7 @@ end
 local function AddIndependentRoleProperties(gppnl)
     local independent_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
     local role_cvars, num_count, bool_count, text_count = GetRoleConVars(independent_roles)
-    local height = 58 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -656,9 +653,6 @@ local function AddIndependentRoleProperties(gppnl)
 
     local indtes = xlib.makecheckbox { label = "ttt_independents_trigger_traitor_testers (def. 0)", repconvar = "rep_ttt_independents_trigger_traitor_testers", parent = indproplst }
     indproplst:AddItem(indtes)
-
-    local indmia = xlib.makecheckbox { label = "ttt_independents_update_scoreboard (def. 0)", repconvar = "rep_ttt_independents_update_scoreboard", parent = indproplst }
-    indproplst:AddItem(indmia)
 
     for _, r in ipairs(independent_roles) do
         if role_cvars[r] then
