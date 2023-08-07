@@ -747,10 +747,14 @@ local function AddShopRandomizationSettings(lst, role_list)
     end
 end
 
+local function HasShopSync(role)
+    return (TRAITOR_ROLES[role] and role ~= ROLE_TRAITOR) or (DETECTIVE_ROLES[role] and role ~= ROLE_DETECTIVE) or ROLE_HAS_SHOP_SYNC[role]
+end
+
 local function GetShopSyncCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        if (TRAITOR_ROLES[r] and r ~= ROLE_TRAITOR) or (DETECTIVE_ROLES[r] and r ~= ROLE_DETECTIVE) or r == ROLE_ZOMBIE then
+        if HasShopSync(r) then
             table.insert(cvar_list, "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_sync")
         end
     end
@@ -773,7 +777,8 @@ end
 local function GetShopModeCvars(role_list)
     local cvar_list = {}
     for _, r in pairs(role_list) do
-        if (INDEPENDENT_ROLES[r] and r ~= ROLE_ZOMBIE) or DELAYED_SHOP_ROLES[r] or r == ROLE_MERCENARY then
+        -- Roles don't get both sync and mode
+        if (INDEPENDENT_ROLES[r] or DELAYED_SHOP_ROLES[r] or ROLE_HAS_SHOP_MODE[r]) and not HasShopSync(r) then
             table.insert(cvar_list,  "ttt_" .. ROLE_STRINGS_RAW[r] .. "_shop_mode")
         end
     end
