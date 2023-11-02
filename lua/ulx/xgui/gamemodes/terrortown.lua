@@ -1211,7 +1211,7 @@ local function AddEquipmentCreditsModule()
     ectclst:SetSize(390, 170 + (25 * #traitor_shops))
     ectclst:SetSpacing(5)
 
-    local ectcct = xlib.makeslider { label = "ttt_traitor_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_traitor_credits_timer", parent = ectclst }
+    local ectcct = xlib.makeslider { label = "ttt_traitors_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_traitors_credits_timer", parent = ectclst }
     ectclst:AddItem(ectcct)
 
     local ectccs = xlib.makeslider { label = "ttt_credits_starting (def. 2)", min = 0, max = 10, repconvar = "rep_ttt_credits_starting", parent = ectclst }

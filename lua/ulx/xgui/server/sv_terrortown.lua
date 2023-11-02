@@ -226,7 +226,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_weapon_spawn_count")
 
         --traitor credits
-        CreateReplicatedWritableCvar("ttt_traitor_credits_timer")
+        CreateReplicatedWritableCvar("ttt_traitors_credits_timer")
         CreateReplicatedWritableCvar("ttt_credits_starting")
         CreateReplicatedWritableCvar("ttt_credits_alonebonus")
         CreateReplicatedWritableCvar("ttt_credits_award_pct")
