@@ -520,7 +520,7 @@ local function AddTraitorProperties(gppnl)
     local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = traproplst }
     traproplst:AddItem(tralbl)
 
-    local travis = xlib.makecheckbox { label = "ttt_traitor_vision_enable (def. 0)", repconvar = "rep_ttt_traitor_vision_enable", parent = traproplst }
+    local travis = xlib.makecheckbox { label = "ttt_traitors_vision_enabled (def. 0)", repconvar = "rep_ttt_traitors_vision_enabled", parent = traproplst }
     traproplst:AddItem(travis)
 
     for _, r in ipairs(traitor_roles) do
@@ -547,21 +547,21 @@ local function AddDetectiveProperties(gppnl)
     local detlbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Shared settings:", parent = detproplst }
     detproplst:AddItem(detlbl)
 
-    local detsch = xlib.makecheckbox { label = "ttt_detective_search_only (def. 1)", repconvar = "rep_ttt_detective_search_only", parent = detproplst }
+    local detsch = xlib.makecheckbox { label = "ttt_detectives_search_only (def. 1)", repconvar = "rep_ttt_detectives_search_only", parent = detproplst }
     detproplst:AddItem(detsch)
 
     for _, dataType in ipairs(CORPSE_ICON_TYPES) do
-        local detschtype = xlib.makecheckbox { label = "ttt_detective_search_only_" .. dataType .. " (def. 0)", repconvar = "rep_ttt_detective_search_only_" .. dataType, parent = detproplst }
+        local detschtype = xlib.makecheckbox { label = "ttt_detectives_search_only_" .. dataType .. " (def. 0)", repconvar = "rep_ttt_detectives_search_only_" .. dataType, parent = detproplst }
         detproplst:AddItem(detschtype)
     end
 
-    local detdlo = xlib.makecheckbox { label = "ttt_detective_disable_looting (def. 0)", repconvar = "rep_ttt_detective_disable_looting", parent = detproplst }
+    local detdlo = xlib.makecheckbox { label = "ttt_detectives_disable_looting (def. 0)", repconvar = "rep_ttt_detectives_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
 
-    local dethsm = xlib.makeslider { label = "ttt_detective_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detective_hide_special_mode", parent = detproplst }
+    local dethsm = xlib.makeslider { label = "ttt_detectives_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detectives_hide_special_mode", parent = detproplst }
     detproplst:AddItem(dethsm)
 
-    local detge = xlib.makecheckbox { label = "ttt_detective_glow_enable (def. 0)", repconvar = "rep_ttt_detective_glow_enable", parent = detproplst }
+    local detge = xlib.makecheckbox { label = "ttt_detectives_glow_enabled (def. 0)", repconvar = "rep_ttt_detectives_glow_enabled", parent = detproplst }
     detproplst:AddItem(detge)
 
     local detsdal = xlib.makecheckbox { label = "ttt_special_detectives_armor_loadout (def. 1)", repconvar = "rep_ttt_special_detectives_armor_loadout", parent = detproplst }
@@ -1035,7 +1035,7 @@ local function AddOtherGameplay(gppnl)
     local gprdpi = xlib.makecheckbox { label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpogslst }
     gpogslst:AddItem(gprdpi)
 
-    local gprdne = xlib.makecheckbox { label = "ttt_death_notifier_enable (def. 1)", repconvar = "rep_ttt_death_notifier_enable", parent = gpogslst }
+    local gprdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
     gpogslst:AddItem(gprdne)
 end
 
@@ -1247,7 +1247,7 @@ local function AddEquipmentCreditsModule()
     ecdclst:SetSize(390, 100 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
 
-    local ecdcct = xlib.makeslider { label = "ttt_detective_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detective_credits_timer", parent = ecdclst }
+    local ecdcct = xlib.makeslider { label = "ttt_detectives_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detectives_credits_timer", parent = ecdclst }
     ecdclst:AddItem(ecdcct)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
