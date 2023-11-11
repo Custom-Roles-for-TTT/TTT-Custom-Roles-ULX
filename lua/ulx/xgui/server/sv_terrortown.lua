@@ -99,7 +99,7 @@ local function init()
         end
 
         --traitor properties
-        CreateReplicatedWritableCvar("ttt_traitors_vision_enable")
+        CreateReplicatedWritableCvar("ttt_traitors_vision_enabled")
 
         --detective properties
         CreateReplicatedWritableCvar("ttt_detectives_search_only")
@@ -108,7 +108,7 @@ local function init()
         end
         CreateReplicatedWritableCvar("ttt_detectives_disable_looting")
         CreateReplicatedWritableCvar("ttt_detectives_hide_special_mode")
-        CreateReplicatedWritableCvar("ttt_detectives_glow_enable")
+        CreateReplicatedWritableCvar("ttt_detectives_glow_enabled")
         CreateReplicatedWritableCvar("ttt_special_detectives_armor_loadout")
         CreateReplicatedWritableCvar("ttt_all_search_postround")
         CreateReplicatedWritableCvar("ttt_all_search_binoc")
@@ -198,7 +198,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_teleport_telefrags")
         CreateReplicatedWritableCvar("ttt_ragdoll_pinning")
         CreateReplicatedWritableCvar("ttt_ragdoll_pinning_innocents")
-        CreateReplicatedWritableCvar("ttt_death_notifier_enable")
+        CreateReplicatedWritableCvar("ttt_death_notifier_enabled")
 
         --karma
         CreateReplicatedWritableCvar("ttt_karma")
@@ -226,7 +226,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_weapon_spawn_count")
 
         --traitor credits
-        CreateReplicatedWritableCvar("ttt_traitor_credits_timer")
+        CreateReplicatedWritableCvar("ttt_traitors_credits_timer")
         CreateReplicatedWritableCvar("ttt_credits_starting")
         CreateReplicatedWritableCvar("ttt_credits_alonebonus")
         CreateReplicatedWritableCvar("ttt_credits_award_pct")
