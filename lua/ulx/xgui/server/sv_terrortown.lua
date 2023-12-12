@@ -200,6 +200,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_ragdoll_pinning_innocents")
         CreateReplicatedWritableCvar("ttt_death_notifier_enabled")
         CreateReplicatedWritableCvar("ttt_spectator_corpse_search")
+        CreateReplicatedWritableCvar("ttt_corpse_search_not_shared")
 
         --karma
         CreateReplicatedWritableCvar("ttt_karma")

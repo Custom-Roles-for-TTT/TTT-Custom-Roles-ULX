@@ -1374,7 +1374,7 @@ local function AddMiscModule()
 
     local bemlst = vgui.Create("DPanelList", bempnl)
     bemlst:SetPos(5, 25)
-    bemlst:SetSize(390, 100)
+    bemlst:SetSize(390, 95)
     bemlst:SetSpacing(5)
 
     local bemac = xlib.makecheckbox { label = "ttt_bem_allow_change (def. 1)", repconvar = "rep_ttt_bem_allow_change", parent = bemlst }
@@ -1396,7 +1396,7 @@ local function AddMiscModule()
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 395)
+    misclst:SetSize(390, 415)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -1454,6 +1454,9 @@ local function AddMiscModule()
 
     local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
     misclst:AddItem(miscscs)
+
+    local misccsns = xlib.makecheckbox { label = "ttt_corpse_search_not_shared (def. 0)", repconvar = "rep_ttt_corpse_search_not_shared", parent = misclst }
+    misclst:AddItem(misccsns)
 
     --Disable Features
     local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)
