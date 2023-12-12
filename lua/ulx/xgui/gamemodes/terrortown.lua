@@ -1396,7 +1396,7 @@ local function AddMiscModule()
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 375)
+    misclst:SetSize(390, 395)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -1451,6 +1451,9 @@ local function AddMiscModule()
 
     local miscplc = xlib.makecheckbox { label = "ttt_player_set_color (def. 1)", repconvar = "rep_ttt_player_set_color", parent = misclst }
     misclst:AddItem(miscplc)
+
+    local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
+    misclst:AddItem(miscscs)
 
     --Disable Features
     local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)
