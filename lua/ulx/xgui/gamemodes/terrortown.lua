@@ -475,7 +475,7 @@ local function AddRoleProperties(role, role_cvars, list)
             local default = GetReplicatedConVarDefault(name, "0")
             local combolabel = xlib.makelabel { label = name .. " (def. " .. default .. ")", parent = list }
             list:AddItem(combolabel)
-            local combobox = xlib.makecombobox { repconvar = "rep_" .. name, isNumberConvar = false, choices = c.choices , parent = list }
+            local combobox = xlib.makecombobox { repconvar = "rep_" .. name, isNumberConvar = c.isNumeric, numOffset = c.numericOffset, choices = c.choices , parent = list }
             list:AddItem(combobox)
 
             -- Save the text label so the default value can be updated later
