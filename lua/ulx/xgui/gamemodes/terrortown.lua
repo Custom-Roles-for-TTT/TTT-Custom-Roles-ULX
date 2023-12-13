@@ -430,7 +430,7 @@ end
 
 local function GetRoleConVars(team_list)
     local role_cvars = {}
-    local num_count, bool_count, text_count = 0, 0, 0
+    local num_count, bool_count, text_count, dropdown_count = 0, 0, 0, 0
     for _, r in ipairs(team_list) do
         if ROLE_CONVARS[r] then
             local valid_convars = {}
@@ -444,6 +444,9 @@ local function GetRoleConVars(team_list)
                 elseif cvar.type == ROLE_CONVAR_TYPE_TEXT then
                     text_count = text_count + 1
                     table.insert(valid_convars, cvar)
+                elseif cvar.type == ROLE_CONVAR_TYPE_DROPDOWN then
+                    dropdown_count = dropdown_count + 1
+                    table.insert(valid_convars, cvar)
                 else
                     ErrorNoHalt("WARNING: Role (" .. r .. ") tried to register a convar with an unknown type: " .. tostring(cvar.type))
                 end
@@ -453,7 +456,7 @@ local function GetRoleConVars(team_list)
             role_cvars[r] = valid_convars
         end
     end
-    return role_cvars, num_count, bool_count, text_count
+    return role_cvars, num_count, bool_count, text_count, dropdown_count
 end
 
 local function AddRoleProperties(role, role_cvars, list)
@@ -468,6 +471,17 @@ local function AddRoleProperties(role, role_cvars, list)
             list:AddItem(textlabel)
             local textbox = xlib.maketextbox { repconvar = "rep_" .. name, enableinput = true, parent = list }
             list:AddItem(textbox)
+        elseif c.type == ROLE_CONVAR_TYPE_DROPDOWN then
+            local default = GetReplicatedConVarDefault(name, "0")
+            local combolabel = xlib.makelabel { label = name .. " (def. " .. default .. ")", parent = list }
+            list:AddItem(combolabel)
+            local combobox = xlib.makecombobox { repconvar = "rep_" .. name, isNumberConvar = false, choices = c.choices , parent = list }
+            list:AddItem(combobox)
+
+            -- Save the text label so the default value can be updated later
+            if missing_cvars[name] then
+                missing_cvars[name] = combolabel
+            end
         else
             local default = GetReplicatedConVarDefault(name, "0")
             local control
@@ -491,7 +505,7 @@ local function AddRoleProperties(role, role_cvars, list)
     end
 end
 
-local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local roles_with_cvars = table.Count(role_cvars)
     -- Labels
     return (roles_with_cvars * 18) +
@@ -500,13 +514,15 @@ local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_coun
             -- Checkboxes
             (bool_count * 20) +
             -- Textboxes
-            (text_count * 43)
+            (text_count * 43) +
+            -- Dropdowns
+            (dropdown_count * 43)
 end
 
 local function AddTraitorProperties(gppnl)
     local traitor_roles = GetSortedTeamRoles(TRAITOR_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(traitor_roles)
-    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(traitor_roles)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -532,8 +548,8 @@ end
 
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
-    local height = 168 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(detective_roles)
+    local height = 168 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -582,8 +598,8 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innocent_roles = GetSortedTeamRoles(INNOCENT_ROLES, DETECTIVE_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(innocent_roles)
-    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(innocent_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -603,8 +619,8 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(jester_roles)
-    local height = 78 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(jester_roles)
+    local height = 78 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -636,8 +652,8 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local independent_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(independent_roles)
-    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(independent_roles)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -663,8 +679,8 @@ end
 
 local function AddMonsterRoleProperties(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(monster_roles)
-    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(monster_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     monpropclp:SetSize(390, height)
     monpropclp:SetExpanded(1)
@@ -1040,7 +1056,7 @@ local function AddOtherGameplay(gppnl)
 
     local gpcmolbl = xlib.makelabel { label = "ttt_color_mode_override (def. none)", parent = gpogslst }
     gpogslst:AddItem(gpcmolbl)
-    local gpcmotb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar=false, choices={ "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
+    local gpcmotb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
     gpogslst:AddItem(gpcmotb)
 end
 
