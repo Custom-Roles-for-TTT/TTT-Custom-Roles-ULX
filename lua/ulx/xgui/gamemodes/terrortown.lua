@@ -999,13 +999,13 @@ end
 local function AddOtherGameplay(gppnl)
     --Other Gameplay Settings
     local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpogsclp:SetSize(390, 263)
+    gpogsclp:SetSize(390, 250)
     gpogsclp:SetExpanded(0)
     gpogsclp:SetLabel("Other Gameplay Settings")
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 263)
+    gpogslst:SetSize(390, 250)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
@@ -1040,7 +1040,7 @@ local function AddOtherGameplay(gppnl)
 
     local gpcmolbl = xlib.makelabel { label = "ttt_color_mode_override (def. none)", parent = gpogslst }
     gpogslst:AddItem(gpcmolbl)
-    local gpcmotb = xlib.maketextbox { repconvar = "rep_ttt_color_mode_override", enableinput = true, parent = gpogslst }
+    local gpcmotb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar=false, choices={ "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
     gpogslst:AddItem(gpcmotb)
 end
 
