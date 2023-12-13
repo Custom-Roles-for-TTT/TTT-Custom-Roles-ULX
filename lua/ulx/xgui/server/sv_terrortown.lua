@@ -201,6 +201,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_death_notifier_enabled")
         CreateReplicatedWritableCvar("ttt_spectator_corpse_search")
         CreateReplicatedWritableCvar("ttt_corpse_search_not_shared")
+        CreateReplicatedWritableCvar("ttt_color_mode_override")
 
         --karma
         CreateReplicatedWritableCvar("ttt_karma")

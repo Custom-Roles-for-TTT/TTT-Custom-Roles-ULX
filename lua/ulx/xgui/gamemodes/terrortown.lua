@@ -999,13 +999,13 @@ end
 local function AddOtherGameplay(gppnl)
     --Other Gameplay Settings
     local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpogsclp:SetSize(390, 220)
+    gpogsclp:SetSize(390, 263)
     gpogsclp:SetExpanded(0)
     gpogsclp:SetLabel("Other Gameplay Settings")
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 220)
+    gpogslst:SetSize(390, 263)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
@@ -1035,8 +1035,13 @@ local function AddOtherGameplay(gppnl)
     local gprdpi = xlib.makecheckbox { label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpogslst }
     gpogslst:AddItem(gprdpi)
 
-    local gprdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
-    gpogslst:AddItem(gprdne)
+    local gpdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
+    gpogslst:AddItem(gpdne)
+
+    local gpcmolbl = xlib.makelabel { label = "ttt_color_mode_override (def. none)", parent = gpogslst }
+    gpogslst:AddItem(gpcmolbl)
+    local gpcmotb = xlib.maketextbox { repconvar = "rep_ttt_color_mode_override", enableinput = true, parent = gpogslst }
+    gpogslst:AddItem(gpcmotb)
 end
 
 local function AddGameplayModule()
