@@ -1005,7 +1005,7 @@ local function AddOtherGameplay(gppnl)
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 220)
+    gpogslst:SetSize(390, 240)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
@@ -1037,6 +1037,9 @@ local function AddOtherGameplay(gppnl)
 
     local gprdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
     gpogslst:AddItem(gprdne)
+
+    local gprcmo = xlib.makecheckbox { label = "ttt_color_mode_override (def. none)", repconvar = "rep_ttt_color_mode_override", parent = gpogslst }
+    gpogslst:AddItem(gprcmo)
 end
 
 local function AddGameplayModule()
