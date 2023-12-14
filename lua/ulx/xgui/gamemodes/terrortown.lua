@@ -549,7 +549,7 @@ end
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
     local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(detective_roles)
-    local height = 168 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
+    local height = 186 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -574,8 +574,10 @@ local function AddDetectiveProperties(gppnl)
     local detdlo = xlib.makecheckbox { label = "ttt_detectives_disable_looting (def. 0)", repconvar = "rep_ttt_detectives_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
 
-    local dethsm = xlib.makeslider { label = "ttt_detectives_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detectives_hide_special_mode", parent = detproplst }
-    detproplst:AddItem(dethsm)
+    local dethsmlbl = xlib.makelabel { label = "ttt_detectives_hide_special_mode (def. 0)", parent = detproplst }
+    detproplst:AddItem(dethsmlbl)
+    local dethsmcb = xlib.makecombobox { repconvar = "rep_ttt_detectives_hide_special_mode", isNumberConvar = true, choices = { "Show role to everyone", "Show ? icon to everyone", "Show ? icon to everyone but player" }, parent = detproplst }
+    detproplst:AddItem(dethsmcb)
 
     local detge = xlib.makecheckbox { label = "ttt_detectives_glow_enabled (def. 0)", repconvar = "rep_ttt_detectives_glow_enabled", parent = detproplst }
     detproplst:AddItem(detge)
@@ -804,12 +806,14 @@ end
 local function AddShopModeSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
         local default = GetReplicatedConVarDefault(c, "0")
-        local mode = xlib.makeslider { label = c .. " (def. " .. default .. ")", min = 0, max = 4, repconvar = "rep_".. c, parent = lst }
-        lst:AddItem(mode)
+        local modelbl = xlib.makelabel { label = c .. " (def. " .. default .. ")", parent = lst }
+        lst:AddItem(modelbl)
+        local modecb = xlib.makecombobox { repconvar = "rep_" .. c, isNumberConvar = true, choices = { "Disable", "Union of Detective and Traitor", "Intersect of Detective and Traitor", "Detective", "Traitor" }, parent = lst }
+        lst:AddItem(modecb)
 
-        -- Save the control so it can be updated later
+        -- Save the label so the default can be updated later
         if missing_cvars[c] then
-            missing_cvars[c] = mode
+            missing_cvars[c] = modelbl
         end
     end
 end
@@ -892,11 +896,11 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
-                        (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
-                        (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
-                        (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
-                        (45 * #monster_shops) + (20 * #monster_syncs) + (25 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
+    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+                        (45 * #inno_shops) + (20 * #inno_syncs) + (43 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
+                        (45 * #indep_shops) + (20 * #indep_syncs) + (43 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
+                        (45 * #jester_shops) + (20 * #jester_syncs) + (43 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
+                        (45 * #monster_shops) + (20 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetSize(390, height)
     rspnl:SetExpanded(0)
@@ -1056,8 +1060,8 @@ local function AddOtherGameplay(gppnl)
 
     local gpcmolbl = xlib.makelabel { label = "ttt_color_mode_override (def. none)", parent = gpogslst }
     gpogslst:AddItem(gpcmolbl)
-    local gpcmotb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
-    gpogslst:AddItem(gpcmotb)
+    local gpcmocb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
+    gpogslst:AddItem(gpcmocb)
 end
 
 local function AddGameplayModule()
@@ -1411,20 +1415,22 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 375)
+    miscclp:SetSize(390, 438)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 415)
+    misclst:SetSize(390, 438)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
     misclst:AddItem(miscdh)
 
-    local miscpcm = xlib.makeslider { label = "ttt_playercolor_mode (def. 1)", min = 0, max = 3, repconvar = "rep_ttt_playercolor_mode", parent = misclst }
-    misclst:AddItem(miscpcm)
+    local miscpcmlbl = xlib.makelabel { label = "ttt_playercolor_mode (def. 1)", parent = misclst }
+    misclst:AddItem(miscpcmlbl)
+    local miscpcmcb = xlib.makecombobox { repconvar = "rep_ttt_playercolor_mode", isNumberConvar = true, choices = {"None", "Serious", "All", "Random"}, parent = misclst }
+    misclst:AddItem(miscpcmcb)
 
     local miscrc = xlib.makecheckbox { label = "ttt_ragdoll_collide (def. 0)", repconvar = "rep_ttt_ragdoll_collide", parent = misclst }
     misclst:AddItem(miscrc)
