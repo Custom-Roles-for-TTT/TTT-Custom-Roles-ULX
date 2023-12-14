@@ -1263,17 +1263,26 @@ local function AddEquipmentCreditsModule()
     local detective_shops = table.IntersectedKeys(DETECTIVE_ROLES, credit_roles, {ROLE_DETECTIVE})
     SortRolesByName(detective_shops)
     local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecdcclp:SetSize(390, 100 + (25 * #detective_shops))
+    ecdcclp:SetSize(390, 170 + (25 * #detective_shops))
     ecdcclp:SetExpanded(0)
     ecdcclp:SetLabel("Detective Credits")
 
     local ecdclst = vgui.Create("DPanelList", ecdcclp)
     ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 100 + (25 * #detective_shops))
+    ecdclst:SetSize(390, 170 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
 
     local ecdcct = xlib.makeslider { label = "ttt_detectives_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detectives_credits_timer", parent = ecdclst }
     ecdclst:AddItem(ecdcct)
+
+    local ecdcsc = xlib.makeslider { label = "ttt_detectives_search_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_detectives_search_credits", parent = ecdclst }
+    ecdclst:AddItem(ecdcsc)
+
+    local ecdcscf = xlib.makecheckbox { label = "ttt_detectives_search_credits_friendly (def. 0)", repconvar = "rep_ttt_detectives_search_credits_friendly", parent = ecdclst }
+    ecdclst:AddItem(ecdcscf)
+
+    local ecdcscs = xlib.makecheckbox { label = "ttt_detectives_search_credits_share (def. 0)", repconvar = "rep_ttt_detectives_search_credits_share", parent = ecdclst }
+    ecdclst:AddItem(ecdcscs)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
     ecdclst:AddItem(ecdccs)

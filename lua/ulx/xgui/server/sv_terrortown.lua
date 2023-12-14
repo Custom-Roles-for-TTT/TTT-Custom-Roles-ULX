@@ -239,6 +239,9 @@ local function init()
 
         --detective credits
         CreateReplicatedWritableCvar("ttt_detectives_credits_timer")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits_friendly")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits_share")
         CreateReplicatedWritableCvar("ttt_det_credits_starting")
         CreateReplicatedWritableCvar("ttt_det_credits_traitorkill")
         CreateReplicatedWritableCvar("ttt_det_credits_traitordead")
