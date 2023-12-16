@@ -430,7 +430,7 @@ end
 
 local function GetRoleConVars(team_list)
     local role_cvars = {}
-    local num_count, bool_count, text_count = 0, 0, 0
+    local num_count, bool_count, text_count, dropdown_count = 0, 0, 0, 0
     for _, r in ipairs(team_list) do
         if ROLE_CONVARS[r] then
             local valid_convars = {}
@@ -444,6 +444,9 @@ local function GetRoleConVars(team_list)
                 elseif cvar.type == ROLE_CONVAR_TYPE_TEXT then
                     text_count = text_count + 1
                     table.insert(valid_convars, cvar)
+                elseif cvar.type == ROLE_CONVAR_TYPE_DROPDOWN then
+                    dropdown_count = dropdown_count + 1
+                    table.insert(valid_convars, cvar)
                 else
                     ErrorNoHalt("WARNING: Role (" .. r .. ") tried to register a convar with an unknown type: " .. tostring(cvar.type))
                 end
@@ -453,7 +456,7 @@ local function GetRoleConVars(team_list)
             role_cvars[r] = valid_convars
         end
     end
-    return role_cvars, num_count, bool_count, text_count
+    return role_cvars, num_count, bool_count, text_count, dropdown_count
 end
 
 local function AddRoleProperties(role, role_cvars, list)
@@ -468,6 +471,17 @@ local function AddRoleProperties(role, role_cvars, list)
             list:AddItem(textlabel)
             local textbox = xlib.maketextbox { repconvar = "rep_" .. name, enableinput = true, parent = list }
             list:AddItem(textbox)
+        elseif c.type == ROLE_CONVAR_TYPE_DROPDOWN then
+            local default = GetReplicatedConVarDefault(name, "0")
+            local combolabel = xlib.makelabel { label = name .. " (def. " .. default .. ")", parent = list }
+            list:AddItem(combolabel)
+            local combobox = xlib.makecombobox { repconvar = "rep_" .. name, isNumberConvar = c.isNumeric, numOffset = c.numericOffset, choices = c.choices , parent = list }
+            list:AddItem(combobox)
+
+            -- Save the text label so the default value can be updated later
+            if missing_cvars[name] then
+                missing_cvars[name] = combolabel
+            end
         else
             local default = GetReplicatedConVarDefault(name, "0")
             local control
@@ -491,7 +505,7 @@ local function AddRoleProperties(role, role_cvars, list)
     end
 end
 
-local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local roles_with_cvars = table.Count(role_cvars)
     -- Labels
     return (roles_with_cvars * 18) +
@@ -500,13 +514,15 @@ local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_coun
             -- Checkboxes
             (bool_count * 20) +
             -- Textboxes
-            (text_count * 43)
+            (text_count * 43) +
+            -- Dropdowns
+            (dropdown_count * 43)
 end
 
 local function AddTraitorProperties(gppnl)
     local traitor_roles = GetSortedTeamRoles(TRAITOR_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(traitor_roles)
-    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(traitor_roles)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetSize(390, height)
     trapropclp:SetExpanded(1)
@@ -532,8 +548,8 @@ end
 
 local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(detective_roles)
-    local height = 168 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(detective_roles)
+    local height = 186 + (#CORPSE_ICON_TYPES * 20) + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetSize(390, height)
     detpropclp:SetExpanded(1)
@@ -558,8 +574,10 @@ local function AddDetectiveProperties(gppnl)
     local detdlo = xlib.makecheckbox { label = "ttt_detectives_disable_looting (def. 0)", repconvar = "rep_ttt_detectives_disable_looting", parent = detproplst }
     detproplst:AddItem(detdlo)
 
-    local dethsm = xlib.makeslider { label = "ttt_detectives_hide_special_mode (def. 0)", min = 0, max = 2, repconvar = "rep_ttt_detectives_hide_special_mode", parent = detproplst }
-    detproplst:AddItem(dethsm)
+    local dethsmlbl = xlib.makelabel { label = "ttt_detectives_hide_special_mode (def. 0)", parent = detproplst }
+    detproplst:AddItem(dethsmlbl)
+    local dethsmcb = xlib.makecombobox { repconvar = "rep_ttt_detectives_hide_special_mode", isNumberConvar = true, choices = { "Show role to everyone", "Show ? icon to everyone", "Show ? icon to everyone but player" }, parent = detproplst }
+    detproplst:AddItem(dethsmcb)
 
     local detge = xlib.makecheckbox { label = "ttt_detectives_glow_enabled (def. 0)", repconvar = "rep_ttt_detectives_glow_enabled", parent = detproplst }
     detproplst:AddItem(detge)
@@ -582,8 +600,8 @@ end
 
 local function AddInnocentProperties(gppnl)
     local innocent_roles = GetSortedTeamRoles(INNOCENT_ROLES, DETECTIVE_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(innocent_roles)
-    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(innocent_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetSize(390, height)
     innpropclp:SetExpanded(1)
@@ -603,8 +621,8 @@ end
 
 local function AddJesterRoleProperties(gppnl)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(jester_roles)
-    local height = 78 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(jester_roles)
+    local height = 78 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetSize(390, height)
     jespropclp:SetExpanded(1)
@@ -636,8 +654,8 @@ end
 
 local function AddIndependentRoleProperties(gppnl)
     local independent_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(independent_roles)
-    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(independent_roles)
+    local height = 38 + GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetSize(390, height)
     indpropclp:SetExpanded(1)
@@ -663,8 +681,8 @@ end
 
 local function AddMonsterRoleProperties(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
-    local role_cvars, num_count, bool_count, text_count = GetRoleConVars(monster_roles)
-    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count)
+    local role_cvars, num_count, bool_count, text_count, dropdown_count = GetRoleConVars(monster_roles)
+    local height = GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     monpropclp:SetSize(390, height)
     monpropclp:SetExpanded(1)
@@ -788,12 +806,14 @@ end
 local function AddShopModeSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
         local default = GetReplicatedConVarDefault(c, "0")
-        local mode = xlib.makeslider { label = c .. " (def. " .. default .. ")", min = 0, max = 4, repconvar = "rep_".. c, parent = lst }
-        lst:AddItem(mode)
+        local modelbl = xlib.makelabel { label = c .. " (def. " .. default .. ")", parent = lst }
+        lst:AddItem(modelbl)
+        local modecb = xlib.makecombobox { repconvar = "rep_" .. c, isNumberConvar = true, choices = { "Disable", "Union of Detective and Traitor", "Intersect of Detective and Traitor", "Detective", "Traitor" }, parent = lst }
+        lst:AddItem(modecb)
 
-        -- Save the control so it can be updated later
+        -- Save the label so the default can be updated later
         if missing_cvars[c] then
-            missing_cvars[c] = mode
+            missing_cvars[c] = modelbl
         end
     end
 end
@@ -876,11 +896,11 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (25 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
-                        (45 * #inno_shops) + (20 * #inno_syncs) + (25 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
-                        (45 * #indep_shops) + (20 * #indep_syncs) + (25 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
-                        (45 * #jester_shops) + (20 * #jester_syncs) + (25 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
-                        (45 * #monster_shops) + (20 * #monster_syncs) + (25 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
+    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+                        (45 * #inno_shops) + (20 * #inno_syncs) + (43 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
+                        (45 * #indep_shops) + (20 * #indep_syncs) + (43 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
+                        (45 * #jester_shops) + (20 * #jester_syncs) + (43 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
+                        (45 * #monster_shops) + (20 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetSize(390, height)
     rspnl:SetExpanded(0)
@@ -999,13 +1019,13 @@ end
 local function AddOtherGameplay(gppnl)
     --Other Gameplay Settings
     local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpogsclp:SetSize(390, 220)
+    gpogsclp:SetSize(390, 250)
     gpogsclp:SetExpanded(0)
     gpogsclp:SetLabel("Other Gameplay Settings")
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 220)
+    gpogslst:SetSize(390, 250)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
@@ -1035,8 +1055,13 @@ local function AddOtherGameplay(gppnl)
     local gprdpi = xlib.makecheckbox { label = "ttt_ragdoll_pinning_innocents (def. 0)", repconvar = "rep_ttt_ragdoll_pinning_innocents", parent = gpogslst }
     gpogslst:AddItem(gprdpi)
 
-    local gprdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
-    gpogslst:AddItem(gprdne)
+    local gpdne = xlib.makecheckbox { label = "ttt_death_notifier_enabled (def. 1)", repconvar = "rep_ttt_death_notifier_enabled", parent = gpogslst }
+    gpogslst:AddItem(gpdne)
+
+    local gpcmolbl = xlib.makelabel { label = "ttt_color_mode_override (def. none)", parent = gpogslst }
+    gpogslst:AddItem(gpcmolbl)
+    local gpcmocb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
+    gpogslst:AddItem(gpcmocb)
 end
 
 local function AddGameplayModule()
@@ -1238,17 +1263,26 @@ local function AddEquipmentCreditsModule()
     local detective_shops = table.IntersectedKeys(DETECTIVE_ROLES, credit_roles, {ROLE_DETECTIVE})
     SortRolesByName(detective_shops)
     local ecdcclp = vgui.Create("DCollapsibleCategory", ecpnl)
-    ecdcclp:SetSize(390, 100 + (25 * #detective_shops))
+    ecdcclp:SetSize(390, 170 + (25 * #detective_shops))
     ecdcclp:SetExpanded(0)
     ecdcclp:SetLabel("Detective Credits")
 
     local ecdclst = vgui.Create("DPanelList", ecdcclp)
     ecdclst:SetPos(5, 25)
-    ecdclst:SetSize(390, 100 + (25 * #detective_shops))
+    ecdclst:SetSize(390, 170 + (25 * #detective_shops))
     ecdclst:SetSpacing(5)
 
     local ecdcct = xlib.makeslider { label = "ttt_detectives_credits_timer (def. 0)", min = 0, max = 240, repconvar = "rep_ttt_detectives_credits_timer", parent = ecdclst }
     ecdclst:AddItem(ecdcct)
+
+    local ecdcsc = xlib.makeslider { label = "ttt_detectives_search_credits (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_detectives_search_credits", parent = ecdclst }
+    ecdclst:AddItem(ecdcsc)
+
+    local ecdcscf = xlib.makecheckbox { label = "ttt_detectives_search_credits_friendly (def. 0)", repconvar = "rep_ttt_detectives_search_credits_friendly", parent = ecdclst }
+    ecdclst:AddItem(ecdcscf)
+
+    local ecdcscs = xlib.makecheckbox { label = "ttt_detectives_search_credits_share (def. 0)", repconvar = "rep_ttt_detectives_search_credits_share", parent = ecdclst }
+    ecdclst:AddItem(ecdcscs)
 
     local ecdccs = xlib.makeslider { label = "ttt_det_credits_starting (def. 1)", min = 0, max = 10, repconvar = "rep_ttt_det_credits_starting", parent = ecdclst }
     ecdclst:AddItem(ecdccs)
@@ -1374,7 +1408,7 @@ local function AddMiscModule()
 
     local bemlst = vgui.Create("DPanelList", bempnl)
     bemlst:SetPos(5, 25)
-    bemlst:SetSize(390, 100)
+    bemlst:SetSize(390, 95)
     bemlst:SetSpacing(5)
 
     local bemac = xlib.makecheckbox { label = "ttt_bem_allow_change (def. 1)", repconvar = "rep_ttt_bem_allow_change", parent = bemlst }
@@ -1390,20 +1424,22 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 375)
+    miscclp:SetSize(390, 438)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 375)
+    misclst:SetSize(390, 438)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
     misclst:AddItem(miscdh)
 
-    local miscpcm = xlib.makeslider { label = "ttt_playercolor_mode (def. 1)", min = 0, max = 3, repconvar = "rep_ttt_playercolor_mode", parent = misclst }
-    misclst:AddItem(miscpcm)
+    local miscpcmlbl = xlib.makelabel { label = "ttt_playercolor_mode (def. 1)", parent = misclst }
+    misclst:AddItem(miscpcmlbl)
+    local miscpcmcb = xlib.makecombobox { repconvar = "rep_ttt_playercolor_mode", isNumberConvar = true, choices = {"None", "Serious", "All", "Random"}, parent = misclst }
+    misclst:AddItem(miscpcmcb)
 
     local miscrc = xlib.makecheckbox { label = "ttt_ragdoll_collide (def. 0)", repconvar = "rep_ttt_ragdoll_collide", parent = misclst }
     misclst:AddItem(miscrc)
@@ -1451,6 +1487,12 @@ local function AddMiscModule()
 
     local miscplc = xlib.makecheckbox { label = "ttt_player_set_color (def. 1)", repconvar = "rep_ttt_player_set_color", parent = misclst }
     misclst:AddItem(miscplc)
+
+    local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
+    misclst:AddItem(miscscs)
+
+    local misccsns = xlib.makecheckbox { label = "ttt_corpse_search_not_shared (def. 0)", repconvar = "rep_ttt_corpse_search_not_shared", parent = misclst }
+    misclst:AddItem(misccsns)
 
     --Disable Features
     local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)

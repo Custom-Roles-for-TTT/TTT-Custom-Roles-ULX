@@ -199,6 +199,9 @@ local function init()
         CreateReplicatedWritableCvar("ttt_ragdoll_pinning")
         CreateReplicatedWritableCvar("ttt_ragdoll_pinning_innocents")
         CreateReplicatedWritableCvar("ttt_death_notifier_enabled")
+        CreateReplicatedWritableCvar("ttt_spectator_corpse_search")
+        CreateReplicatedWritableCvar("ttt_corpse_search_not_shared")
+        CreateReplicatedWritableCvar("ttt_color_mode_override")
 
         --karma
         CreateReplicatedWritableCvar("ttt_karma")
@@ -236,6 +239,9 @@ local function init()
 
         --detective credits
         CreateReplicatedWritableCvar("ttt_detectives_credits_timer")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits_friendly")
+        CreateReplicatedWritableCvar("ttt_detectives_search_credits_share")
         CreateReplicatedWritableCvar("ttt_det_credits_starting")
         CreateReplicatedWritableCvar("ttt_det_credits_traitorkill")
         CreateReplicatedWritableCvar("ttt_det_credits_traitordead")
