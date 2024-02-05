@@ -628,12 +628,13 @@ end
 
 hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
 
-local PlysMarkedForNextRound = {}
-local function MarkedElsewhere(id)
-    if PlysMarkedForNextRound[id] and PlysMarkedForNextRound[id] ~= nil then
-        return true
+local function GetRoleFromString(role_string)
+    for wrole = 0, ROLE_MAX do
+        if ROLE_STRINGS_RAW[wrole] == role_string then
+            return wrole
+        end
     end
-    return false
+    return ROLE_NONE
 end
 
 function ulx.nextround(calling_ply, target_plys, next_round)
@@ -644,13 +645,12 @@ function ulx.nextround(calling_ply, target_plys, next_round)
             local id = v:SteamID64()
 
             if next_round == "unmark" then
-                PlysMarkedForNextRound[id] = nil
+                v:ClearForcedRole()
                 table.insert(affected_plys, v)
-            elseif MarkedElsewhere(id) then
-                ULib.tsayError(calling_ply, "That player is already marked for the next round!", true)
+            elseif v:ForceRoleNextRound(GetRoleFromString(next_round)) then
+                table.insert(affected_plys, v)
             else
-                PlysMarkedForNextRound[id] = next_round
-                table.insert(affected_plys, v)
+                ULib.tsayError(calling_ply, "That player is already marked for the next round!", true)
             end
         end
 
@@ -667,27 +667,6 @@ nxtr:addParam { type = ULib.cmds.PlayersArg }
 nxtr:addParam { type = ULib.cmds.StringArg, completes = ulx.next_round, hint = "Next Round", error = "Invalid role \"%s\" specified", ULib.cmds.restrictToCompletes }
 nxtr:defaultAccess(ULib.ACCESS_SUPERADMIN)
 nxtr:help("Forces the target to be a role in the following round.")
-
-local function GetRoleFromString(role_string)
-    for wrole = 0, ROLE_MAX do
-        if ROLE_STRINGS_RAW[wrole] == role_string then
-            return wrole
-        end
-    end
-    return ROLE_NONE
-end
-
-local function RoleMarkedPlayers()
-    for k, v in pairs(PlysMarkedForNextRound) do
-        local role = GetRoleFromString(v)
-        if role ~= ROLE_NONE then
-            local ply = player.GetBySteamID64(k)
-            ply:SetRole(role)
-        end
-        PlysMarkedForNextRound[k] = nil
-    end
-end
-hook.Add("TTTSelectRoles", "Admin_Round_Select", RoleMarkedPlayers)
 
 --- [Identify Corpse Thanks Neku]----------------------------------------------------------------------------
 function ulx.identify(calling_ply, target_ply, unidentify)
