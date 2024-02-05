@@ -642,8 +642,6 @@ function ulx.nextround(calling_ply, target_plys, next_round)
         local affected_plys = {}
         for i = 1, #target_plys do
             local v = target_plys[i]
-            local id = v:SteamID64()
-
             if next_round == "unmark" then
                 v:ClearForcedRole()
                 table.insert(affected_plys, v)
