@@ -1062,6 +1062,9 @@ local function AddOtherGameplay(gppnl)
     gpogslst:AddItem(gpcmolbl)
     local gpcmocb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
     gpogslst:AddItem(gpcmocb)
+
+    local gpssr = xlib.makecheckbox { label = "ttt_spectators_see_roles (def. 0)", repconvar = "rep_ttt_spectators_see_roles", parent = gpogslst }
+    gpogslst:AddItem(gpssr)
 end
 
 local function AddGameplayModule()
