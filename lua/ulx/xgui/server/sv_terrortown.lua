@@ -130,18 +130,6 @@ local function init()
         CreateReplicatedWritableCvar("ttt_jester_independent_pct")
         CreateReplicatedWritableCvar("ttt_jester_independent_max")
         CreateReplicatedWritableCvar("ttt_jester_independent_chance")
-        CreateReplicatedWritableCvar("ttt_single_drunk_clown")
-        CreateReplicatedWritableCvar("ttt_single_drunk_clown_chance")
-        CreateReplicatedWritableCvar("ttt_single_jester_swapper")
-        CreateReplicatedWritableCvar("ttt_single_jester_swapper_chance")
-        CreateReplicatedWritableCvar("ttt_single_deputy_impersonator")
-        CreateReplicatedWritableCvar("ttt_single_deputy_impersonator_chance")
-        CreateReplicatedWritableCvar("ttt_single_doctor_quack")
-        CreateReplicatedWritableCvar("ttt_single_doctor_quack_chance")
-        CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist")
-        CreateReplicatedWritableCvar("ttt_single_paramedic_hypnotist_chance")
-        CreateReplicatedWritableCvar("ttt_single_phantom_parasite")
-        CreateReplicatedWritableCvar("ttt_single_phantom_parasite_chance")
 
         --role properties
         for role = 0, ROLE_MAX do
