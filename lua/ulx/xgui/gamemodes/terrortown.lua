@@ -1019,13 +1019,13 @@ end
 local function AddOtherGameplay(gppnl)
     --Other Gameplay Settings
     local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpogsclp:SetSize(390, 250)
+    gpogsclp:SetSize(390, 270)
     gpogsclp:SetExpanded(0)
     gpogsclp:SetLabel("Other Gameplay Settings")
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 250)
+    gpogslst:SetSize(390, 270)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
