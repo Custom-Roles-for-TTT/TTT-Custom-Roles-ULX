@@ -702,13 +702,13 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 310)
+    crpropclp:SetSize(390, 40)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 310)
+    crproplst:SetSize(390, 40)
     crproplst:SetSpacing(5)
 
     local depimppad = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
@@ -716,42 +716,6 @@ local function AddCustomRoleProperties(gppnl)
 
     local depimpsp = xlib.makecheckbox { label = "ttt_deputy_impersonator_start_promoted (def. 0)", repconvar = "rep_ttt_deputy_impersonator_start_promoted", parent = crproplst }
     crproplst:AddItem(depimpsp)
-
-    local singdepimp = xlib.makecheckbox { label = "ttt_single_deputy_impersonator (def. 0)", repconvar = "rep_ttt_single_deputy_impersonator", parent = crproplst }
-    crproplst:AddItem(singdepimp)
-
-    local singdepimpchance = xlib.makeslider { label = "ttt_single_deputy_impersonator_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_deputy_impersonator_chance", parent = crproplst }
-    crproplst:AddItem(singdepimpchance)
-
-    local singdocqua = xlib.makecheckbox { label = "ttt_single_doctor_quack (def. 0)", repconvar = "rep_ttt_single_doctor_quack", parent = crproplst }
-    crproplst:AddItem(singdocqua)
-
-    local singdocquachance = xlib.makeslider { label = "ttt_single_doctor_quackr_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_doctor_quack_chance", parent = crproplst }
-    crproplst:AddItem(singdocquachance)
-
-    local singmedhyp = xlib.makecheckbox { label = "ttt_single_paramedic_hypnotist (def. 0)", repconvar = "rep_ttt_single_paramedic_hypnotist", parent = crproplst }
-    crproplst:AddItem(singmedhyp)
-
-    local singmedhypchance = xlib.makeslider { label = "ttt_single_paramedic_hypnotist_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_paramedic_hypnotist_chance", parent = crproplst }
-    crproplst:AddItem(singmedhypchance)
-
-    local singphapar = xlib.makecheckbox { label = "ttt_single_phantom_parasite (def. 0)", repconvar = "rep_ttt_single_phantom_parasite", parent = crproplst }
-    crproplst:AddItem(singphapar)
-
-    local singphaparchance = xlib.makeslider { label = "ttt_single_phantom_parasite_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_phantom_parasite_chance", parent = crproplst }
-    crproplst:AddItem(singphaparchance)
-
-    local singdruclo = xlib.makecheckbox { label = "ttt_single_drunk_clown (def. 0)", repconvar = "rep_ttt_single_drunk_clown", parent = crproplst }
-    crproplst:AddItem(singdruclo)
-
-    local singdruclochance = xlib.makeslider { label = "ttt_single_drunk_clown_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_drunk_clown_chance", parent = crproplst }
-    crproplst:AddItem(singdruclochance)
-
-    local singjesswa = xlib.makecheckbox { label = "ttt_single_jester_swapper (def. 0)", repconvar = "rep_ttt_single_jester_swapper", parent = crproplst }
-    crproplst:AddItem(singjesswa)
-
-    local singjesswachance = xlib.makeslider { label = "ttt_single_jester_swapper_chance (def. 0.5)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_single_jester_swapper_chance", parent = crproplst }
-    crproplst:AddItem(singjesswachance)
 end
 
 local function AddShopRandomizationSettings(lst, role_list)
@@ -1019,13 +983,13 @@ end
 local function AddOtherGameplay(gppnl)
     --Other Gameplay Settings
     local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
-    gpogsclp:SetSize(390, 250)
+    gpogsclp:SetSize(390, 270)
     gpogsclp:SetExpanded(0)
     gpogsclp:SetLabel("Other Gameplay Settings")
 
     local gpogslst = vgui.Create("DPanelList", gpogsclp)
     gpogslst:SetPos(5, 25)
-    gpogslst:SetSize(390, 250)
+    gpogslst:SetSize(390, 270)
     gpogslst:SetSpacing(5)
 
     local gpminply = xlib.makeslider { label = "ttt_minimum_players (def. 2)", min = 1, max = 10, repconvar = "rep_ttt_minimum_players", parent = gpogslst }
@@ -1062,6 +1026,9 @@ local function AddOtherGameplay(gppnl)
     gpogslst:AddItem(gpcmolbl)
     local gpcmocb = xlib.makecombobox { repconvar = "rep_ttt_color_mode_override", isNumberConvar = false, choices = { "none", "default", "simple", "protan", "deutan", "tritan" }, parent = gpogslst }
     gpogslst:AddItem(gpcmocb)
+
+    local gpssr = xlib.makecheckbox { label = "ttt_spectators_see_roles (def. 0)", repconvar = "rep_ttt_spectators_see_roles", parent = gpogslst }
+    gpogslst:AddItem(gpssr)
 end
 
 local function AddGameplayModule()
