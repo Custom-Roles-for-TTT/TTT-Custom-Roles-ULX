@@ -238,15 +238,17 @@ end
 
 local function AddDefaultRoleSettings(lst, role_list)
     for _, r in pairs(role_list) do
-        local role_string = ROLE_STRINGS_RAW[r]
-        local enabled = xlib.makecheckbox { label = "ttt_" .. role_string .. "_enabled (def. 0)", repconvar = "rep_ttt_" .. role_string .. "_enabled", parent = lst }
-        lst:AddItem(enabled)
+        if not ROLE_BLOCK_SPAWN_CONVARS[r] then
+            local role_string = ROLE_STRINGS_RAW[r]
+            local enabled = xlib.makecheckbox { label = "ttt_" .. role_string .. "_enabled (def. 0)", repconvar = "rep_ttt_" .. role_string .. "_enabled", parent = lst }
+            lst:AddItem(enabled)
 
-        local spawn_weight = xlib.makeslider { label = "ttt_" .. role_string .. "_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_" .. role_string .. "_spawn_weight", parent = lst }
-        lst:AddItem(spawn_weight)
+            local spawn_weight = xlib.makeslider { label = "ttt_" .. role_string .. "_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_" .. role_string .. "_spawn_weight", parent = lst }
+            lst:AddItem(spawn_weight)
 
-        local min_players = xlib.makeslider { label = "ttt_" .. role_string .. "_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_" .. role_string .. "_min_players", parent = lst }
-        lst:AddItem(min_players)
+            local min_players = xlib.makeslider { label = "ttt_" .. role_string .. "_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_" .. role_string .. "_min_players", parent = lst }
+            lst:AddItem(min_players)
+        end
     end
 end
 
@@ -405,25 +407,27 @@ local function AddRoleHealthSettings(gppnl)
     rolehealthlst:SetSpacing(5)
 
     for _, role in ipairs(GetAllSortedRoles()) do
-        local rolestring = ROLE_STRINGS_RAW[role]
-        local convar = "ttt_" .. rolestring .. "_starting_health"
-        local default = GetReplicatedConVarDefault(convar, "100")
-        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
-        rolehealthlst:AddItem(starthealth)
+        if not ROLE_BLOCK_HEALTH_CONVARS[role] then
+            local rolestring = ROLE_STRINGS_RAW[role]
+            local convar = "ttt_" .. rolestring .. "_starting_health"
+            local default = GetReplicatedConVarDefault(convar, "100")
+            local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+            rolehealthlst:AddItem(starthealth)
 
-        -- Save the control so it can be updated later
-        if missing_cvars[convar] then
-            missing_cvars[convar] = starthealth
-        end
+            -- Save the control so it can be updated later
+            if missing_cvars[convar] then
+                missing_cvars[convar] = starthealth
+            end
 
-        convar = "ttt_" .. rolestring .. "_max_health"
-        default = GetReplicatedConVarDefault(convar, "100")
-        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
-        rolehealthlst:AddItem(maxhealth)
+            convar = "ttt_" .. rolestring .. "_max_health"
+            default = GetReplicatedConVarDefault(convar, "100")
+            local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+            rolehealthlst:AddItem(maxhealth)
 
-        -- Save the control so it can be updated later
-        if missing_cvars[convar] then
-            missing_cvars[convar] = maxhealth
+            -- Save the control so it can be updated later
+            if missing_cvars[convar] then
+                missing_cvars[convar] = maxhealth
+            end
         end
     end
 end
