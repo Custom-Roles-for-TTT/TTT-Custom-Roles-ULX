@@ -17,6 +17,8 @@ local function AddRoleCreditConVar(role)
 end
 
 local function AddRoleShopConVars(role)
+    if ROLE_BLOCK_SHOP_CONVARS[role] then return end
+
     local rolestring = ROLE_STRINGS_RAW[role]
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent")
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled")

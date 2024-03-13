@@ -99,14 +99,21 @@ local function GetReplicatedConVarMax(name, max)
 end
 
 local function GetShopRoles()
-    if not GetConVar("ttt_shop_for_all"):GetBool() then
-        return SHOP_ROLES
+    local shop_roles = {}
+
+    if GetConVar("ttt_shop_for_all"):GetBool() then
+        for role = 0, ROLE_MAX do
+            shop_roles[role] = true
+        end
+    else
+        shop_roles = table.Copy(SHOP_ROLES)
+        for role, _ in pairs(SHOP_ROLES) do
+            if ROLE_BLOCK_SHOP_CONVARS[role] then
+                shop_roles[role] = false
+            end
+        end
     end
 
-    local shop_roles = {}
-    for role = 0, ROLE_MAX do
-        shop_roles[role] = true
-    end
     return shop_roles
 end
 
