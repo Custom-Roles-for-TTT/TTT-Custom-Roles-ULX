@@ -99,14 +99,21 @@ local function GetReplicatedConVarMax(name, max)
 end
 
 local function GetShopRoles()
-    if not GetConVar("ttt_shop_for_all"):GetBool() then
-        return SHOP_ROLES
+    local shop_roles = {}
+
+    if GetConVar("ttt_shop_for_all"):GetBool() then
+        for role = 0, ROLE_MAX do
+            shop_roles[role] = true
+        end
+    else
+        shop_roles = table.Copy(SHOP_ROLES)
+        for role, _ in pairs(SHOP_ROLES) do
+            if ROLE_BLOCK_SHOP_CONVARS[role] then
+                shop_roles[role] = false
+            end
+        end
     end
 
-    local shop_roles = {}
-    for role = 0, ROLE_MAX do
-        shop_roles[role] = true
-    end
     return shop_roles
 end
 
@@ -238,29 +245,37 @@ end
 
 local function AddDefaultRoleSettings(lst, role_list)
     for _, r in pairs(role_list) do
-        local role_string = ROLE_STRINGS_RAW[r]
-        local enabled = xlib.makecheckbox { label = "ttt_" .. role_string .. "_enabled (def. 0)", repconvar = "rep_ttt_" .. role_string .. "_enabled", parent = lst }
-        lst:AddItem(enabled)
+        if not ROLE_BLOCK_SPAWN_CONVARS[r] then
+            local role_string = ROLE_STRINGS_RAW[r]
+            local enabled = xlib.makecheckbox { label = "ttt_" .. role_string .. "_enabled (def. 0)", repconvar = "rep_ttt_" .. role_string .. "_enabled", parent = lst }
+            lst:AddItem(enabled)
 
-        local spawn_weight = xlib.makeslider { label = "ttt_" .. role_string .. "_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_" .. role_string .. "_spawn_weight", parent = lst }
-        lst:AddItem(spawn_weight)
+            local spawn_weight = xlib.makeslider { label = "ttt_" .. role_string .. "_spawn_weight (def. 1)", min = 1, max = 10, repconvar = "rep_ttt_" .. role_string .. "_spawn_weight", parent = lst }
+            lst:AddItem(spawn_weight)
 
-        local min_players = xlib.makeslider { label = "ttt_" .. role_string .. "_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_" .. role_string .. "_min_players", parent = lst }
-        lst:AddItem(min_players)
+            local min_players = xlib.makeslider { label = "ttt_" .. role_string .. "_min_players (def. 0)", min = 0, max = 10, repconvar = "rep_ttt_" .. role_string .. "_min_players", parent = lst }
+            lst:AddItem(min_players)
+        end
     end
 end
 
 local function AddSpecialistTraitorSettings(gppnl)
     local traitor_roles = table.ExcludedKeys(TRAITOR_ROLES, {ROLE_TRAITOR})
     SortRolesByName(traitor_roles)
+    local spawnable_role_count = 0
+    for _, role in pairs(traitor_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
-    sptraclp:SetSize(390, 50 + (70 * #traitor_roles))
+    sptraclp:SetSize(390, 50 + (70 * spawnable_role_count))
     sptraclp:SetExpanded(1)
     sptraclp:SetLabel("Specialist Traitor Settings")
 
     local sptralst = vgui.Create("DPanelList", sptraclp)
     sptralst:SetPos(5, 25)
-    sptralst:SetSize(390, 50 + (70 * #traitor_roles))
+    sptralst:SetSize(390, 50 + (70 * spawnable_role_count))
     sptralst:SetSpacing(5)
 
     local stpercet = xlib.makeslider { label = "ttt_special_traitor_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_traitor_pct", parent = sptralst }
@@ -275,14 +290,20 @@ end
 local function AddSpecialistDetectiveSettings(gppnl)
     local det_roles = table.ExcludedKeys(DETECTIVE_ROLES, {ROLE_DETECTIVE})
     SortRolesByName(det_roles)
+    local spawnable_role_count = 0
+    for _, role in pairs(det_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
     local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spdetclp:SetSize(390, 50 + (70 * #det_roles))
+    spdetclp:SetSize(390, 50 + (70 * spawnable_role_count))
     spdetclp:SetExpanded(1)
     spdetclp:SetLabel("Specialist Detective Settings")
 
     local spdetlst = vgui.Create("DPanelList", spdetclp)
     spdetlst:SetPos(5, 25)
-    spdetlst:SetSize(390, 50 + (70 * #det_roles))
+    spdetlst:SetSize(390, 50 + (70 * spawnable_role_count))
     spdetlst:SetSpacing(5)
 
     local sdpercet = xlib.makeslider { label = "ttt_special_detective_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_detective_pct", parent = spdetlst }
@@ -297,14 +318,20 @@ end
 local function AddSpecialistInnocentSettings(gppnl)
     local inno_roles = table.ExcludedKeys(INNOCENT_ROLES, table.Add({ROLE_INNOCENT}, GetTeamRoles(DETECTIVE_ROLES)))
     SortRolesByName(inno_roles)
+    local spawnable_role_count = 0
+    for _, role in pairs(inno_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
-    spinnclp:SetSize(390, 50 + (70 * #inno_roles))
+    spinnclp:SetSize(390, 50 + (70 * spawnable_role_count))
     spinnclp:SetExpanded(1)
     spinnclp:SetLabel("Specialist Innocent Settings")
 
     local spinnlst = vgui.Create("DPanelList", spinnclp)
     spinnlst:SetPos(5, 25)
-    spinnlst:SetSize(390, 50 + (70 * #inno_roles))
+    spinnlst:SetSize(390, 50 + (70 * spawnable_role_count))
     spinnlst:SetSpacing(5)
 
     local sipercet = xlib.makeslider { label = "ttt_special_innocent_pct (def. 0.33)", min = 0, max = 1, decimal = 2, repconvar = "rep_ttt_special_innocent_pct", parent = spinnlst }
@@ -319,7 +346,18 @@ end
 local function AddIndependentRoleSettings(gppnl)
     local indep_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
-    local height = 245 + (70 * #indep_roles) + (70 * #jester_roles)
+    local spawnable_role_count = 0
+    for _, role in pairs(indep_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
+    for _, role in pairs(jester_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
+    local height = 245 + (70 * spawnable_role_count)
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetSize(390, height)
     indclp:SetExpanded(1)
@@ -370,14 +408,20 @@ end
 
 local function AddMonsterSettings(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
+    local spawnable_role_count = 0
+    for _, role in pairs(monster_roles) do
+        if not ROLE_BLOCK_SPAWN_CONVARS[role] then
+            spawnable_role_count = spawnable_role_count + 1
+        end
+    end
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monclp:SetSize(390, 75 + (70 * #monster_roles))
+    monclp:SetSize(390, 75 + (70 * spawnable_role_count))
     monclp:SetExpanded(1)
     monclp:SetLabel("Monster Settings")
 
     local monlst = vgui.Create("DPanelList", monclp)
     monlst:SetPos(5, 25)
-    monlst:SetSize(390, 75 + (70 * #monster_roles))
+    monlst:SetSize(390, 75 + (70 * spawnable_role_count))
     monlst:SetSpacing(5)
 
     local monmax = xlib.makeslider { label = "ttt_monster_max (def. 1)", min = 0, max = 80, repconvar = "rep_ttt_monster_max", parent = monlst }
@@ -394,36 +438,43 @@ end
 
 local function AddRoleHealthSettings(gppnl)
     local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
-    local height = (ROLE_MAX + 1) * 50
-    rolehealthclp:SetSize(390, height)
+    local modifiable_health_role_count = 0
+    for role = 0, ROLE_MAX do
+        if not ROLE_BLOCK_HEALTH_CONVARS[role] then
+            modifiable_health_role_count = modifiable_health_role_count + 1
+        end
+    end
+    rolehealthclp:SetSize(390, modifiable_health_role_count * 50)
     rolehealthclp:SetExpanded(1)
     rolehealthclp:SetLabel("Role Health Settings")
 
     local rolehealthlst = vgui.Create("DPanelList", rolehealthclp)
     rolehealthlst:SetPos(5, 25)
-    rolehealthlst:SetSize(390, height)
+    rolehealthlst:SetSize(390, modifiable_health_role_count * 50)
     rolehealthlst:SetSpacing(5)
 
     for _, role in ipairs(GetAllSortedRoles()) do
-        local rolestring = ROLE_STRINGS_RAW[role]
-        local convar = "ttt_" .. rolestring .. "_starting_health"
-        local default = GetReplicatedConVarDefault(convar, "100")
-        local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
-        rolehealthlst:AddItem(starthealth)
+        if not ROLE_BLOCK_HEALTH_CONVARS[role] then
+            local rolestring = ROLE_STRINGS_RAW[role]
+            local convar = "ttt_" .. rolestring .. "_starting_health"
+            local default = GetReplicatedConVarDefault(convar, "100")
+            local starthealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+            rolehealthlst:AddItem(starthealth)
 
-        -- Save the control so it can be updated later
-        if missing_cvars[convar] then
-            missing_cvars[convar] = starthealth
-        end
+            -- Save the control so it can be updated later
+            if missing_cvars[convar] then
+                missing_cvars[convar] = starthealth
+            end
 
-        convar = "ttt_" .. rolestring .. "_max_health"
-        default = GetReplicatedConVarDefault(convar, "100")
-        local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
-        rolehealthlst:AddItem(maxhealth)
+            convar = "ttt_" .. rolestring .. "_max_health"
+            default = GetReplicatedConVarDefault(convar, "100")
+            local maxhealth = xlib.makeslider { label = convar .. " (def. " .. default .. ")", min = -1, max = 200, repconvar = "rep_" .. convar, parent = rolehealthlst }
+            rolehealthlst:AddItem(maxhealth)
 
-        -- Save the control so it can be updated later
-        if missing_cvars[convar] then
-            missing_cvars[convar] = maxhealth
+            -- Save the control so it can be updated later
+            if missing_cvars[convar] then
+                missing_cvars[convar] = maxhealth
+            end
         end
     end
 end
