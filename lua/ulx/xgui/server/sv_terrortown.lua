@@ -17,6 +17,8 @@ local function AddRoleCreditConVar(role)
 end
 
 local function AddRoleShopConVars(role)
+    if ROLE_BLOCK_SHOP_CONVARS[role] then return end
+
     local rolestring = ROLE_STRINGS_RAW[role]
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_percent")
     CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_shop_random_enabled")
@@ -85,13 +87,15 @@ local function init()
 
         for role = 0, ROLE_MAX do
             local rolestring = ROLE_STRINGS_RAW[role]
-            if not DEFAULT_ROLES[role] then
+            if not DEFAULT_ROLES[role] and not ROLE_BLOCK_SPAWN_CONVARS[role] then
                 CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_enabled")
                 CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_spawn_weight")
                 CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_min_players")
             end
-            CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_starting_health")
-            CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_max_health")
+            if not ROLE_BLOCK_HEALTH_CONVARS[role] then
+                CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_starting_health")
+                CreateReplicatedWritableCvar("ttt_" .. rolestring .. "_max_health")
+            end
 
             if role ~= ROLE_DRUNK and role ~= ROLE_GLITCH then
                 CreateReplicatedWritableCvar("ttt_drunk_can_be_" .. rolestring)
