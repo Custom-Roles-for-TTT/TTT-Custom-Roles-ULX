@@ -269,6 +269,7 @@ local function init()
         --sprint
         CreateReplicatedWritableCvar("ttt_sprint_enabled")
         CreateReplicatedWritableCvar("ttt_sprint_bonus_rel")
+        CreateReplicatedWritableCvar("ttt_sprint_regenerate_delay")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_innocent")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_traitor")
         CreateReplicatedWritableCvar("ttt_sprint_consume")
