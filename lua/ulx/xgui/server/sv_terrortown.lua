@@ -310,6 +310,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_round_summary_tabs")
         CreateReplicatedWritableCvar("ttt_smokegrenade_extinguish")
         CreateReplicatedWritableCvar("ttt_player_set_color")
+        CreateReplicatedWritableCvar("ttt_weapon_transfer_ownership")
 
         --disable features
         CreateReplicatedWritableCvar("ttt_disable_headshots")

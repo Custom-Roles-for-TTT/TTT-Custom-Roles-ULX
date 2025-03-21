@@ -1482,13 +1482,13 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 658)
+    miscclp:SetSize(390, 678)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 658)
+    misclst:SetSize(390, 678)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -1545,6 +1545,9 @@ local function AddMiscModule()
 
     local miscplc = xlib.makecheckbox { label = "ttt_player_set_color (def. 1)", repconvar = "rep_ttt_player_set_color", parent = misclst }
     misclst:AddItem(miscplc)
+
+    local miscwto = xlib.makecheckbox { label = "ttt_weapon_transfer_ownership (def. 0)", repconvar = "ttt_weapon_transfer_ownership", parent = misclst }
+    misclst:AddItem(miscwto)
 
     local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
     misclst:AddItem(miscscs)
