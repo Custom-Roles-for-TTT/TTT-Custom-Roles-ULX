@@ -1365,13 +1365,13 @@ local function AddPlayerMovementModule()
     local pmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
     local pmspp = vgui.Create("DCollapsibleCategory", pmpnl)
-    pmspp:SetSize(390, 120)
+    pmspp:SetSize(390, 145)
     pmspp:SetExpanded(1)
     pmspp:SetLabel("Sprint")
 
     local pmsplst = vgui.Create("DPanelList", pmspp)
     pmsplst:SetPos(5, 25)
-    pmsplst:SetSize(390, 120)
+    pmsplst:SetSize(390, 145)
     pmsplst:SetSpacing(5)
 
     local pmspe = xlib.makecheckbox { label = "ttt_sprint_enabled  (def. 1)", repconvar = "rep_ttt_sprint_enabled", parent = pmsplst }
@@ -1379,6 +1379,9 @@ local function AddPlayerMovementModule()
 
     local pmspbr = xlib.makeslider { label = "ttt_sprint_bonus_rel (def. 0.4)", min = 0.1, max = 2, decimal = 1, repconvar = "rep_ttt_sprint_bonus_rel", parent = pmsplst }
     pmsplst:AddItem(pmspbr)
+
+    local pmsprd = xlib.makeslider { label = "ttt_sprint_regenerate_delay (def. 0)", min = 0, max = 60, decimal = 2, repconvar = "rep_ttt_sprint_regenerate_delay", parent = pmsplst }
+    pmsplst:AddItem(pmsprd)
 
     local pmspri = xlib.makeslider { label = "ttt_sprint_regenerate_innocent (def. 0.08)", min = 0.01, max = 2, decimal = 2, repconvar = "rep_ttt_sprint_regenerate_innocent", parent = pmsplst }
     pmsplst:AddItem(pmspri)
@@ -1482,13 +1485,13 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 658)
+    miscclp:SetSize(390, 678)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 658)
+    misclst:SetSize(390, 678)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -1545,6 +1548,9 @@ local function AddMiscModule()
 
     local miscplc = xlib.makecheckbox { label = "ttt_player_set_color (def. 1)", repconvar = "rep_ttt_player_set_color", parent = misclst }
     misclst:AddItem(miscplc)
+
+    local miscwto = xlib.makecheckbox { label = "ttt_weapon_transfer_ownership (def. 0)", repconvar = "rep_ttt_weapon_transfer_ownership", parent = misclst }
+    misclst:AddItem(miscwto)
 
     local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
     misclst:AddItem(miscscs)
