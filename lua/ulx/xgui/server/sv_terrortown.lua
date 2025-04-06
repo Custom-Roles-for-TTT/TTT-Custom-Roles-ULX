@@ -269,6 +269,7 @@ local function init()
         --sprint
         CreateReplicatedWritableCvar("ttt_sprint_enabled")
         CreateReplicatedWritableCvar("ttt_sprint_bonus_rel")
+        CreateReplicatedWritableCvar("ttt_sprint_regenerate_delay")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_innocent")
         CreateReplicatedWritableCvar("ttt_sprint_regenerate_traitor")
         CreateReplicatedWritableCvar("ttt_sprint_consume")
@@ -310,6 +311,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_round_summary_tabs")
         CreateReplicatedWritableCvar("ttt_smokegrenade_extinguish")
         CreateReplicatedWritableCvar("ttt_player_set_color")
+        CreateReplicatedWritableCvar("ttt_weapon_transfer_ownership")
 
         --disable features
         CreateReplicatedWritableCvar("ttt_disable_headshots")
