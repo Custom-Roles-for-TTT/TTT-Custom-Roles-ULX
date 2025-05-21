@@ -342,10 +342,6 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
     cvarJSON = util.TableToJSON(cvar_data)
     compressedString = util.Compress(cvarJSON)
     compressedLen = #compressedString
-    net.Start("ULX_CRCVarRequest")
-    net.WriteUInt(compressedLen, 16)
-    net.WriteData(compressedString, compressedLen)
-    net.Send(ply)
 
     timer.Simple(1, function()
         if not IsValid(ply) then return end
