@@ -1650,14 +1650,21 @@ xgui.hookEvent("onOpen", nil, function()
     net.SendToServer()
 end, "CR4TTTULXOpen")
 
-local compressedString = ""
+local compressedCvars = {}
 net.Receive("ULX_CRCVarPart", function()
     local len = net.ReadUInt(16)
-    compressedString = compressedString .. net.ReadData(len)
+    local idx = net.ReadUInt(16)
+    compressedCvars[idx] = net.ReadData(len)
 end)
 
 net.Receive("ULX_CRCVarComplete", function()
     print("[CR4TTT ULX] Final part received, reloading...")
+
+    local cvarCount = table.Count(compressedCvars)
+	local compressedString = ""
+	for idx = 1, cvarCount do
+		compressedString = compressedString .. compressedCvars[idx]
+	end
 
     local cvarJSON = util.Decompress(compressedString)
     local results = util.JSONToTable(cvarJSON)
@@ -1690,7 +1697,7 @@ net.Receive("ULX_CRCVarComplete", function()
     -- Reload the modules since by this time its usually loaded already
     xgui.processModules()
 
-    -- Reset the compressed string and missing convars table to save space
-    compressedString = ""
+    -- Reset the tables to save space
+    compressedCvars = {}
     table.Empty(missing_cvars)
 end)

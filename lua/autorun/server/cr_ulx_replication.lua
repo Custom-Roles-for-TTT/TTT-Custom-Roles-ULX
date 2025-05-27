@@ -31,7 +31,7 @@ hook.Add(ULib.HOOK_LOCALPLAYERREADY, "ULibSendCvars", function(ply)
 
         net.Start("ULX_CRReplicationReplacement_Part")
             net.WriteUInt(sendSize, 16)
-            net.WriteUInt( idx, 16 )
+            net.WriteUInt(idx, 16)
             net.WriteData(string.sub(compressedString, offset, offset + sendSize))
         net.Send(ply)
 

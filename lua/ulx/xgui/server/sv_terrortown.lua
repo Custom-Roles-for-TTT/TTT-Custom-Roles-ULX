@@ -349,6 +349,7 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
         print("[CR4TTT ULX] Transfering CR4TTT addon tables to: " .. tostring(ply))
 
         local blockSize = 2560
+        local offset = 1
         local idx = 1
         while (compressedLen > 0) do
             local sendSize = compressedLen
@@ -357,12 +358,14 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
             end
 
             net.Start("ULX_CRCVarPart")
-            net.WriteUInt(sendSize, 16)
-            net.WriteData(string.sub(compressedString, idx, idx + sendSize))
+                net.WriteUInt(sendSize, 16)
+                net.WriteUInt(idx, 16)
+                net.WriteData(string.sub(compressedString, offset, offset + sendSize))
             net.Send(ply)
 
             -- Move up the string
-            idx = idx + sendSize
+            offset = offset + sendSize
+            idx = idx + 1
 
             -- Keep track of how much we've sent
             compressedLen = compressedLen - sendSize
