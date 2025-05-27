@@ -293,6 +293,11 @@ local function init()
         CreateReplicatedWritableCvar("ttt_namechange_kick")
         CreateReplicatedWritableCvar("ttt_namechange_bantime")
 
+        --device related
+        CreateReplicatedWritableCvar("ttt_damage_own_healthstation")
+        CreateReplicatedWritableCvar("ttt_damage_own_bombstation")
+        CreateReplicatedWritableCvar("ttt_bombstation_explode_on_destroy")
+
         --misc
         CreateReplicatedWritableCvar("ttt_detective_hats")
         CreateReplicatedWritableCvar("ttt_playercolor_mode")

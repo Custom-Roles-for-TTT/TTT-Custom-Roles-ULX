@@ -1040,6 +1040,27 @@ local function AddDna(gppnl)
     gpdnalst:AddItem(dnasodod)
 end
 
+local function AddDevices(gppnl)
+    local gpdvcclp = vgui.Create("DCollapsibleCategory", gppnl)
+    gpdvcclp:SetSize(390, 60)
+    gpdvcclp:SetExpanded(0)
+    gpdvcclp:SetLabel("Devices")
+
+    local gpdvclst = vgui.Create("DPanelList", gpdvcclp)
+    gpdvclst:SetPos(5, 25)
+    gpdvclst:SetSize(390, 60)
+    gpdvclst:SetSpacing(5)
+
+    local dvcdoh = xlib.makecheckbox { label = "ttt_damage_own_healthstation (def. 0)", repconvar = "rep_ttt_damage_own_healthstation", parent = gpdvclst }
+    gpdvclst:AddItem(dvcdoh)
+
+    local dvcdob = xlib.makecheckbox { label = "ttt_damage_own_bombstation (def. 0)", repconvar = "rep_ttt_damage_own_bombstation", parent = gpdvclst }
+    gpdvclst:AddItem(dvcdob)
+
+    local dvcbeod = xlib.makecheckbox { label = "ttt_bombstation_explode_on_destroy (def. 1)", repconvar = "rep_ttt_bombstation_explode_on_destroy", parent = gpdvclst }
+    gpdvclst:AddItem(dvcbeod)
+end
+
 local function AddVoiceChat(gppnl)
     local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpvcbclp:SetSize(390, 65)
@@ -1141,6 +1162,7 @@ local function AddGameplayModule()
     AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
+    AddDevices(gppnl)
     AddVoiceChat(gppnl)
     AddOtherGameplay(gppnl)
 
