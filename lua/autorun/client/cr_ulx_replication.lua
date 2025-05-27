@@ -74,17 +74,26 @@ end)
 
 -- End copied from ulib/client/cl_util.lua
 
-local compressedString = ""
+local compressedCvars = {}
 net.Receive("ULX_CRReplicationReplacement_Part", function()
     local len = net.ReadUInt(16)
-    compressedString = compressedString .. net.ReadData(len)
+    local idx = net.ReadUInt(16)
+    compressedCvars[idx] = net.ReadData(len)
 end)
 
 net.Receive("ULX_CRReplicationReplacement_Complete", function()
+    local cvarCount = table.Count(compressedCvars)
+	local compressedString = ""
+	for idx = 1, cvarCount do
+		compressedString = compressedString .. compressedCvars[idx]
+	end
+
     local cvarJSON = util.Decompress(compressedString)
     local results = util.JSONToTable(cvarJSON)
 
     for sv_cvar, info in pairs(results) do
         repWriteCvar(sv_cvar, info.c, info.d, info.v)
     end
+
+    compressedCvars = {}
 end)
