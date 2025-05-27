@@ -394,7 +394,7 @@ function RemoveLoadoutWeapons(ply)
         end
     end
 
-	ply:StripRoleWeapons()
+    ply:StripRoleWeapons()
 end
 
 --[End]----------------------------------------------------------------------------------------
@@ -427,7 +427,7 @@ function ulx.respawn(calling_ply, target_plys, should_silent)
                     if corpse then CorpseRemove(corpse) end
 
                     v:SpawnForRound(true)
-					v:SetDefaultCredits()
+                    v:SetDefaultCredits()
 
                     table.insert(affected_plys, v)
 
@@ -501,7 +501,7 @@ function ulx.respawntp(calling_ply, target_ply, should_silent)
                 if corpse then CorpseRemove(corpse) end
 
                 target_ply:SpawnForRound(true)
-				target_ply:SetDefaultCredits()
+                target_ply:SetDefaultCredits()
 
                 target_ply:SetPos(pos)
                 table.insert(affected_ply, target_ply)
@@ -720,7 +720,7 @@ removebody:help("Removes a target's body.")
 
 --- [Impair Next Round - Concpet and some code from Decicus next round slap]----------------------------------------------------------------------------
 function ulx.inr(calling_ply, target_ply, amount)
-	local chat_message = nil
+    local chat_message = nil
     if GetConVar("gamemode"):GetString() ~= "terrortown" then ULib.tsayError(calling_ply, gamemode_error, true) else
         local impairBy = target_ply:GetPData("ImpairNR", 0)
         if amount == 0 then
@@ -735,9 +735,9 @@ function ulx.inr(calling_ply, target_ply, amount)
             end
         end
     end
-	if chat_message ~= nil then
-    	ulx.fancyLogAdmin(calling_ply, chat_message, target_ply)
-	end
+    if chat_message ~= nil then
+        ulx.fancyLogAdmin(calling_ply, chat_message, target_ply)
+    end
 end
 
 local impair = ulx.command(CATEGORY_NAME, "ulx impairnr", ulx.inr, "!impairnr")

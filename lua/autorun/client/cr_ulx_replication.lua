@@ -83,10 +83,10 @@ end)
 
 net.Receive("ULX_CRReplicationReplacement_Complete", function()
     local cvarCount = table.Count(compressedCvars)
-	local compressedString = ""
-	for idx = 1, cvarCount do
-		compressedString = compressedString .. compressedCvars[idx]
-	end
+    local compressedString = ""
+    for idx = 1, cvarCount do
+        compressedString = compressedString .. compressedCvars[idx]
+    end
 
     local cvarJSON = util.Decompress(compressedString)
     local results = util.JSONToTable(cvarJSON)

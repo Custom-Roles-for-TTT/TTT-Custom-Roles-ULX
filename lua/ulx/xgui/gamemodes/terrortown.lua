@@ -1661,10 +1661,10 @@ net.Receive("ULX_CRCVarComplete", function()
     print("[CR4TTT ULX] Final part received, reloading...")
 
     local cvarCount = table.Count(compressedCvars)
-	local compressedString = ""
-	for idx = 1, cvarCount do
-		compressedString = compressedString .. compressedCvars[idx]
-	end
+    local compressedString = ""
+    for idx = 1, cvarCount do
+        compressedString = compressedString .. compressedCvars[idx]
+    end
 
     local cvarJSON = util.Decompress(compressedString)
     local results = util.JSONToTable(cvarJSON)
