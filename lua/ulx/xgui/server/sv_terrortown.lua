@@ -206,6 +206,7 @@ local function init()
         CreateReplicatedWritableCvar("ttt_death_notifier_show_role")
         CreateReplicatedWritableCvar("ttt_death_notifier_show_team")
         CreateReplicatedWritableCvar("ttt_spectator_corpse_search")
+        CreateReplicatedWritableCvar("ttt_corpse_search_auto_confirm")
         CreateReplicatedWritableCvar("ttt_corpse_search_not_shared")
         CreateReplicatedWritableCvar("ttt_corpse_search_team_text_traitor")
         CreateReplicatedWritableCvar("ttt_corpse_search_team_text_innocent")
@@ -293,6 +294,11 @@ local function init()
         CreateReplicatedWritableCvar("ttt_namechange_kick")
         CreateReplicatedWritableCvar("ttt_namechange_bantime")
 
+        --device related
+        CreateReplicatedWritableCvar("ttt_damage_own_healthstation")
+        CreateReplicatedWritableCvar("ttt_damage_own_bombstation")
+        CreateReplicatedWritableCvar("ttt_bombstation_explode_on_destroy")
+
         --misc
         CreateReplicatedWritableCvar("ttt_detective_hats")
         CreateReplicatedWritableCvar("ttt_playercolor_mode")
@@ -342,10 +348,6 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
     cvarJSON = util.TableToJSON(cvar_data)
     compressedString = util.Compress(cvarJSON)
     compressedLen = #compressedString
-    net.Start("ULX_CRCVarRequest")
-    net.WriteUInt(compressedLen, 16)
-    net.WriteData(compressedString, compressedLen)
-    net.Send(ply)
 
     timer.Simple(1, function()
         if not IsValid(ply) then return end
@@ -353,6 +355,7 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
         print("[CR4TTT ULX] Transfering CR4TTT addon tables to: " .. tostring(ply))
 
         local blockSize = 2560
+        local offset = 1
         local idx = 1
         while (compressedLen > 0) do
             local sendSize = compressedLen
@@ -361,12 +364,14 @@ net.Receive("ULX_CRCVarRequest", function(len, ply)
             end
 
             net.Start("ULX_CRCVarPart")
-            net.WriteUInt(sendSize, 16)
-            net.WriteData(string.sub(compressedString, idx, idx + sendSize))
+                net.WriteUInt(sendSize, 16)
+                net.WriteUInt(idx, 16)
+                net.WriteData(string.sub(compressedString, offset, offset + sendSize))
             net.Send(ply)
 
             -- Move up the string
-            idx = idx + sendSize
+            offset = offset + sendSize
+            idx = idx + 1
 
             -- Keep track of how much we've sent
             compressedLen = compressedLen - sendSize

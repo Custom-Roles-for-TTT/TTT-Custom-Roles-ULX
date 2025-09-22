@@ -1,6 +1,12 @@
 --Terrortown settings module for ULX GUI
 --Defines ttt cvar limits and ttt specific settings for the ttt gamemode.
 
+local LABEL_HEIGHT = 18
+local SLIDER_HEIGHT = 25
+local CHECKBOX_HEIGHT = 20
+local TEXTBOX_HEIGHT = 43
+local DROPDOWN_HEIGHT = 43
+
 local terrortown_settings = xlib.makepanel { parent = xgui.null }
 
 xlib.makelabel { x = 5, y = 5, w = 600, wordwrap = true, label = "Trouble in Terrorist Town ULX Commands XGUI module Created by: Bender180", parent = terrortown_settings }
@@ -580,15 +586,15 @@ end
 local function GetRoleConVarsHeight(role_cvars, num_count, bool_count, text_count, dropdown_count)
     local roles_with_cvars = table.Count(role_cvars)
     -- Labels
-    return (roles_with_cvars * 18) +
+    return (roles_with_cvars * LABEL_HEIGHT) +
             -- Sliders
-            (num_count * 25) +
+            (num_count * SLIDER_HEIGHT) +
             -- Checkboxes
-            (bool_count * 20) +
+            (bool_count * CHECKBOX_HEIGHT) +
             -- Textboxes
-            (text_count * 43) +
+            (text_count * TEXTBOX_HEIGHT) +
             -- Dropdowns
-            (dropdown_count * 43)
+            (dropdown_count * DROPDOWN_HEIGHT)
 end
 
 local function AddTraitorProperties(gppnl)
@@ -1040,6 +1046,27 @@ local function AddDna(gppnl)
     gpdnalst:AddItem(dnasodod)
 end
 
+local function AddDevices(gppnl)
+    local gpdvcclp = vgui.Create("DCollapsibleCategory", gppnl)
+    gpdvcclp:SetSize(390, 60)
+    gpdvcclp:SetExpanded(0)
+    gpdvcclp:SetLabel("Devices")
+
+    local gpdvclst = vgui.Create("DPanelList", gpdvcclp)
+    gpdvclst:SetPos(5, 25)
+    gpdvclst:SetSize(390, 60)
+    gpdvclst:SetSpacing(5)
+
+    local dvcdoh = xlib.makecheckbox { label = "ttt_damage_own_healthstation (def. 0)", repconvar = "rep_ttt_damage_own_healthstation", parent = gpdvclst }
+    gpdvclst:AddItem(dvcdoh)
+
+    local dvcdob = xlib.makecheckbox { label = "ttt_damage_own_bombstation (def. 0)", repconvar = "rep_ttt_damage_own_bombstation", parent = gpdvclst }
+    gpdvclst:AddItem(dvcdob)
+
+    local dvcbeod = xlib.makecheckbox { label = "ttt_bombstation_explode_on_destroy (def. 1)", repconvar = "rep_ttt_bombstation_explode_on_destroy", parent = gpdvclst }
+    gpdvclst:AddItem(dvcbeod)
+end
+
 local function AddVoiceChat(gppnl)
     local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpvcbclp:SetSize(390, 65)
@@ -1141,6 +1168,7 @@ local function AddGameplayModule()
     AddCustomRoleProperties(gppnl)
     AddRoleShop(gppnl)
     AddDna(gppnl)
+    AddDevices(gppnl)
     AddVoiceChat(gppnl)
     AddOtherGameplay(gppnl)
 
@@ -1485,13 +1513,13 @@ local function AddMiscModule()
     bemlst:AddItem(bemsize)
 
     local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
-    miscclp:SetSize(390, 678)
+    miscclp:SetSize(390, 698)
     miscclp:SetExpanded(1)
     miscclp:SetLabel("Miscellaneous")
 
     local misclst = vgui.Create("DPanelList", miscclp)
     misclst:SetPos(5, 25)
-    misclst:SetSize(390, 678)
+    misclst:SetSize(390, 698)
     misclst:SetSpacing(5)
 
     local miscdh = xlib.makecheckbox { label = "ttt_detective_hats (def. 0)", repconvar = "rep_ttt_detective_hats", parent = misclst }
@@ -1554,6 +1582,9 @@ local function AddMiscModule()
 
     local miscscs = xlib.makecheckbox { label = "ttt_spectator_corpse_search (def. 1)", repconvar = "rep_ttt_spectator_corpse_search", parent = misclst }
     misclst:AddItem(miscscs)
+
+    local misccsac = xlib.makecheckbox { label = "ttt_corpse_search_auto_confirm (def. 1)", repconvar = "rep_ttt_corpse_search_auto_confirm", parent = misclst }
+    misclst:AddItem(misccsac)
 
     local misccsns = xlib.makecheckbox { label = "ttt_corpse_search_not_shared (def. 0)", repconvar = "rep_ttt_corpse_search_not_shared", parent = misclst }
     misclst:AddItem(misccsns)
@@ -1650,14 +1681,21 @@ xgui.hookEvent("onOpen", nil, function()
     net.SendToServer()
 end, "CR4TTTULXOpen")
 
-local compressedString = ""
+local compressedCvars = {}
 net.Receive("ULX_CRCVarPart", function()
     local len = net.ReadUInt(16)
-    compressedString = compressedString .. net.ReadData(len)
+    local idx = net.ReadUInt(16)
+    compressedCvars[idx] = net.ReadData(len)
 end)
 
 net.Receive("ULX_CRCVarComplete", function()
     print("[CR4TTT ULX] Final part received, reloading...")
+
+    local cvarCount = table.Count(compressedCvars)
+    local compressedString = ""
+    for idx = 1, cvarCount do
+        compressedString = compressedString .. compressedCvars[idx]
+    end
 
     local cvarJSON = util.Decompress(compressedString)
     local results = util.JSONToTable(cvarJSON)
@@ -1690,7 +1728,7 @@ net.Receive("ULX_CRCVarComplete", function()
     -- Reload the modules since by this time its usually loaded already
     xgui.processModules()
 
-    -- Reset the compressed string and missing convars table to save space
-    compressedString = ""
+    -- Reset the tables to save space
+    compressedCvars = {}
     table.Empty(missing_cvars)
 end)
