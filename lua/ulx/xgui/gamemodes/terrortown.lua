@@ -6,6 +6,7 @@ local SLIDER_HEIGHT = 25
 local CHECKBOX_HEIGHT = 20
 local TEXTBOX_HEIGHT = 43
 local DROPDOWN_HEIGHT = 43
+local BUTTON_HEIGHT = 25
 
 local terrortown_settings = xlib.makepanel { parent = xgui.null }
 
@@ -786,14 +787,27 @@ end
 
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    crpropclp:SetSize(390, 40)
+    local height = (CHECKBOX_HEIGHT * 2) + (BUTTON_HEIGHT * 2)
+    crpropclp:SetSize(390, height)
     crpropclp:SetExpanded(1)
     crpropclp:SetLabel("Other Custom Role Properties")
 
     local crproplst = vgui.Create("DPanelList", crpropclp)
     crproplst:SetPos(5, 25)
-    crproplst:SetSize(390, 40)
+    crproplst:SetSize(390, height)
     crproplst:SetSpacing(5)
+
+    local rolePacksButton = xlib.makebutton{ w = 150, label = "Open Role Packs Config", parent = crproplst }
+    rolePacksButton.DoClick = function()
+        RunConsoleCommand("ttt_rolepacks")
+    end
+    crproplst:AddItem(rolePacksButton)
+
+    local roleBlocksButton = xlib.makebutton{ w = 150, label = "Open Role Blocks Config", parent = crproplst }
+    roleBlocksButton.DoClick = function()
+        RunConsoleCommand("ttt_roleblocks")
+    end
+    crproplst:AddItem(roleBlocksButton)
 
     local depimppad = xlib.makecheckbox { label = "ttt_deputy_impersonator_promote_any_death (def. 0)", repconvar = "rep_ttt_deputy_impersonator_promote_any_death", parent = crproplst }
     crproplst:AddItem(depimppad)
@@ -944,11 +958,12 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 155 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+    local height = 130 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
                         (45 * #inno_shops) + (20 * #inno_syncs) + (43 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
                         (45 * #indep_shops) + (20 * #indep_syncs) + (43 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
                         (45 * #jester_shops) + (20 * #jester_syncs) + (43 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
-                        (45 * #monster_shops) + (20 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays)
+                        (45 * #monster_shops) + (20 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays) +
+                        BUTTON_HEIGHT
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetSize(390, height)
     rspnl:SetExpanded(0)
@@ -959,10 +974,11 @@ local function AddRoleShop(gppnl)
     rslst:SetSize(390, height)
     rslst:SetSpacing(5)
 
-    local openButton = xlib.makebutton{w=150, label="Open Role Weapons Config", parent=rslst}
-    openButton.DoClick=function()
+    local roleWeaponsButton = xlib.makebutton{ w = 150, label = "Open Role Weapons Config", parent = rslst }
+    roleWeaponsButton.DoClick = function()
         RunConsoleCommand("ttt_roleweapons")
     end
+    rslst:AddItem(roleWeaponsButton)
 
     local rsfa = xlib.makecheckbox { label = "ttt_shop_for_all (def. 0)", repconvar = "rep_ttt_shop_for_all", parent = rslst }
     rslst:AddItem(rsfa)
@@ -1676,8 +1692,8 @@ xgui.hookEvent("onOpen", nil, function()
     local compressedString = util.Compress(cvarJSON)
     local compressedLen = #compressedString
     net.Start("ULX_CRCVarRequest")
-    net.WriteUInt(compressedLen, 16)
-    net.WriteData(compressedString, compressedLen)
+        net.WriteUInt(compressedLen, 16)
+        net.WriteData(compressedString, compressedLen)
     net.SendToServer()
 end, "CR4TTTULXOpen")
 
