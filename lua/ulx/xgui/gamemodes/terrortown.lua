@@ -989,6 +989,9 @@ local function AddRoleShop(gppnl)
     local rspos = xlib.makecheckbox { label = "ttt_shop_random_position (def. 0)", repconvar = "rep_ttt_shop_random_position", parent = rslst }
     rslst:AddItem(rspos)
 
+    local rsdef = xlib.makecheckbox { label = "ttt_shop_sync_default (def. 1)", repconvar = "ttt_shop_sync_default", parent = rslst }
+    rslst:AddItem(rsdef)
+
     local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Traitors:", parent = rslst }
     rslst:AddItem(tralbl)
 
