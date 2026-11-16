@@ -908,9 +908,11 @@ end
 
 local function AddShopSyncSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetReplicatedConVarDefault(c, "0")
-        local sync = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
-        AddToList(sync, lst)
+        local default = GetReplicatedConVarDefault(c, "-1")
+        local synclbl = xlib.makelabel { label = c .. " (def. " .. default .. ")", parent = lst }
+        AddToList(synclbl, lst)
+        local synccb = xlib.makecombobox { repconvar = "rep_" .. c, isNumberConvar = true, numOffset = 2, choices = { "Use default", "Disable", "Enable" }, parent = lst }
+        AddToList(synccb, lst)
 
         -- Save the control so it can be updated later
         if missing_cvars[c] then
@@ -1034,6 +1036,12 @@ local function AddRoleShop(gppnl)
 
     local rspos = xlib.makecheckbox { label = "ttt_shop_random_position (def. 0)", repconvar = "rep_ttt_shop_random_position", parent = rslst }
     AddToList(rspos, rslst)
+
+    local rsdeft = xlib.makecheckbox { label = "ttt_traitors_shop_sync_default (def. 0)", repconvar = "ttt_traitors_shop_sync_default", parent = rslst }
+    AddToList(rsdeft, rslst)
+
+    local rsdefd = xlib.makecheckbox { label = "ttt_detectives_shop_sync_default (def. 0)", repconvar = "ttt_detectives_shop_sync_default", parent = rslst }
+    AddToList(rsdefd, rslst)
 
     local shop_roles = GetShopRoles()
     AddTeamShop("Traitors:", TRAITOR_ROLES, shop_roles, rslst)
