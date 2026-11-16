@@ -843,9 +843,11 @@ end
 
 local function AddShopSyncSettings(lst, cvar_list)
     for _, c in pairs(cvar_list) do
-        local default = GetReplicatedConVarDefault(c, "0")
-        local sync = xlib.makecheckbox { label = c .. " (def. " .. default .. ")", repconvar = "rep_".. c, parent = lst }
-        lst:AddItem(sync)
+        local default = GetReplicatedConVarDefault(c, "-1")
+        local synclbl = xlib.makelabel { label = c .. " (def. " .. default .. ")", parent = lst }
+        lst:AddItem(synclbl)
+        local synccb = xlib.makecombobox { repconvar = "rep_" .. c, isNumberConvar = true, numOffset = 2, choices = { "Use default", "Disable", "Enable" }, parent = lst }
+        lst:AddItem(synccb)
 
         -- Save the control so it can be updated later
         if missing_cvars[c] then
@@ -958,11 +960,11 @@ local function AddRoleShop(gppnl)
     local monster_modes = GetShopModeCvars(monster_shops)
     local monster_actives = GetShopActiveCvars(monster_shops)
     local monster_delays = GetShopDelayCvars(monster_shops)
-    local height = 130 + (45 * #traitor_shops) + (20 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
-                        (45 * #inno_shops) + (20 * #inno_syncs) + (43 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
-                        (45 * #indep_shops) + (20 * #indep_syncs) + (43 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
-                        (45 * #jester_shops) + (20 * #jester_syncs) + (43 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
-                        (45 * #monster_shops) + (20 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays) +
+    local height = 200 + (45 * #traitor_shops) + (43 * #traitor_syncs) + (43 * #traitor_modes) + (20 * #traitor_actives) + (20 * #traitor_delays) +
+                        (45 * #inno_shops) + (43 * #inno_syncs) + (43 * #inno_modes) + (20 * #inno_actives) + (20 * #inno_delays) +
+                        (45 * #indep_shops) + (43 * #indep_syncs) + (43 * #indep_modes) + (20 * #indep_actives) + (20 * #indep_delays) +
+                        (45 * #jester_shops) + (43 * #jester_syncs) + (43 * #jester_modes) + (20 * #jester_actives) + (20 * #jester_delays) +
+                        (45 * #monster_shops) + (43 * #monster_syncs) + (43 * #monster_modes) + (20 * #monster_actives) + (20 * #monster_delays) +
                         BUTTON_HEIGHT
     local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetSize(390, height)
@@ -988,6 +990,12 @@ local function AddRoleShop(gppnl)
 
     local rspos = xlib.makecheckbox { label = "ttt_shop_random_position (def. 0)", repconvar = "rep_ttt_shop_random_position", parent = rslst }
     rslst:AddItem(rspos)
+
+    local rsdeft = xlib.makecheckbox { label = "ttt_traitors_shop_sync_default (def. 0)", repconvar = "ttt_traitors_shop_sync_default", parent = rslst }
+    rslst:AddItem(rsdeft)
+
+    local rsdefd = xlib.makecheckbox { label = "ttt_detectives_shop_sync_default (def. 0)", repconvar = "ttt_detectives_shop_sync_default", parent = rslst }
+    rslst:AddItem(rsdefd)
 
     local tralbl = xlib.makelabel { wordwrap = true, font = "DermaDefaultBold", label = "Traitors:", parent = rslst }
     rslst:AddItem(tralbl)
