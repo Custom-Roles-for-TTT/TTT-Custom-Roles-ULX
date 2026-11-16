@@ -154,15 +154,10 @@ end
 local function AddRoundStructureModule()
     local rspnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", rspnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local rspapclp = vgui.Create("DCollapsibleCategory", lst)
+    local rspapclp = vgui.Create("DCollapsibleCategory", rspnl)
     rspapclp:SetLabel("Preparation and Post-Round")
     rspapclp:SetExpanded(true)
-    lst:Add(rspapclp)
+    rspnl:Add(rspapclp)
 
     local rspaplst = vgui.Create("DListLayout", rspapclp)
     rspapclp:SetContents(rspaplst)
@@ -180,14 +175,14 @@ local function AddRoundStructureModule()
 
     --Round Length
     local rsrlclp = vgui.Create("DCollapsibleCategory", rspnl)
-    rsrlclp:SetSize(390, 115)
-    rsrlclp:SetExpanded(0)
     rsrlclp:SetLabel("Round Length")
+    rsrlclp:SetExpanded(false)
+    rspnl:Add(rsrlclp)
 
-    local rsrllst = vgui.Create("DPanelList", rsrlclp)
-    rsrllst:SetPos(5, 25)
-    rsrllst:SetSize(390, 115)
-    rsrllst:SetSpacing(5)
+    local rsrllst = vgui.Create("DListLayout", rsrlclp)
+    rsrlclp:SetContents(rsrllst)
+    rsrllst:DockMargin(5, 0, 0, 0)
+    rsrlclp:SetPaintBackground(true)
 
     local hstmd = xlib.makecheckbox { label = "ttt_haste (def. 1)", repconvar = "rep_ttt_haste", parent = rsrllst }
     AddToList(hstmd, rsrllst)
@@ -206,14 +201,14 @@ local function AddRoundStructureModule()
 
     --Map Switching and Voting
     local msavclp = vgui.Create("DCollapsibleCategory", rspnl)
-    msavclp:SetSize(390, 50)
-    msavclp:SetExpanded(0)
     msavclp:SetLabel("Map Switching and Voting")
+    msavclp:SetExpanded(false)
+    rspnl:Add(msavclp)
 
-    local msavlst = vgui.Create("DPanelList", msavclp)
-    msavlst:SetPos(5, 25)
-    msavlst:SetSize(390, 50)
-    msavlst:SetSpacing(5)
+    local msavlst = vgui.Create("DListLayout", msavclp)
+    msavclp:SetContents(msavlst)
+    msavlst:DockMargin(5, 0, 0, 0)
+    msavclp:SetPaintBackground(true)
 
     local rndl = xlib.makeslider { label = "ttt_round_limit (def. 6)", min = 1, max = 100, repconvar = "rep_ttt_round_limit", parent = msavlst }
     AddToList(rndl, msavlst)
@@ -226,15 +221,10 @@ local function AddRoundStructureModule()
 end
 
 local function AddTraitorAndDetectiveSettings(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local gptdcclp = vgui.Create("DCollapsibleCategory", lst)
+    local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
     gptdcclp:SetLabel("Traitor and Detective Settings")
     gptdcclp:SetExpanded(true)
-    lst:Add(gptdcclp)
+    gppnl:Add(gptdcclp)
 
     local gptdlst = vgui.Create("DListLayout", gptdcclp)
     gptdcclp:SetContents(gptdlst)
@@ -286,15 +276,10 @@ local function AddSpecialistTraitorSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local sptraclp = vgui.Create("DCollapsibleCategory", lst)
+    local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
     sptraclp:SetLabel("Specialist Traitor Settings")
     sptraclp:SetExpanded(true)
-    lst:Add(sptraclp)
+    gppnl:Add(sptraclp)
 
     local sptralst = vgui.Create("DListLayout", sptraclp)
     sptraclp:SetContents(sptralst)
@@ -320,15 +305,10 @@ local function AddSpecialistDetectiveSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local spdetclp = vgui.Create("DCollapsibleCategory", lst)
+    local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
     spdetclp:SetLabel("Specialist Detective Settings")
     spdetclp:SetExpanded(true)
-    lst:Add(spdetclp)
+    gppnl:Add(spdetclp)
 
     local spdetlst = vgui.Create("DListLayout", spdetclp)
     spdetclp:SetContents(spdetlst)
@@ -354,15 +334,10 @@ local function AddSpecialistInnocentSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local spinnclp = vgui.Create("DCollapsibleCategory", lst)
+    local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetLabel("Specialist Innocent Settings")
     spinnclp:SetExpanded(true)
-    lst:Add(spinnclp)
+    gppnl:Add(spinnclp)
 
     local spinnlst = vgui.Create("DListLayout", spinnclp)
     spinnclp:SetContents(spinnlst)
@@ -393,15 +368,10 @@ local function AddIndependentRoleSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local indclp = vgui.Create("DCollapsibleCategory", lst)
+    local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetLabel("Independent Role Settings")
     indclp:SetExpanded(true)
-    lst:Add(indclp)
+    gppnl:Add(indclp)
 
     local indlst = vgui.Create("DListLayout", indclp)
     indclp:SetContents(indlst)
@@ -455,15 +425,10 @@ local function AddMonsterSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local monclp = vgui.Create("DCollapsibleCategory", lst)
+    local monclp = vgui.Create("DCollapsibleCategory", gppnl)
     monclp:SetLabel("Monster Role Settings")
     monclp:SetExpanded(true)
-    lst:Add(monclp)
+    gppnl:Add(monclp)
 
     local monlst = vgui.Create("DListLayout", monclp)
     monclp:SetContents(monlst)
@@ -483,15 +448,10 @@ local function AddMonsterSettings(gppnl)
 end
 
 local function AddGroupedRoleSettings(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local grpclp = vgui.Create("DCollapsibleCategory", lst)
+    local grpclp = vgui.Create("DCollapsibleCategory", gppnl)
     grpclp:SetLabel("Grouped Role Settings")
     grpclp:SetExpanded(true)
-    lst:Add(grpclp)
+    gppnl:Add(grpclp)
 
     local grplst = vgui.Create("DListLayout", grpclp)
     grpclp:SetContents(grplst)
@@ -516,15 +476,10 @@ local function AddRoleHealthSettings(gppnl)
         end
     end
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local rolehealthclp = vgui.Create("DCollapsibleCategory", lst)
+    local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
     rolehealthclp:SetLabel("Role Health Settings")
     rolehealthclp:SetExpanded(true)
-    lst:Add(rolehealthclp)
+    gppnl:Add(rolehealthclp)
 
     local rolehealthlst = vgui.Create("DListLayout", rolehealthclp)
     rolehealthclp:SetContents(rolehealthlst)
@@ -633,15 +588,10 @@ local function AddTraitorProperties(gppnl)
     local traitor_roles = GetSortedTeamRoles(TRAITOR_ROLES)
     local role_cvars = GetRoleConVars(traitor_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local trapropclp = vgui.Create("DCollapsibleCategory", lst)
+    local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetLabel("Traitor Properties")
     trapropclp:SetExpanded(true)
-    lst:Add(trapropclp)
+    gppnl:Add(trapropclp)
 
     local traproplst = vgui.Create("DListLayout", trapropclp)
     trapropclp:SetContents(traproplst)
@@ -665,15 +615,10 @@ local function AddDetectiveProperties(gppnl)
     local detective_roles = GetSortedTeamRoles(DETECTIVE_ROLES)
     local role_cvars = GetRoleConVars(detective_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local detpropclp = vgui.Create("DCollapsibleCategory", lst)
+    local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetLabel("Detective Properties")
     detpropclp:SetExpanded(true)
-    lst:Add(detpropclp)
+    gppnl:Add(detpropclp)
 
     local detproplst = vgui.Create("DListLayout", detpropclp)
     detpropclp:SetContents(detproplst)
@@ -728,15 +673,10 @@ local function AddInnocentProperties(gppnl)
     local innocent_roles = GetSortedTeamRoles(INNOCENT_ROLES, DETECTIVE_ROLES)
     local role_cvars = GetRoleConVars(innocent_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local innpropclp = vgui.Create("DCollapsibleCategory", lst)
+    local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetLabel("Innocent Properties")
     innpropclp:SetExpanded(true)
-    lst:Add(innpropclp)
+    gppnl:Add(innpropclp)
 
     local innproplst = vgui.Create("DListLayout", innpropclp)
     innpropclp:SetContents(innproplst)
@@ -754,15 +694,10 @@ local function AddJesterRoleProperties(gppnl)
     local jester_roles = GetSortedTeamRoles(JESTER_ROLES)
     local role_cvars = GetRoleConVars(jester_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local jespropclp = vgui.Create("DCollapsibleCategory", lst)
+    local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetLabel("Jester Properties")
     jespropclp:SetExpanded(true)
-    lst:Add(jespropclp)
+    gppnl:Add(jespropclp)
 
     local jesproplst = vgui.Create("DListLayout", jespropclp)
     jespropclp:SetContents(jesproplst)
@@ -792,15 +727,10 @@ local function AddIndependentRoleProperties(gppnl)
     local independent_roles = GetSortedTeamRoles(INDEPENDENT_ROLES)
     local role_cvars = GetRoleConVars(independent_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local indpropclp = vgui.Create("DCollapsibleCategory", lst)
+    local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetLabel("Independent Properties")
     indpropclp:SetExpanded(true)
-    lst:Add(indpropclp)
+    gppnl:Add(indpropclp)
 
     local indproplst = vgui.Create("DListLayout", indpropclp)
     indpropclp:SetContents(indproplst)
@@ -824,15 +754,10 @@ local function AddMonsterRoleProperties(gppnl)
     local monster_roles = GetSortedTeamRoles(MONSTER_ROLES)
     local role_cvars = GetRoleConVars(monster_roles)
 
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local monpropclp = vgui.Create("DCollapsibleCategory", lst)
+    local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     monpropclp:SetLabel("Monsters Properties")
     monpropclp:SetExpanded(true)
-    lst:Add(monpropclp)
+    gppnl:Add(monpropclp)
 
     local monproplst = vgui.Create("DListLayout", monpropclp)
     monpropclp:SetContents(monproplst)
@@ -847,15 +772,10 @@ local function AddMonsterRoleProperties(gppnl)
 end
 
 local function AddCustomRoleProperties(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local crpropclp = vgui.Create("DCollapsibleCategory", lst)
+    local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     crpropclp:SetLabel("Custom Roles Properties")
     crpropclp:SetExpanded(true)
-    lst:Add(crpropclp)
+    gppnl:Add(crpropclp)
 
     local crproplst = vgui.Create("DListLayout", crpropclp)
     crpropclp:SetContents(crproplst)
@@ -1007,15 +927,10 @@ local function AddTeamShop(label, roles, shop_roles, parent)
 end
 
 local function AddRoleShop(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local rspnl = vgui.Create("DCollapsibleCategory", lst)
+    local rspnl = vgui.Create("DCollapsibleCategory", gppnl)
     rspnl:SetLabel("Role Shop")
     rspnl:SetExpanded(false)
-    lst:Add(rspnl)
+    gppnl:Add(rspnl)
 
     local rslst = vgui.Create("DListLayout", rspnl)
     rspnl:SetContents(rslst)
@@ -1052,15 +967,10 @@ local function AddRoleShop(gppnl)
 end
 
 local function AddDna(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local gpdnaclp = vgui.Create("DCollapsibleCategory", lst)
+    local gpdnaclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpdnaclp:SetLabel("DNA")
     gpdnaclp:SetExpanded(false)
-    lst:Add(gpdnaclp)
+    gppnl:Add(gpdnaclp)
 
     local gpdnalst = vgui.Create("DListLayout", gpdnaclp)
     gpdnaclp:SetContents(gpdnalst)
@@ -1084,15 +994,10 @@ local function AddDna(gppnl)
 end
 
 local function AddDevices(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local gpdvcclp = vgui.Create("DCollapsibleCategory", lst)
+    local gpdvcclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpdvcclp:SetLabel("Devices")
     gpdvcclp:SetExpanded(false)
-    lst:Add(gpdvcclp)
+    gppnl:Add(gpdvcclp)
 
     local gpdvclst = vgui.Create("DListLayout", gpdvcclp)
     gpdvcclp:SetContents(gpdvclst)
@@ -1110,15 +1015,10 @@ local function AddDevices(gppnl)
 end
 
 local function AddVoiceChat(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local gpvcbclp = vgui.Create("DCollapsibleCategory", lst)
+    local gpvcbclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpvcbclp:SetLabel("Voice Chat Battery")
     gpvcbclp:SetExpanded(false)
-    lst:Add(gpvcbclp)
+    gppnl:Add(gpvcbclp)
 
     local gpvcblst = vgui.Create("DListLayout", gpvcbclp)
     gpvcbclp:SetContents(gpvcblst)
@@ -1139,15 +1039,10 @@ local function AddVoiceChat(gppnl)
 end
 
 local function AddOtherGameplay(gppnl)
-    local lst = vgui.Create("DListLayout", gppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local gpogsclp = vgui.Create("DCollapsibleCategory", lst)
+    local gpogsclp = vgui.Create("DCollapsibleCategory", gppnl)
     gpogsclp:SetLabel("Other Gameplay Settings")
     gpogsclp:SetExpanded(false)
-    lst:Add(gpogsclp)
+    gppnl:Add(gpogsclp)
 
     local gpogslst = vgui.Create("DListLayout", gpogsclp)
     gpogsclp:SetContents(gpogslst)
@@ -1230,15 +1125,10 @@ end
 local function AddKarmaModule()
     local krmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", krmpnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local krmclp = vgui.Create("DCollapsibleCategory", lst)
+    local krmclp = vgui.Create("DCollapsibleCategory", krmpnl)
     krmclp:SetLabel("Karma")
     krmclp:SetExpanded(true)
-    lst:Add(krmclp)
+    krmpnl:Add(krmclp)
 
     local krmlst = vgui.Create("DListLayout", krmclp)
     krmclp:SetContents(krmlst)
@@ -1309,7 +1199,7 @@ end
 local function AddMapModule()
     local mprpnl = xlib.makepanel { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", mprpnl)
+local lst = vgui.Create("DListLayout", mprpnl)
     lst:SetSize(415, 315)
     lst:DockPadding(0, 0, 0, 2)
 
@@ -1349,26 +1239,21 @@ local function AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddRoleCreditSection(pnl, label, role_list, excludes)
-    local lst = vgui.Create("DListLayout", pnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local cat = vgui.Create("DCollapsibleCategory", lst)
+    local cat = vgui.Create("DCollapsibleCategory", pnl)
     cat:SetLabel(label .. " Credits")
     cat:SetExpanded(false)
-    lst:Add(cat)
+    pnl:Add(cat)
 
-    local clst = vgui.Create("DListLayout", cat)
-    cat:SetContents(clst)
-    clst:DockMargin(5, 0, 0, 0)
+    local lst = vgui.Create("DListLayout", cat)
+    cat:SetContents(lst)
+    lst:DockMargin(5, 0, 0, 0)
     cat:SetPaintBackground(true)
 
     local credit_roles = GetCreditRoles()
     local role_shops = table.IntersectedKeys(role_list, credit_roles, excludes)
     SortRolesByName(role_shops)
 
-    AddRoleCreditsSlider(role_shops, clst)
+    AddRoleCreditsSlider(role_shops, lst)
 end
 
 local function AddEquipmentCreditsModule()
@@ -1379,15 +1264,10 @@ local function AddEquipmentCreditsModule()
     local traitor_shops = table.IntersectedKeys(TRAITOR_ROLES, credit_roles, {ROLE_TRAITOR})
     SortRolesByName(traitor_shops)
 
-    local lst = vgui.Create("DListLayout", ecpnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local ectcclp = vgui.Create("DCollapsibleCategory", lst)
+    local ectcclp = vgui.Create("DCollapsibleCategory", ecpnl)
     ectcclp:SetLabel("Traitor Credits")
     ectcclp:SetExpanded(true)
-    lst:Add(ectcclp)
+    ecpnl:Add(ectcclp)
 
     local ectclst = vgui.Create("DListLayout", ectcclp)
     ectcclp:SetContents(ectclst)
@@ -1464,15 +1344,10 @@ end
 local function AddPlayerMovementModule()
     local pmpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", pmpnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local pmspp = vgui.Create("DCollapsibleCategory", lst)
+    local pmspp = vgui.Create("DCollapsibleCategory", pmpnl)
     pmspp:SetLabel("Sprint")
     pmspp:SetExpanded(true)
-    lst:Add(pmspp)
+    pmpnl:Add(pmspp)
 
     local pmsplst = vgui.Create("DListLayout", pmspp)
     pmspp:SetContents(pmsplst)
@@ -1504,15 +1379,10 @@ end
 local function AddPropPossessionModule()
     local pppnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", pppnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local ppclp = vgui.Create("DCollapsibleCategory", lst)
+    local ppclp = vgui.Create("DCollapsibleCategory", pppnl)
     ppclp:SetLabel("Prop Possession")
     ppclp:SetExpanded(true)
-    lst:Add(ppclp)
+    pppnl:Add(ppclp)
 
     local pplst = vgui.Create("DListLayout", ppclp)
     ppclp:SetContents(pplst)
@@ -1545,15 +1415,10 @@ local function AddAdminModule()
     -------------------- Admin-related Module--------------------
     local arpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", arpnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local arclp = vgui.Create("DCollapsibleCategory", lst)
+    local arclp = vgui.Create("DCollapsibleCategory", arpnl)
     arclp:SetLabel("Admin-related")
     arclp:SetExpanded(true)
-    lst:Add(arclp)
+    arpnl:Add(arclp)
 
     local arlst = vgui.Create("DListLayout", arclp)
     arclp:SetContents(arlst)
@@ -1577,15 +1442,10 @@ local function AddMiscModule()
     -------------------- Miscellaneous Module--------------------
     local miscpnl = xlib.makelistlayout { w = 415, h = 318, parent = xgui.null }
 
-    local lst = vgui.Create("DListLayout", miscpnl)
-    lst:SetPos(5, 25)
-    lst:SetSize(390, 315)
-    lst:DockPadding(0, 0, 0, 2)
-
-    local bempnl = vgui.Create("DCollapsibleCategory", lst)
+    local bempnl = vgui.Create("DCollapsibleCategory", miscpnl)
     bempnl:SetLabel("Better Equipment Menu")
     bempnl:SetExpanded(true)
-    lst:Add(bempnl)
+    miscpnl:Add(bempnl)
 
     local bemlst = vgui.Create("DListLayout", bempnl)
     bempnl:SetContents(bemlst)
@@ -1604,10 +1464,10 @@ local function AddMiscModule()
     local bemsize = xlib.makeslider { label = "ttt_bem_sv_size (def. 64)", min = 16, max = 128, repconvar = "rep_ttt_bem_sv_size", parent = bemlst }
     AddToList(bemsize, bemlst)
 
-    local miscclp = vgui.Create("DCollapsibleCategory", lst)
+    local miscclp = vgui.Create("DCollapsibleCategory", miscpnl)
     miscclp:SetLabel("Miscellaneous")
     miscclp:SetExpanded(true)
-    lst:Add(miscclp)
+    miscpnl:Add(miscclp)
 
     local misclst = vgui.Create("DListLayout", miscclp)
     miscclp:SetContents(misclst)
@@ -1715,10 +1575,10 @@ local function AddMiscModule()
     AddToList(misccskttp, misclst)
 
     --Disable Features
-    local dfclp = vgui.Create("DCollapsibleCategory", lst)
+    local dfclp = vgui.Create("DCollapsibleCategory", miscpnl)
     dfclp:SetLabel("Disable Features")
     dfclp:SetExpanded(true)
-    lst:Add(dfclp)
+    miscpnl:Add(dfclp)
 
     local dflst = vgui.Create("DListLayout", dfclp)
     dfclp:SetContents(dflst)
