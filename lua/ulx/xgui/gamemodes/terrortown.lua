@@ -16,23 +16,23 @@ terrortown_settings.catList:AddColumn("Terrorist Town Settings")
 terrortown_settings.catList.Columns[1].DoClick = function() end
 
 terrortown_settings.catList.OnRowSelected = function(self, lineid, line)
+    if terrortown_settings.curPanel then
+        terrortown_settings.curPanel:SetZPos(-1)
+        terrortown_settings.curPanel:SetVisible(false)
+    end
+
     local panel = xgui.modules.submodule[line:GetValue(2)].panel
     if panel ~= terrortown_settings.curPanel then
         panel:SetZPos(0)
-        xlib.addToAnimQueue("pnlSlide", { panel = panel, startx = -435, starty = 0, endx = 0, endy = 0, setvisible = true })
-        if terrortown_settings.curPanel then
-            terrortown_settings.curPanel:SetZPos(-1)
-            xlib.addToAnimQueue(terrortown_settings.curPanel.SetVisible, terrortown_settings.curPanel, false)
-        end
-        xlib.animQueue_start()
+        panel:SetVisible(true)
         terrortown_settings.curPanel = panel
     else
-        xlib.addToAnimQueue("pnlSlide", { panel = panel, startx = 0, starty = 0, endx = -435, endy = 0, setvisible = false })
         self:ClearSelection()
         terrortown_settings.curPanel = nil
-        xlib.animQueue_start()
     end
-    if panel.onOpen then panel.onOpen() end --If the panel has it, call a function when it's opened
+
+    -- If the panel has it, call a function when it's opened
+    if panel.onOpen then panel.onOpen() end
 end
 
 --Process modular settings
@@ -1199,7 +1199,7 @@ end
 local function AddMapModule()
     local mprpnl = xlib.makepanel { w = 415, h = 318, parent = xgui.null }
 
-local lst = vgui.Create("DListLayout", mprpnl)
+    local lst = vgui.Create("DListLayout", mprpnl)
     lst:SetSize(415, 315)
     lst:DockPadding(0, 0, 0, 2)
 
