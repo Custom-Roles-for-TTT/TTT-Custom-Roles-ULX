@@ -9,7 +9,8 @@ local function SortRolesByName(roles)
     table.sort(roles, function(a, b) return a < b end)
 end
 
---[Ulx Completes]------------------------------------------------------------------------------
+--[ULX Completes]------------------------------------------------------------------------------
+
 ulx.target_role = {}
 local function UpdateRoles()
     if GAMEMODE.FolderName ~= "terrortown" then return end
@@ -22,9 +23,7 @@ local function UpdateRoles()
     SortRolesByName(ulx.target_role)
 end
 
-hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
---updateNextround()
---UpdateRoles()
+hook.Add(ULib.HOOK_UCLCHANGED, "ULX_RoleNamesUpdate", UpdateRoles)
 
 --[End]----------------------------------------------------------------------------------------
 
@@ -34,7 +33,7 @@ hook.Add(ULib.HOOK_UCLCHANGED, "ULXRoleNamesUpdate", UpdateRoles)
 @param  {[PlayerObject]} ply     [The player to change role.]
 @param  {[Integer]}      role    [The player role to set.]
 --]]
-function SetRole(ply, role)
+local function SetRole(ply, role)
     ply:SetRole(role)
 
     if SERVER then
@@ -53,7 +52,7 @@ end
 @param  {[PlayerObject]} v       [The player(s) to send the message to.]
 @param  {[String]}       message [The message that will be sent.]
 --]]
-function SendMessages(v, message)
+local function SendMessages(v, message)
     if type(v) == "Players" then
         v:ChatPrint(message)
     elseif type(v) == "table" then
@@ -66,14 +65,14 @@ end
 --[[CorpseRemove][Gets the player owner of th corpse given.]
 @param  {[Ragdoll]} corpse [The corpse whose owner is being found.]
 --]]
-function GetPlayerFromCorpse(corpse)
+local function GetPlayerFromCorpse(corpse)
     return player.GetBySteamID64(corpse.sid64) or player.GetBySteamID(corpse.sid)
 end
 
 --[[CorpseFind][Finds the corpse of a given player.]
 @param  {[PlayerObject]} v       [The player that to find the corpse for.]
 --]]
-function CorpseFind(v)
+local function CorpseFind(v)
     for _, ent in pairs(ents.FindByClass("prop_ragdoll")) do
         if (ent.sid64 == v:SteamID64() or ent.sid == v:SteamID()) and IsValid(ent) then
             return ent or false
@@ -84,7 +83,7 @@ end
 --[[CorpseRemove][Removes the corpse given.]
 @param  {[Ragdoll]} corpse [The corpse to be removed.]
 --]]
-function CorpseRemove(corpse)
+local function CorpseRemove(corpse)
     CORPSE.SetFound(corpse, false)
     if string.find(corpse:GetModel(), "zm_", 6, true) or corpse.player_ragdoll then
         GetPlayerFromCorpse(corpse):SetNWBool("body_found", false)
@@ -93,15 +92,6 @@ function CorpseRemove(corpse)
     end
 end
 
---[[corpse_identify][Identifies the given corpse.]
-@param  {[Ragdoll]} corpse [The corpse to be identified.]
---]]
-function CorpseIdentify(corpse)
-    if corpse then
-        GetPlayerFromCorpse(corpse):SetNWBool("body_found", true)
-        CORPSE.SetFound(corpse, true)
-    end
-end
 
 --[End]----------------------------------------------------------------------------------------
 
@@ -169,8 +159,9 @@ slaynr:addParam { type = ULib.cmds.BoolArg, invisible = true }
 slaynr:defaultAccess(ULib.ACCESS_ADMIN)
 slaynr:help("Slays target(s) for a number of rounds")
 slaynr:setOpposite("ulx rslaynr", { _, _, _, true }, "!rslaynr")
+
 --[Helper Functions]---------------------------------------------------------------------------
-hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
+hook.Add("TTTBeginRound", "ULX_SlayPlayersNextRound", function()
     local affected_plys = {}
 
     for _, v in pairs(player.GetAll()) do
@@ -244,7 +235,7 @@ hook.Add("TTTBeginRound", "SlayPlayersNextRound", function()
     end
 end)
 
-hook.Add("PlayerSpawn", "Inform", function(ply)
+hook.Add("PlayerSpawn", "ULX_Inform", function(ply)
     if GAMEMODE.FolderName ~= "terrortown" then return end
 
     local slays_left = tonumber(ply:GetPData("slaynr_slays")) or 0
@@ -271,6 +262,70 @@ end)
 
 
 --[Force role]---------------------------------------------------------------------------------
+
+--[Helper Functions]---------------------------------------------------------------------------
+
+--[[GetLoadoutWeapons][Returns the loadout weapons ]
+@param  {[Number]} r [The role of the loadout weapons to be returned]
+@return {[table]}    [A table of loadout weapons for the given role.]
+--]]
+local loadout_weapons = nil
+local function GetLoadoutWeapons(r)
+    if not loadout_weapons then
+        local tbl = {}
+        -- Initialize the table for every role
+        for wrole = 0, ROLE_MAX do
+            tbl[wrole] = {}
+        end
+
+        for _, w in pairs(weapons.GetList()) do
+            if WEPS.GetClass(w) == "weapon_ttt_unarmed" or WEPS.GetClass(w) == "weapon_zm_carry" or WEPS.GetClass(w) == "weapon_zm_improvised" then
+                for wrole = 0, ROLE_MAX do
+                    table.insert(tbl[wrole], WEPS.GetClass(w))
+                end
+            elseif w and istable(w.InLoadoutFor) then
+                for _, wrole in pairs(w.InLoadoutFor) do
+                    table.insert(tbl[wrole], WEPS.GetClass(w))
+                end
+            end
+        end
+
+        loadout_weapons = tbl
+    end
+
+    return loadout_weapons[r]
+end
+
+--[[RemoveBoughtWeapons][Removes previously bought weapons from the shop.]
+@param  {[PlayerObject]} ply [The player who will have their bought weapons removed.]
+--]]
+local function RemoveBoughtWeapons(ply)
+    for _, wep in pairs(weapons.GetList()) do
+        local wep_class = WEPS.GetClass(wep)
+        if wep and type(wep.CanBuy) == "table" then
+            for _, weprole in pairs(wep.CanBuy) do
+                if weprole == ply:GetRole() and ply:HasWeapon(wep_class) then
+                    ply:StripWeapon(wep_class)
+                end
+            end
+        end
+    end
+end
+
+--[[RemoveLoadoutWeapons][Removes all loadout weapons for the given player.]
+@param  {[PlayerObject]} ply [The player who will have their loadout weapons removed.]
+--]]
+local function RemoveLoadoutWeapons(ply)
+    local weps = GetLoadoutWeapons(GetRoundState() == ROUND_PREP and ROLE_INNOCENT or ply:GetRole())
+    for _, cls in pairs(weps) do
+        if ply:HasWeapon(cls) then
+            ply:StripWeapon(cls)
+        end
+    end
+
+    ply:StripRoleWeapons()
+end
+
 --[[ulx.force][Forces <target(s)> to become a specified role.]
 @param  {[PlayerObject]} calling_ply   [The player who used the command.]
 @param  {[PlayerObject]} target_plys   [The player(s) who will have the effects of the command applied to them.]
@@ -333,69 +388,6 @@ force:addParam { type = ULib.cmds.BoolArg, invisible = true }
 force:defaultAccess(ULib.ACCESS_SUPERADMIN)
 force:setOpposite("ulx sforce", { _, _, _, true }, "!sforce", true)
 force:help("Force <target(s)> to become a specified role.")
-
---[Helper Functions]---------------------------------------------------------------------------
---[[GetLoadoutWeapons][Returns the loadout weapons ]
-@param  {[Number]} r [The role of the loadout weapons to be returned]
-@return {[table]}    [A table of loadout weapons for the given role.]
---]]
-
-local loadout_weapons = nil
-local function GetLoadoutWeapons(r)
-    if not loadout_weapons then
-        local tbl = {}
-        -- Initialize the table for every role
-        for wrole = 0, ROLE_MAX do
-            tbl[wrole] = {}
-        end
-
-        for _, w in pairs(weapons.GetList()) do
-            if WEPS.GetClass(w) == "weapon_ttt_unarmed" or WEPS.GetClass(w) == "weapon_zm_carry" or WEPS.GetClass(w) == "weapon_zm_improvised" then
-                for wrole = 0, ROLE_MAX do
-                    table.insert(tbl[wrole], WEPS.GetClass(w))
-                end
-            elseif w and istable(w.InLoadoutFor) then
-                for _, wrole in pairs(w.InLoadoutFor) do
-                    table.insert(tbl[wrole], WEPS.GetClass(w))
-                end
-            end
-        end
-
-        loadout_weapons = tbl
-    end
-
-    return loadout_weapons[r]
-end
-
---[[RemoveBoughtWeapons][Removes previously bought weapons from the shop.]
-@param  {[PlayerObject]} ply [The player who will have their bought weapons removed.]
---]]
-function RemoveBoughtWeapons(ply)
-    for _, wep in pairs(weapons.GetList()) do
-        local wep_class = WEPS.GetClass(wep)
-        if wep and type(wep.CanBuy) == "table" then
-            for _, weprole in pairs(wep.CanBuy) do
-                if weprole == ply:GetRole() and ply:HasWeapon(wep_class) then
-                    ply:StripWeapon(wep_class)
-                end
-            end
-        end
-    end
-end
-
---[[RemoveLoadoutWeapons][Removes all loadout weapons for the given player.]
-@param  {[PlayerObject]} ply [The player who will have their loadout weapons removed.]
---]]
-function RemoveLoadoutWeapons(ply)
-    local weps = GetLoadoutWeapons(GetRoundState() == ROUND_PREP and ROLE_INNOCENT or ply:GetRole())
-    for _, cls in pairs(weps) do
-        if ply:HasWeapon(cls) then
-            ply:StripWeapon(cls)
-        end
-    end
-
-    ply:StripRoleWeapons()
-end
 
 --[End]----------------------------------------------------------------------------------------
 
@@ -614,7 +606,7 @@ tttspec:help("Forces the <target(s)> to/from spectator.")
 
 ------------------------------ Next Round  ------------------------------
 ulx.next_round = {}
-local function updateNextround()
+local function UpdateNextRound()
     if GAMEMODE.FolderName ~= "terrortown" then return end
 
     table.Empty(ulx.next_round) -- Don't reassign so we don't lose our refs
@@ -626,7 +618,7 @@ local function updateNextround()
     table.insert(ulx.next_round, "unmark") -- Add "unmark" to the table.
 end
 
-hook.Add(ULib.HOOK_UCLCHANGED, "ULXNextRoundUpdate", updateNextround)
+hook.Add(ULib.HOOK_UCLCHANGED, "ULX_NextRoundUpdate", UpdateNextRound)
 
 local function GetRoleFromString(role_string)
     for wrole = 0, ROLE_MAX do
@@ -748,7 +740,7 @@ impair:help("Impair the targets health the following round. Set to 0 to remove i
 
 --- [impair Next Round Helper Functions ]----------------------------------------------------------------------------
 
-hook.Add("PlayerSpawn", "InformImpair", function(ply)
+hook.Add("PlayerSpawn", "ULX_InformImpair", function(ply)
     if GAMEMODE.FolderName ~= "terrortown" then return end
 
     local impairDamage = tonumber(ply:GetPData("ImpairNR")) or 0
@@ -763,7 +755,7 @@ hook.Add("PlayerSpawn", "InformImpair", function(ply)
 end)
 
 
-function ImpairPlayers()
+local function ImpairPlayers()
     for _, ply in ipairs(player.GetAll()) do
         local impairDamage = tonumber(ply:GetPData("ImpairNR")) or 0
         if ply:Alive() and impairDamage > 0 then
@@ -777,7 +769,7 @@ function ImpairPlayers()
     end
 end
 
-hook.Add("TTTBeginRound", "ImpairPlayers", ImpairPlayers)
+hook.Add("TTTBeginRound", "ULX_ImpairPlayers", ImpairPlayers)
 
 --- [Round Restart]-------------------------------------------------------------------------
 function ulx.roundrestart(calling_ply)
