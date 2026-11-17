@@ -223,7 +223,7 @@ end
 local function AddTraitorAndDetectiveSettings(gppnl)
     local gptdcclp = vgui.Create("DCollapsibleCategory", gppnl)
     gptdcclp:SetLabel("Traitor and Detective Settings")
-    gptdcclp:SetExpanded(true)
+    gptdcclp:SetExpanded(false)
     gppnl:Add(gptdcclp)
 
     local gptdlst = vgui.Create("DListLayout", gptdcclp)
@@ -278,7 +278,7 @@ local function AddSpecialistTraitorSettings(gppnl)
 
     local sptraclp = vgui.Create("DCollapsibleCategory", gppnl)
     sptraclp:SetLabel("Specialist Traitor Settings")
-    sptraclp:SetExpanded(true)
+    sptraclp:SetExpanded(false)
     gppnl:Add(sptraclp)
 
     local sptralst = vgui.Create("DListLayout", sptraclp)
@@ -307,7 +307,7 @@ local function AddSpecialistDetectiveSettings(gppnl)
 
     local spdetclp = vgui.Create("DCollapsibleCategory", gppnl)
     spdetclp:SetLabel("Specialist Detective Settings")
-    spdetclp:SetExpanded(true)
+    spdetclp:SetExpanded(false)
     gppnl:Add(spdetclp)
 
     local spdetlst = vgui.Create("DListLayout", spdetclp)
@@ -336,7 +336,7 @@ local function AddSpecialistInnocentSettings(gppnl)
 
     local spinnclp = vgui.Create("DCollapsibleCategory", gppnl)
     spinnclp:SetLabel("Specialist Innocent Settings")
-    spinnclp:SetExpanded(true)
+    spinnclp:SetExpanded(false)
     gppnl:Add(spinnclp)
 
     local spinnlst = vgui.Create("DListLayout", spinnclp)
@@ -370,7 +370,7 @@ local function AddIndependentRoleSettings(gppnl)
 
     local indclp = vgui.Create("DCollapsibleCategory", gppnl)
     indclp:SetLabel("Independent Role Settings")
-    indclp:SetExpanded(true)
+    indclp:SetExpanded(false)
     gppnl:Add(indclp)
 
     local indlst = vgui.Create("DListLayout", indclp)
@@ -427,7 +427,7 @@ local function AddMonsterSettings(gppnl)
 
     local monclp = vgui.Create("DCollapsibleCategory", gppnl)
     monclp:SetLabel("Monster Role Settings")
-    monclp:SetExpanded(true)
+    monclp:SetExpanded(false)
     gppnl:Add(monclp)
 
     local monlst = vgui.Create("DListLayout", monclp)
@@ -450,7 +450,7 @@ end
 local function AddGroupedRoleSettings(gppnl)
     local grpclp = vgui.Create("DCollapsibleCategory", gppnl)
     grpclp:SetLabel("Grouped Role Settings")
-    grpclp:SetExpanded(true)
+    grpclp:SetExpanded(false)
     gppnl:Add(grpclp)
 
     local grplst = vgui.Create("DListLayout", grpclp)
@@ -478,7 +478,7 @@ local function AddRoleHealthSettings(gppnl)
 
     local rolehealthclp = vgui.Create("DCollapsibleCategory", gppnl)
     rolehealthclp:SetLabel("Role Health Settings")
-    rolehealthclp:SetExpanded(true)
+    rolehealthclp:SetExpanded(false)
     gppnl:Add(rolehealthclp)
 
     local rolehealthlst = vgui.Create("DListLayout", rolehealthclp)
@@ -590,7 +590,7 @@ local function AddTraitorProperties(gppnl)
 
     local trapropclp = vgui.Create("DCollapsibleCategory", gppnl)
     trapropclp:SetLabel("Traitor Properties")
-    trapropclp:SetExpanded(true)
+    trapropclp:SetExpanded(false)
     gppnl:Add(trapropclp)
 
     local traproplst = vgui.Create("DListLayout", trapropclp)
@@ -617,7 +617,7 @@ local function AddDetectiveProperties(gppnl)
 
     local detpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     detpropclp:SetLabel("Detective Properties")
-    detpropclp:SetExpanded(true)
+    detpropclp:SetExpanded(false)
     gppnl:Add(detpropclp)
 
     local detproplst = vgui.Create("DListLayout", detpropclp)
@@ -675,7 +675,7 @@ local function AddInnocentProperties(gppnl)
 
     local innpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     innpropclp:SetLabel("Innocent Properties")
-    innpropclp:SetExpanded(true)
+    innpropclp:SetExpanded(false)
     gppnl:Add(innpropclp)
 
     local innproplst = vgui.Create("DListLayout", innpropclp)
@@ -696,7 +696,7 @@ local function AddJesterRoleProperties(gppnl)
 
     local jespropclp = vgui.Create("DCollapsibleCategory", gppnl)
     jespropclp:SetLabel("Jester Properties")
-    jespropclp:SetExpanded(true)
+    jespropclp:SetExpanded(false)
     gppnl:Add(jespropclp)
 
     local jesproplst = vgui.Create("DListLayout", jespropclp)
@@ -729,7 +729,7 @@ local function AddIndependentRoleProperties(gppnl)
 
     local indpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     indpropclp:SetLabel("Independent Properties")
-    indpropclp:SetExpanded(true)
+    indpropclp:SetExpanded(false)
     gppnl:Add(indpropclp)
 
     local indproplst = vgui.Create("DListLayout", indpropclp)
@@ -755,8 +755,8 @@ local function AddMonsterRoleProperties(gppnl)
     local role_cvars = GetRoleConVars(monster_roles)
 
     local monpropclp = vgui.Create("DCollapsibleCategory", gppnl)
-    monpropclp:SetLabel("Monsters Properties")
-    monpropclp:SetExpanded(true)
+    monpropclp:SetLabel("Monster Properties")
+    monpropclp:SetExpanded(false)
     gppnl:Add(monpropclp)
 
     local monproplst = vgui.Create("DListLayout", monpropclp)
@@ -774,7 +774,7 @@ end
 local function AddCustomRoleProperties(gppnl)
     local crpropclp = vgui.Create("DCollapsibleCategory", gppnl)
     crpropclp:SetLabel("Custom Roles Properties")
-    crpropclp:SetExpanded(true)
+    crpropclp:SetExpanded(false)
     gppnl:Add(crpropclp)
 
     local crproplst = vgui.Create("DListLayout", crpropclp)
