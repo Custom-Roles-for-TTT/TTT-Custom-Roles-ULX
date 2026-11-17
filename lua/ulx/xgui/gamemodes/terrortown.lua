@@ -1682,4 +1682,6 @@ net.Receive("ULX_CRCVarComplete", function()
     -- Reset the tables to save space
     compressedCvars = {}
     table.Empty(missing_cvars)
+
+    print("[CR4TTT ULX] Reload complete")
 end)
